@@ -19,6 +19,3 @@ src-tauri/*.key
 
 # Build Script - Local
 build.sh
-
-# Pnpm
-pnpm-lock.yaml
