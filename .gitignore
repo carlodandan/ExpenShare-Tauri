@@ -1,17 +1,24 @@
-node_modules/
-.vite/
-out/
-*.db
-*.db-journal
-*.db-wal
-*.db-shm
-.DS_Store
-build/
+node_modules
+dist
+dist-ssr
+*.local
 
-# Environment
+# Tauri / Rust
+src-tauri/target
+src-tauri/gen
+src-tauri/Cargo.lock
+
+# Updater signing key - NEVER commit this
+src-tauri/*.key
+
+.DS_Store
+
+# Environment Variables
 .env
 .env.*
 
-# Lock file
-package-lock.json
+# Build Script - Local
+build.sh
+
+# Pnpm
 pnpm-lock.yaml

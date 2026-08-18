@@ -1,0 +1,43 @@
+[package]
+name = "expenshare"
+version = "1.0.0"
+description = "Offline household budget tracker for two people."
+authors = ["Carlo Dandan"]
+edition = "2021"
+
+[lib]
+name = "expenshare_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = [] }
+tauri-plugin-dialog = "2"
+tauri-plugin-fs = "2"
+tauri-plugin-log = "2"
+tauri-plugin-updater = "2"
+tauri-plugin-process = "2"
+tauri-plugin-single-instance = "2"
+
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+
+# Bundled SQLite (no system libsqlite3 dependency, matches node:sqlite's
+# "just works, no native compile toolchain needed" property).
+rusqlite = { version = "0.31", features = ["bundled"] }
+
+chrono = "0.4"
+log = "0.4"
+
+# Pure-Rust PDF generation using the 14 built-in PDF standard fonts
+# (Helvetica), so report export needs no embedded/vendored font files -
+# mirrors pdfkit's default Helvetica usage in the original app.
+printpdf = "0.7"
+
+[features]
+custom-protocol = ["tauri/custom-protocol"]
+
+[target.'cfg(not(any(target_os = "android", target_os = "ios")))'.dependencies]
+tauri-plugin-window-state = "2"

@@ -1,55 +1,44 @@
 {
   "name": "expenshare",
   "productName": "ExpenShare",
-  "version": "1.0.5",
-  "packageManager": "pnpm@12.0.0-beta.4",
-  "devEngines": {
-    "runtime": {
-      "name": "node",
-      "version": "^22.0.0",
-      "onFail": "download"
-    }
-  },
+  "version": "1.0.0",
   "description": "Offline household budget tracker for two people.",
-  "main": ".vite/build/main.js",
+  "type": "module",
+  "private": true,
   "scripts": {
-    "start": "electron-forge start",
-    "package": "electron-forge package",
-    "make": "electron-forge make",
-    "publish": "electron-forge publish"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "tauri": "tauri"
   },
-  "keywords": [],
   "author": {
     "name": "Carlo Dandan",
     "email": "carlodandan.personal@proton.me"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/carlodandan/ExpenShare"
+    "url": "https://github.com/carlodandan/ExpenShare-Tauri"
   },
   "license": "MIT",
   "dependencies": {
-    "@tailwindcss/vite": "^4.1.18",
-    "@vitejs/plugin-react": "^5.1.2",
-    "babel-plugin-react-compiler": "^1.0.0",
-    "electron-log": "^5.4.4",
-    "electron-squirrel-startup": "^1.0.1",
-    "pdfkit": "^0.15.0",
+    "@tauri-apps/api": "^2.5.0",
+    "@tauri-apps/plugin-dialog": "^2.2.0",
+    "@tauri-apps/plugin-fs": "^2.2.0",
+    "@tauri-apps/plugin-log": "^2.2.0",
+    "@tauri-apps/plugin-process": "^2.2.0",
+    "@tauri-apps/plugin-updater": "^2.5.0",
+    "@tauri-apps/plugin-window-state": "~2.4.1",
     "react": "^19.2.3",
+    "react-dom": "^19.2.3",
     "react-icons": "^5.5.0",
-    "react-router-dom": "^7.10.1",
-    "tailwindcss": "^4.1.18",
-    "update-electron-app": "^3.1.2"
+    "react-router-dom": "^7.10.1"
   },
   "devDependencies": {
-    "@electron-forge/cli": "^7.10.2",
-    "@electron-forge/maker-squirrel": "^7.10.2",
-    "@electron-forge/plugin-auto-unpack-natives": "^7.11.2",
-    "@electron-forge/plugin-fuses": "^7.10.2",
-    "@electron-forge/plugin-vite": "^7.10.2",
-    "@electron-forge/publisher-github": "^7.11.1",
-    "@electron/fuses": "^1.8.0",
-    "electron": "^43.4.0",
+    "@tailwindcss/vite": "^4.1.18",
+    "@tauri-apps/cli": "^2.5.0",
+    "@vitejs/plugin-react": "^5.1.2",
+    "babel-plugin-react-compiler": "^1.0.0",
+    "tailwindcss": "^4.1.18",
     "vite": "^5.4.21"
   }
 }
