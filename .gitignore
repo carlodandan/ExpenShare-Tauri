@@ -6,7 +6,6 @@ dist-ssr
 # Tauri / Rust
 src-tauri/target
 src-tauri/gen
-src-tauri/Cargo.lock
 
 # Updater signing key - NEVER commit this
 src-tauri/*.key
