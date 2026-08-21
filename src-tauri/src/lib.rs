@@ -5,6 +5,61 @@ mod money;
 use db::DbState;
 use std::sync::Mutex;
 use tauri::Manager;
+use tauri_plugin_updater::UpdaterExt;
+
+async fn check_for_updates(app: tauri::AppHandle) -> Result<(), Box<dyn std::error::Error>> {
+    log::info!("Checking for app updates via GitHub releases...");
+    if let Some(update) = app.updater()?.check().await? {
+        log::info!("Found update to version {}", update.version);
+        let mut downloaded = 0;
+        update
+            .download_and_install(
+                move |chunk_length, content_length| {
+                    downloaded += chunk_length;
+                    log::info!("downloaded {} of {:?}", downloaded, content_length);
+                },
+                || {
+                    log::info!("download finished");
+                },
+            )
+            .await?;
+
+        log::info!("Update installed, restarting application...");
+        app.restart();
+    } else {
+        log::info!("No update found, app is on latest version.");
+    }
+    Ok(())
+}
+
+#[tauri::command]
+async fn check_for_updates_now(app: tauri::AppHandle) -> Result<bool, String> {
+    log::info!("Manual update check initiated from UI...");
+    let updater = app.updater().map_err(|e| e.to_string())?;
+    if let Some(update) = updater.check().await.map_err(|e| e.to_string())? {
+        log::info!("Found update to version {}", update.version);
+        let mut downloaded = 0;
+        update
+            .download_and_install(
+                move |chunk_length, content_length| {
+                    downloaded += chunk_length;
+                    log::info!("downloaded {} of {:?}", downloaded, content_length);
+                },
+                || {
+                    log::info!("download finished");
+                },
+            )
+            .await
+            .map_err(|e| e.to_string())?;
+
+        log::info!("Update installed, restarting application...");
+        app.restart();
+        Ok(true)
+    } else {
+        log::info!("No update found, app is on latest version.");
+        Ok(false)
+    }
+}
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
@@ -35,9 +90,19 @@ pub fn run() {
             // getDatabase() in database.js.
             let conn = db::open_and_migrate(&app.handle());
             app.manage(DbState(Mutex::new(conn)));
+            log::info!("ExpenShare v{} started successfully", app.package_info().version);
+
+            let handle = app.handle().clone();
+            tauri::async_runtime::spawn(async move {
+                if let Err(e) = check_for_updates(handle).await {
+                    log::error!("Failed to check for updates: {}", e);
+                }
+            });
+
             Ok(())
         })
         .invoke_handler(tauri::generate_handler![
+            check_for_updates_now,
             commands::income::income_list_for_month,
             commands::income::income_create,
             commands::income::income_update,

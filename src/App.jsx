@@ -7,7 +7,6 @@ import TotalDashboard from './pages/TotalDashboard.jsx';
 import ExtraBudget from './pages/ExtraBudget.jsx';
 import Settings from './pages/Settings.jsx';
 import LoadingScreen from './components/LoadingScreen.jsx';
-import UpdateReadyModal from './components/UpdateReadyModal.jsx';
 
 const PAGES = {
   monthly: MonthlyDashboard,
@@ -28,7 +27,6 @@ function Shell() {
         <Page />
       </main>
       {toast && <Toast toast={toast} />}
-      <UpdateReadyModal />
     </div>
   );
 }

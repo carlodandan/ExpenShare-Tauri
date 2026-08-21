@@ -42,6 +42,9 @@ export const tauriAPI = {
   appInfo: {
     getVersion: () => invoke('get_app_info'),
   },
+  updater: {
+    check: () => invoke('check_for_updates_now'),
+  },
 };
 
 export function installApi() {

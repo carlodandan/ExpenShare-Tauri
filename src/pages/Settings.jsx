@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAppContext } from '../hooks/AppContext.jsx';
 
 const CURRENCIES = [
@@ -13,6 +13,12 @@ export default function Settings() {
   const [names, setNames] = useState(() =>
     Object.fromEntries((people || []).map((p) => [p.id, p.name]))
   );
+  const [appVersion, setAppVersion] = useState('');
+  const [checkingUpdate, setCheckingUpdate] = useState(false);
+
+  useEffect(() => {
+    window.tauriAPI?.appInfo?.getVersion().then((v) => setAppVersion(v.app)).catch(() => {});
+  }, []);
 
   if (!settings) {
     return <div className="p-8 text-sm text-ink-muted">Loading…</div>;
@@ -47,6 +53,23 @@ export default function Settings() {
     if (!result.canceled) {
       showToast('Data restored. Reloading…');
       setTimeout(() => window.location.reload(), 800);
+    }
+  }
+
+  async function handleCheckForUpdates() {
+    setCheckingUpdate(true);
+    try {
+      const updated = await window.tauriAPI.updater.check();
+      if (updated) {
+        showToast('Update installed! Restarting app...');
+      } else {
+        showToast('You are using the latest version.');
+      }
+    } catch (err) {
+      console.error('Update check failed:', err);
+      showToast('Could not check for updates.');
+    } finally {
+      setCheckingUpdate(false);
     }
   }
 
@@ -111,6 +134,26 @@ export default function Settings() {
             className="rounded-md border border-line px-3 py-1.5 text-sm hover:bg-paper"
           >
             Restore Database
+          </button>
+        </div>
+      </section>
+
+      <section className="mt-6 rounded-lg border border-line bg-surface px-5 py-4">
+        <h2 className="mb-3 font-mono text-[11px] uppercase tracking-[0.14em] text-ink-muted">
+          About & Updates
+        </h2>
+        <div className="flex items-center justify-between">
+          <div>
+            <p className="text-sm font-medium">ExpenShare {appVersion ? `v${appVersion}` : ''}</p>
+            <p className="text-xs text-ink-muted">Offline household budget tracker for two people.</p>
+          </div>
+          <button
+            type="button"
+            onClick={handleCheckForUpdates}
+            disabled={checkingUpdate}
+            className="rounded-md border border-line px-3 py-1.5 text-sm hover:bg-paper disabled:opacity-50"
+          >
+            {checkingUpdate ? 'Checking…' : 'Check for Updates'}
           </button>
         </div>
       </section>
