@@ -51,8 +51,10 @@
   },
   "plugins": {
     "updater": {
+      "windows": {
+        "installMode": "basicUi"
+      },
       "active": true,
-      "installMode": "basicUi",
       "endpoints": [
         "https://github.com/carlodandan/ExpenShare-Tauri/releases/latest/download/latest.json"
       ],
