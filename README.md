@@ -56,7 +56,7 @@ CRUD, and month filtering
 
 ## How To's
 
-If you wanna compile it on your own please visit this <a href="https://github.com/carlodandan/ExpenShare-Tauri/blob/main/loading/GUIDE.md">guides</a> or visit Tauri's <a href="https://tauri.app/start">documentation</a> for more information.
+If you wanna compile it on your own please visit this <a href="https://github.com/carlodandan/ExpenShare-Tauri/blob/main/guides/GUIDE.md">guides</a> or visit Tauri's <a href="https://tauri.app/start">documentation</a> for more information.
 
 ### Notes
 
