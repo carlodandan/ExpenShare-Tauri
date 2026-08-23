@@ -52,7 +52,7 @@ export default function ExtraBudget() {
   const contributions = history.monthly.filter((m) => m.netMinor !== 0 || m.adjustmentsMinor !== 0);
 
   return (
-    <div className="mx-auto max-w-5xl px-2 py-6">
+    <div className="mx-auto px-2 py-6">
       <h1 className="text-lg font-semibold">Extra Budget</h1>
 
       <div className="mt-6 rounded-lg border border-line bg-surface px-6 py-8 text-center">
