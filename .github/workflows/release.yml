@@ -12,70 +12,38 @@ jobs:
   build-windows:
     runs-on: windows-2025
 
-    env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
     permissions:
       contents: write
 
     steps:
-      # 1. Check out repository
       - name: Checkout Code
-        uses: actions/checkout@v7
+        uses: actions/checkout@v6
 
-      # 2. Setup pnpm
-      - name: Setup pnpm
-        uses: pnpm/setup@v2
+      - uses: pnpm/setup@v1
+        with:
+          version: 11
+          runtime: node@22
+          cache: true
 
-      # 3. Publish Electron Forge release
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Install frontend dependencies
+        run: pnpm install
+
+      # Builds the NSIS + MSI installers and publishes a GitHub release with
+      # the installers plus the `latest.json` updater manifest that
+      # tauri.conf.json's `plugins.updater.endpoints` points at. Requires
+      # TAURI_SIGNING_PRIVATE_KEY / TAURI_SIGNING_PRIVATE_KEY_PASSWORD
+      # secrets - see MIGRATION.md for how to generate the keypair.
       - name: Build and Publish
-        run: pnpm run publish
-
-      # 4. Send release to Discord
-      - name: Send Release to Discord
-        if: success()
+        uses: tauri-apps/tauri-action@v0
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
-        shell: bash
-        run: |
-          VERSION=$(node -p "require('./package.json').version")
-          TAG="v$VERSION"
-
-          echo "Version: v$VERSION"
-          echo "Release tag: $TAG"
-
-          RELEASE=$(gh release view "$TAG" \
-            --json name,tagName,url)
-
-          RELEASE_NAME=$(echo "$RELEASE" | jq -r '.name')
-          RELEASE_TAG=$(echo "$RELEASE" | jq -r '.tagName')
-          RELEASE_URL=$(echo "$RELEASE" | jq -r '.url')
-
-          jq -n \
-            --arg name "$RELEASE_NAME" \
-            --arg tag "$RELEASE_TAG" \
-            --arg url "$RELEASE_URL" \
-            '{
-              embeds: [{
-                title: ("🚀 ExpenShare" + $name),
-                url: $url,
-                color: 5763719,
-                fields: [
-                  {
-                    name: "Version",
-                    value: $tag,
-                    inline: true
-                  }
-                ],
-                footer: {
-                  text: "ExpenShare • GitHub Release"
-                }
-              }]
-            }' > payload.json
-
-          curl \
-            -f \
-            -H "Content-Type: application/json" \
-            -d @payload.json \
-            "$DISCORD_WEBHOOK"
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
+        with:
+          tagName: v__VERSION__
+          releaseName: 'ExpenShare v__VERSION__'
+          releaseDraft: false
+          prerelease: false
