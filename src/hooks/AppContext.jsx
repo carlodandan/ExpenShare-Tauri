@@ -1,6 +1,6 @@
-import React, { createContext, useCallback, useContext, useEffect, useState } from 'react';
-
-const AppContext = createContext(null);
+import { createContext, useCallback, useEffect, useState } from 'react';
+import { getCurrentWindow } from '@tauri-apps/api/window';
+import { AppContext } from '../contexts/AppContextCore';
 
 export function AppProvider({ children }) {
   const [settings, setSettings] = useState(null);
@@ -8,6 +8,58 @@ export function AppProvider({ children }) {
   const [toast, setToast] = useState(null);
   const [loading, setLoading] = useState(true);
   const [progress, setProgress] = useState(0);
+
+  // ---- Theme state ----
+  const [theme, setTheme] = useState(() => {
+    return localStorage.getItem('expenshare-theme') || 'system';
+  });
+
+  const updateWindowTheme = useCallback(async (newTheme) => {
+    try {
+      const win = getCurrentWindow();
+      if (newTheme === 'system') {
+        // Follow OS: set to 'light' or 'dark' based on system preference
+        const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        await win.setTheme(systemDark ? 'dark' : 'light');
+      } else {
+        await win.setTheme(newTheme); // 'light' or 'dark'
+      }
+    } catch (err) {
+      // On some platforms this might not be supported – just log and ignore
+      console.debug('Window theme update failed:', err);
+    }
+  }, []);
+
+  // Apply theme class to <html>
+  useEffect(() => {
+    const root = document.documentElement;
+    const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+    if (theme === 'system') {
+      root.classList.toggle('dark', systemDark);
+    } else {
+      root.classList.toggle('dark', theme === 'dark');
+    }
+
+    localStorage.setItem('expenshare-theme', theme);
+    updateWindowTheme(theme);
+  }, [theme, updateWindowTheme]);
+
+  // Listen to system changes when in 'system' mode
+  useEffect(() => {
+    if (theme !== 'system') return;
+    const media = window.matchMedia('(prefers-color-scheme: dark)');
+    const handler = (e) => {
+      document.documentElement.classList.toggle('dark', e.matches);
+      // Also update window theme to match the new system preference
+      getCurrentWindow().setTheme(e.matches ? 'dark' : 'light')
+        .catch(err => console.debug('Window theme update failed:', err));
+    };
+    media.addEventListener('change', handler);
+    return () => media.removeEventListener('change', handler);
+  }, [theme]);
+
+  // ---- End theme ----
 
   const refreshSettings = useCallback(async () => {
     const s = await window.tauriAPI.settings.getAll();
@@ -21,7 +73,7 @@ export function AppProvider({ children }) {
     const interval = setInterval(() => {
       setProgress((p) => {
         const increment = Math.random() * 6 + 2;
-        return Math.min(p + increment, 95); // never reach 100 until done
+        return Math.min(p + increment, 95);
       });
     }, 200);
     return () => clearInterval(interval);
@@ -37,12 +89,12 @@ export function AppProvider({ children }) {
         loaded = true;
       } catch (err) {
         console.error('Failed to load settings:', err);
-        loaded = true; // still proceed
+        loaded = true;
       } finally {
         const elapsed = Date.now() - start;
         const remaining = Math.max(0, 3000 - elapsed);
         setTimeout(() => {
-          setProgress(100); // complete the bar
+          setProgress(100);
           setLoading(false);
         }, remaining);
       }
@@ -50,8 +102,6 @@ export function AppProvider({ children }) {
     load();
   }, [refreshSettings]);
 
-  // Call after any create/update/delete so every page listening on
-  // dataVersion refetches
   const notifyDataChanged = useCallback(() => {
     setDataVersion((v) => v + 1);
   }, []);
@@ -82,15 +132,11 @@ export function AppProvider({ children }) {
         showToast,
         loading,
         progress,
+        theme,
+        setTheme,
       }}
     >
       {children}
     </AppContext.Provider>
   );
-}
-
-export function useAppContext() {
-  const ctx = useContext(AppContext);
-  if (!ctx) throw new Error('useAppContext must be used within AppProvider');
-  return ctx;
 }

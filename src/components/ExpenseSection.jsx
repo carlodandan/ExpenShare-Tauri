@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { formatMoney, formatDate, toMinorUnits } from '../utils/format.js';
-import { useAppContext } from '../hooks/AppContext.jsx';
+import { useAppContext } from '../contexts/AppContextCore.jsx';
 
 export default function ExpenseSection({ categories, onSetFixed, onEditTransaction, onDeleteTransaction, onAddForCategory }) {
   const { currencySymbol } = useAppContext();

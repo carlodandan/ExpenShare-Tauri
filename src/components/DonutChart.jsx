@@ -1,6 +1,4 @@
-import React from 'react';
-import { formatMoney } from '../utils/format.js';
-import { useAppContext } from '../hooks/AppContext.jsx';
+import { useAppContext } from '../contexts/AppContextCore.jsx';
 
 const SLICE_COLORS = ['#2f6f4f', '#3b5ba5', '#a6452b', '#8a7a3a', '#5b7a8c', '#7a5b8c', '#5b6660'];
 

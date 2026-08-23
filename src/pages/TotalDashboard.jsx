@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useAppContext } from '../hooks/AppContext.jsx';
+import { useAppContext } from '../contexts/AppContextCore.jsx';
 import SummaryCard from '../components/SummaryCard.jsx';
 import DonutChart from '../components/DonutChart.jsx';
 import { formatMoney, monthLabel } from '../utils/format.js';

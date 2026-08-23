@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useAppContext } from '../hooks/AppContext.jsx';
+import { useAppContext } from '../contexts/AppContextCore.jsx';
 import { formatMoney, formatDate, monthLabel } from '../utils/format.js';
 import UseExtraBudgetModal from '../components/UseExtraBudgetModal.jsx';
 import ConfirmDialog from '../components/ConfirmDialog.jsx';

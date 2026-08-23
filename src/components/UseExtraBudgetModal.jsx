@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { toMinorUnits, currentMonthKey, formatMoney } from '../utils/format.js';
-import { useAppContext } from '../hooks/AppContext.jsx';
+import { useAppContext } from '../contexts/AppContextCore.jsx';
 
 export default function UseExtraBudgetModal({ availableMinor, categories, onCancel, onSubmit }) {
   const { currencySymbol } = useAppContext();

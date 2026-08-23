@@ -1,6 +1,6 @@
 import React from 'react';
 import { formatMoney } from '../utils/format.js';
-import { useAppContext } from '../hooks/AppContext.jsx';
+import { useAppContext } from '../contexts/AppContextCore.jsx';
 
 const TONE_CLASSES = {
   neutral: 'text-ink',

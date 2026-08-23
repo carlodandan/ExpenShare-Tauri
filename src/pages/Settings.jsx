@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useAppContext } from '../hooks/AppContext.jsx';
+import { useAppContext } from '../contexts/AppContextCore.jsx';
 
 const CURRENCIES = [
   { code: 'PHP', symbol: '₱' },
@@ -9,7 +9,7 @@ const CURRENCIES = [
 ];
 
 export default function Settings() {
-  const { settings, people, refreshSettings, showToast, notifyDataChanged } = useAppContext();
+  const { settings, people, refreshSettings, showToast, notifyDataChanged, theme, setTheme } = useAppContext();
   const [names, setNames] = useState(() =>
     Object.fromEntries((people || []).map((p) => [p.id, p.name]))
   );
@@ -73,10 +73,16 @@ export default function Settings() {
     }
   }
 
+  const handleThemeChange = (value) => {
+    setTheme(value);
+    showToast(`Theme set to ${value === 'system' ? 'auto' : value}`);
+  };
+
   return (
     <div className="mx-auto px-2 py-6">
       <h1 className="text-lg font-semibold">Settings</h1>
 
+      {/* People section */}
       <section className="mt-6 rounded-lg border border-line bg-surface px-5 py-4">
         <h2 className="mb-3 font-mono text-[11px] uppercase tracking-[0.14em] text-ink-muted">People</h2>
         <div className="space-y-3">
@@ -98,6 +104,7 @@ export default function Settings() {
         </div>
       </section>
 
+      {/* Currency section */}
       <section className="mt-6 rounded-lg border border-line bg-surface px-5 py-4">
         <h2 className="mb-3 font-mono text-[11px] uppercase tracking-[0.14em] text-ink-muted">Currency</h2>
         <select
@@ -113,6 +120,44 @@ export default function Settings() {
         </select>
       </section>
 
+      {/* NEW: Theme section */}
+      <section className="mt-6 rounded-lg border border-line bg-surface px-5 py-4">
+        <h2 className="mb-3 font-mono text-[11px] uppercase tracking-[0.14em] text-ink-muted">Theme</h2>
+        <div className="flex flex-wrap gap-4">
+          <label className="flex items-center gap-2 text-sm">
+            <input
+              type="radio"
+              name="theme"
+              value="light"
+              checked={theme === 'light'}
+              onChange={() => handleThemeChange('light')}
+            />
+            Light
+          </label>
+          <label className="flex items-center gap-2 text-sm">
+            <input
+              type="radio"
+              name="theme"
+              value="dark"
+              checked={theme === 'dark'}
+              onChange={() => handleThemeChange('dark')}
+            />
+            Dark
+          </label>
+          <label className="flex items-center gap-2 text-sm">
+            <input
+              type="radio"
+              name="theme"
+              value="system"
+              checked={theme === 'system'}
+              onChange={() => handleThemeChange('system')}
+            />
+            Auto (system)
+          </label>
+        </div>
+      </section>
+
+      {/* Backup section */}
       <section className="mt-6 rounded-lg border border-line bg-surface px-5 py-4">
         <h2 className="mb-3 font-mono text-[11px] uppercase tracking-[0.14em] text-ink-muted">
           Database Backup
@@ -138,6 +183,7 @@ export default function Settings() {
         </div>
       </section>
 
+      {/* About & Updates section */}
       <section className="mt-6 rounded-lg border border-line bg-surface px-5 py-4">
         <h2 className="mb-3 font-mono text-[11px] uppercase tracking-[0.14em] text-ink-muted">
           About & Updates

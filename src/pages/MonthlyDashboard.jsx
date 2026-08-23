@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { currentMonthKey } from '../utils/format.js';
-import { useAppContext } from '../hooks/AppContext.jsx';
+import { useAppContext } from '../contexts/AppContextCore.jsx';
 import MonthSelector from '../components/MonthSelector.jsx';
 import SummaryCard from '../components/SummaryCard.jsx';
 import IncomeSection from '../components/IncomeSection.jsx';
