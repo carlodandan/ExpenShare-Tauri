@@ -11,8 +11,8 @@ This privacy policy describes how **ExpenShare** handles your personal data.
 - **No data is collected, transmitted, or stored by us.**  
   The application does not phone home, send analytics, or communicate with any external servers or services.
 
-- **All data lives in a local SQLite database file.**  
-  This file is stored in Electron’s standard `userData` directory on your computer (e.g., `~/Library/Application Support/ExpenShare/` on macOS, `%APPDATA%\ExpenShare\` on Windows, or `~/.config/ExpenShare/` on Linux). You can locate and manage this file at any time.
+- **All data lives in a local rusqlite database file.**  
+  This file is stored in Rust’s standard sqlite database. It is only available in local machine.
 
 - **No cloud sync, no third-party APIs.**  
   There are no integrations with cloud storage, authentication providers, or analytics platforms. The app does not embed any trackers, cookies, or telemetry.
