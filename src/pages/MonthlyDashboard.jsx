@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { currentMonthKey } from '../utils/format.js';
-import { useAppContext } from '../hooks/AppContext.jsx';
+import { useAppContext } from '../contexts/AppContextCore.jsx';
 import MonthSelector from '../components/MonthSelector.jsx';
 import SummaryCard from '../components/SummaryCard.jsx';
 import IncomeSection from '../components/IncomeSection.jsx';
@@ -121,7 +121,7 @@ export default function MonthlyDashboard() {
   const netTone = data.netMinor < 0 ? 'negative' : 'positive';
 
   return (
-    <div className="mx-auto max-w-5xl px-2 py-6">
+    <div className="mx-auto px-2 py-6">
       {/* Header */}
       <div className="flex items-center justify-between">
         <h1 className="text-lg font-semibold">Monthly Dashboard</h1>

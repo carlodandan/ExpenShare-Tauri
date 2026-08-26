@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { formatMoney, formatDate } from '../utils/format.js';
-import { useAppContext } from '../hooks/AppContext.jsx';
+import { useAppContext } from '../contexts/AppContextCore.jsx';
 import EmptyState from './EmptyState.jsx';
 
 export default function IncomeSection({ income, onAdd, onEdit, onDelete }) {

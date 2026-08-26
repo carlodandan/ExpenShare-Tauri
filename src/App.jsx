@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { AppProvider, useAppContext } from './hooks/AppContext.jsx';
+import { AppProvider } from './hooks/AppContext.jsx';
+import { useAppContext } from './contexts/AppContextCore.jsx';
 import Sidebar from './components/Sidebar.jsx';
 import Toast from './components/Toast.jsx';
 import MonthlyDashboard from './pages/MonthlyDashboard.jsx';

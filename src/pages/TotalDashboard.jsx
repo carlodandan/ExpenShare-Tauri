@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useAppContext } from '../hooks/AppContext.jsx';
+import { useAppContext } from '../contexts/AppContextCore.jsx';
 import SummaryCard from '../components/SummaryCard.jsx';
 import DonutChart from '../components/DonutChart.jsx';
 import { formatMoney, monthLabel } from '../utils/format.js';
@@ -26,7 +26,7 @@ export default function TotalDashboard() {
   const totalSavings = savingsCategory?.totalMinor || 0;
 
   return (
-    <div className="mx-auto max-w-5xl px-2 py-6">
+    <div className="mx-auto px-2 py-6">
       <h1 className="text-lg font-semibold">Total Dashboard</h1>
 
       <div className="mt-5 grid grid-cols-4 gap-4">

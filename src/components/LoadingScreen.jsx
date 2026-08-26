@@ -3,7 +3,7 @@ import loadingGif from '../assets/nezukoby@jesspixelsingiphy.gif';
 
 export default function LoadingScreen({ progress }) {
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#f7f7f5]">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-paper">
       <div className="text-center max-w-sm px-6">
         <img
           src={loadingGif}
@@ -15,7 +15,7 @@ export default function LoadingScreen({ progress }) {
         </h1>
         <p className="text-sm text-ink-muted mt-1">Loading your data…</p>
 
-        <div className="mt-6 w-full h-1 bg-gray-200 rounded-full overflow-hidden">
+        <div className="mt-6 w-full h-1 bg-line rounded-full overflow-hidden">
           <div
             className="h-full bg-denim rounded-full transition-all duration-200 ease-out"
             style={{ width: `${Math.min(progress, 100)}%` }}
