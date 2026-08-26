@@ -83,9 +83,24 @@ jobs:
         run: pnpm install
 
       - name: Initialize Android project
-        run: pnpm tauri icon ./icons/expenshare.png && pnpm tauri android init
+        run: pnpm tauri android init && pnpm tauri icon ./icons/expenshare.png 
         env:
           NDK_HOME: ${{ env.ANDROID_HOME }}/ndk/27.0.11902837
+
+      - name: Debug Tauri Android files
+        shell: bash
+        run: |
+          echo "=== gen/android ==="
+          ls -la src-tauri/gen/android || true
+
+          echo "=== Android res ==="
+          ls -la src-tauri/gen/android/app/src/main/res || true
+
+          echo "=== Android icons ==="
+          find src-tauri/gen/android/app/src/main/res -iname "*launcher*" -o -iname "*.png" | sort || true
+
+          echo "=== Generated Tauri icons ==="
+          find src-tauri/icons/android -type f | sort || true
 
       - name: Build Android APK
         run: pnpm tauri android build --apk
