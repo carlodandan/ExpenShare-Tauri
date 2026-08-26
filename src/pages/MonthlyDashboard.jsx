@@ -121,18 +121,18 @@ export default function MonthlyDashboard() {
   const netTone = data.netMinor < 0 ? 'negative' : 'positive';
 
   return (
-    <div className="mx-auto px-2 py-6">
+    <div className="mx-auto max-w-7xl px-3 py-4 sm:px-6 sm:py-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <h1 className="text-lg font-semibold">Monthly Dashboard</h1>
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-2.5 sm:gap-3">
           <MonthSelector month={month} onChange={setMonth} />
           <ExportMenu month={month} />
         </div>
       </div>
 
       {/* Summary cards */}
-      <div className="mt-5 grid grid-cols-2 gap-4">
+      <div className="mt-4 grid grid-cols-2 gap-3 sm:mt-5 sm:gap-4">
         <SummaryCard label="Gross" minor={data.grossMinor} tone="neutral" />
         <SummaryCard label="Net" minor={data.netMinor} tone={netTone} />
       </div>
@@ -156,9 +156,9 @@ export default function MonthlyDashboard() {
         </div>
       )}
 
-      {/* Two‑column grid: Expenses (col-span-2) | Income (col-span-3) */}
-      <div className="mt-4 grid grid-cols-5 gap-6">
-        <section className="col-span-2 rounded-lg border border-line bg-surface px-5 py-4">
+      {/* Expenses and Income grid */}
+      <div className="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-5 lg:gap-6">
+        <section className="col-span-1 rounded-lg border border-line bg-surface px-4 py-3.5 sm:px-5 sm:py-4 lg:col-span-2">
           <h2 className="mb-2 font-mono text-[11px] uppercase tracking-[0.14em] text-ink-muted">
             Expenses
           </h2>
@@ -171,7 +171,7 @@ export default function MonthlyDashboard() {
           />
         </section>
 
-        <section className="col-span-3 rounded-lg border border-line bg-surface px-5 py-4">
+        <section className="col-span-1 rounded-lg border border-line bg-surface px-4 py-3.5 sm:px-5 sm:py-4 lg:col-span-3">
           <h2 className="mb-2 font-mono text-[11px] uppercase tracking-[0.14em] text-ink-muted">
             Income
           </h2>
@@ -185,7 +185,7 @@ export default function MonthlyDashboard() {
       </div>
 
       {/* Floating Add Button */}
-      <div className="fixed bottom-6 right-6 z-50">
+      <div className="fixed bottom-20 right-4 z-30 md:bottom-6 md:right-6">
         <AddTransactionButton onAddIncome={openAddIncome} onAddExpense={() => openAddExpense()} />
       </div>
 

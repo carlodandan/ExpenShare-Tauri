@@ -42,7 +42,7 @@ export default function IncomeSection({ income, onAdd, onEdit, onDelete }) {
 
   return (
     <div>
-      <div className="grid grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6">
         {sortedPeople.map((person, index) => {
           const group = groups[person.id];
           const items = group ? group.items : [];
@@ -51,7 +51,7 @@ export default function IncomeSection({ income, onAdd, onEdit, onDelete }) {
           return (
             <div
               key={person.id}
-              className={index === 0 ? 'border-r border-line pr-6' : ''}
+              className={index === 0 ? 'border-b border-line pb-4 sm:border-b-0 sm:border-r sm:pb-0 sm:pr-6' : ''}
             >
               <div className="flex items-baseline justify-between border-b border-line pb-1">
                 <p className="text-sm font-semibold">{person.name}</p>
@@ -82,14 +82,14 @@ export default function IncomeSection({ income, onAdd, onEdit, onDelete }) {
                             </span>
                           </div>
                           <div className="flex items-center gap-3">
-                            <div className="flex gap-2 opacity-0 transition-opacity group-hover:opacity-100">
+                            <div className="flex gap-2 opacity-100 transition-opacity sm:opacity-0 sm:group-hover:opacity-100">
                               <button
                                 type="button"
                                 onClick={(e) => {
                                   e.stopPropagation();
                                   onEdit(tx);
                                 }}
-                                className="text-xs text-denim hover:underline"
+                                className="px-1 py-0.5 text-xs text-denim hover:underline active:opacity-70"
                               >
                                 Edit
                               </button>
@@ -99,7 +99,7 @@ export default function IncomeSection({ income, onAdd, onEdit, onDelete }) {
                                   e.stopPropagation();
                                   onDelete(tx);
                                 }}
-                                className="text-xs text-rust hover:underline"
+                                className="px-1 py-0.5 text-xs text-rust hover:underline active:opacity-70"
                               >
                                 Delete
                               </button>
@@ -109,7 +109,7 @@ export default function IncomeSection({ income, onAdd, onEdit, onDelete }) {
 
                         {/* Expanded content: description and date */}
                         {isExpanded && (
-                          <div className="mt-1 pl-2 text-sm text-ink-muted">
+                          <div className="mt-1 pl-4 text-sm text-ink-muted">
                             <p>{tx.description || 'No description'}</p>
                             <p className="text-xs">{formatDate(tx.date)}</p>
                           </div>

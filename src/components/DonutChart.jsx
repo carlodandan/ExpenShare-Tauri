@@ -32,8 +32,8 @@ export default function DonutChart({ data }) {
     });
 
   return (
-    <div className="flex items-center gap-8">
-      <svg viewBox="0 0 160 160" className="h-40 w-40 shrink-0" role="img" aria-label="Expense breakdown by category">
+    <div className="flex flex-col items-center gap-5 sm:flex-row sm:gap-8">
+      <svg viewBox="0 0 160 160" className="h-36 w-36 shrink-0 sm:h-40 sm:w-40" role="img" aria-label="Expense breakdown by category">
         <g transform="translate(80,80) rotate(-90)">
           <circle r={radius} fill="none" stroke="var(--color-line)" strokeWidth={stroke} />
           {slices.map((s) => (
@@ -49,7 +49,7 @@ export default function DonutChart({ data }) {
           ))}
         </g>
       </svg>
-      <ul className="flex-1 space-y-1.5">
+      <ul className="w-full flex-1 space-y-1.5 sm:w-auto">
         {slices.map((s) => (
           <li key={s.name} className="flex items-center justify-between text-sm">
             <span className="flex items-center gap-2">

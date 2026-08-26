@@ -9,7 +9,7 @@ export default function Toast({ toast }) {
   return (
     <div
       role="status"
-      className={`pointer-events-none fixed bottom-5 left-1/2 -translate-x-1/2 rounded-md border px-4 py-2 text-sm shadow-sm ${tone}`}
+      className={`pointer-events-none fixed bottom-20 md:bottom-5 left-1/2 z-50 -translate-x-1/2 rounded-md border px-4 py-2 text-sm shadow-md ${tone}`}
     >
       {toast.message}
     </div>
