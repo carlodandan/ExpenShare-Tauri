@@ -53,7 +53,7 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v6
 
-      - name: Setup Java 25
+      - name: Setup Java 17
         uses: actions/setup-java@v5
         with:
           distribution: temurin
@@ -83,7 +83,7 @@ jobs:
         run: pnpm install
 
       - name: Initialize Android project
-        run: pnpm tauri android init
+        run: pnpm tauri android init && pnpm tauri icon ./icons/expenshare.png
         env:
           NDK_HOME: ${{ env.ANDROID_HOME }}/ndk/27.0.11902837
 
