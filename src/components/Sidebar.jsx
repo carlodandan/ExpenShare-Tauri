@@ -28,7 +28,7 @@ export default function Sidebar({ current, onNavigate }) {
 
   return (
     <>
-      <header className="flex h-12 w-full shrink-0 items-center justify-between border-b border-line bg-surface px-4 md:hidden">
+      <header className="flex h-12 w-full shrink-0 items-center justify-between border-b border-line bg-surface px-4 pt-[env(safe-area-inset-top,0px)] box-content md:hidden">
         <p className="font-mono text-sm font-semibold uppercase tracking-[0.18em] text-ink-muted">
           ExpenShare
         </p>
