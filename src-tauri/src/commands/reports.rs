@@ -5,7 +5,6 @@ use crate::money::to_major_units;
 use printpdf::*;
 use rusqlite::Connection;
 use serde_json::{json, Value};
-use std::fs::File;
 use std::io::BufWriter;
 use std::path::Path;
 use tauri::{AppHandle, State};
@@ -229,12 +228,11 @@ const GRAY: (f64, f64, f64) = (0.4, 0.4, 0.4);
 const DARK_GRAY: (f64, f64, f64) = (0.2, 0.2, 0.2);
 const RED: (f64, f64, f64) = (0.725, 0.106, 0.145); // #b91c1c
 
-pub fn build_pdf(
+pub fn build_pdf_bytes(
     conn: &Connection,
     month: &str,
     symbol: &str,
-    output_path: &Path,
-) -> Result<(), String> {
+) -> Result<Vec<u8>, String> {
     let data = dashboard::get_monthly_impl(conn, month)?;
 
     let (doc, page1, layer1) = PdfDocument::new(

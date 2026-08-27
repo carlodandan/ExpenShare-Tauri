@@ -62,9 +62,11 @@ fn write_to_android_uri(app: &AppHandle, uri_str: &str, data: &[u8]) -> Result<(
         .get_webview_window("main")
         .ok_or_else(|| "Failed to get main webview window".to_string())?;
 
+    let mut inner_result: Result<(), String> = Err("JNI execution did not complete".to_string());
+
     window
         .with_webview(|webview| {
-            webview.jni_handle().exec(|env, context| {
+            inner_result = webview.jni_handle().exec(|env, context, _webview| {
                 // 1. Parse android.net.Uri from uri_str
                 let uri_str_j = env
                     .new_string(uri_str)
@@ -86,7 +88,7 @@ fn write_to_android_uri(app: &AppHandle, uri_str: &str, data: &[u8]) -> Result<(
                 // 2. Obtain ContentResolver from context (MainActivity)
                 let resolver = env
                     .call_method(
-                        context,
+                        &context,
                         "getContentResolver",
                         "()Landroid/content/ContentResolver;",
                         &[],
@@ -133,23 +135,28 @@ fn write_to_android_uri(app: &AppHandle, uri_str: &str, data: &[u8]) -> Result<(
                     .map_err(|e| format!("JNI stream.close error: {e}"))?;
 
                 Ok(())
-            })
+            });
         })
-        .map_err(|e| format!("with_webview error: {e}"))?
+        .map_err(|e| format!("with_webview error: {e}"))?;
+
+    inner_result
 }
 
 #[cfg(target_os = "android")]
 fn read_from_android_uri(app: &AppHandle, uri_str: &str) -> Result<Vec<u8>, String> {
-    use jni::objects::JValue;
+    use jni::objects::{JByteArray, JValue};
     use tauri::Manager;
 
     let window = app
         .get_webview_window("main")
         .ok_or_else(|| "Failed to get main webview window".to_string())?;
 
+    let mut inner_result: Result<Vec<u8>, String> =
+        Err("JNI execution did not complete".to_string());
+
     window
         .with_webview(|webview| {
-            webview.jni_handle().exec(|env, context| {
+            inner_result = webview.jni_handle().exec(|env, context, _webview| {
                 // 1. Parse android.net.Uri from uri_str
                 let uri_str_j = env
                     .new_string(uri_str)
@@ -171,7 +178,7 @@ fn read_from_android_uri(app: &AppHandle, uri_str: &str) -> Result<Vec<u8>, Stri
                 // 2. Obtain ContentResolver from context (MainActivity)
                 let resolver = env
                     .call_method(
-                        context,
+                        &context,
                         "getContentResolver",
                         "()Landroid/content/ContentResolver;",
                         &[],
@@ -248,14 +255,15 @@ fn read_from_android_uri(app: &AppHandle, uri_str: &str) -> Result<Vec<u8>, Stri
                     .l()
                     .map_err(|e| format!("JNI toByteArray return object error: {e}"))?;
 
-                let byte_array =
-                    unsafe { jni::objects::JByteArray::from_raw(byte_array_obj.as_raw()) };
+                let byte_array: JByteArray = byte_array_obj.into();
                 let vec = env
                     .convert_byte_array(&byte_array)
                     .map_err(|e| format!("JNI convert_byte_array error: {e}"))?;
 
                 Ok(vec)
-            })
+            });
         })
-        .map_err(|e| format!("with_webview error: {e}"))?
+        .map_err(|e| format!("with_webview error: {e}"))?;
+
+    inner_result
 }
