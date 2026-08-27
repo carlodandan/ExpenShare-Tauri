@@ -1,17 +1,24 @@
 mod commands;
 mod db;
+mod file_utils;
 mod money;
 
 use db::DbState;
 use std::sync::Mutex;
 use tauri::Manager;
+#[cfg(not(target_os = "android"))]
 use tauri_plugin_dialog::DialogExt;
+#[cfg(not(target_os = "android"))]
 use tauri_plugin_updater::UpdaterExt;
+#[cfg(not(target_os = "android"))]
 use std::sync::atomic::{AtomicBool, Ordering};
-use tokio::time::{sleep, Duration}; // Add this import
+#[cfg(not(target_os = "android"))]
+use tokio::time::{sleep, Duration};
 
+#[cfg(not(target_os = "android"))]
 static UPDATE_DECLINED: AtomicBool = AtomicBool::new(false);
 
+#[cfg(not(target_os = "android"))]
 async fn check_for_updates(app: tauri::AppHandle) -> Result<(), Box<dyn std::error::Error>> {
     log::info!("Checking for app updates via GitHub releases...");
     
@@ -93,6 +100,7 @@ async fn check_for_updates(app: tauri::AppHandle) -> Result<(), Box<dyn std::err
     Ok(())
 }
 
+#[cfg(not(target_os = "android"))]
 #[tauri::command]
 async fn check_for_updates_now(app: tauri::AppHandle) -> Result<bool, String> {
     log::info!("Manual update check initiated from UI...");
@@ -175,17 +183,23 @@ async fn check_for_updates_now(app: tauri::AppHandle) -> Result<bool, String> {
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
-    tauri::Builder::default()
+    let builder = tauri::Builder::default();
+
+    // Desktop-only plugins — not available on Android/iOS
+    #[cfg(not(any(target_os = "android", target_os = "ios")))]
+    let builder = builder
         .plugin(tauri_plugin_window_state::Builder::new().build())
         .plugin(tauri_plugin_single_instance::init(|app, _args, _cwd| {
             if let Some(window) = app.get_webview_window("main") {
                 let _ = window.set_focus();
             }
         }))
+        .plugin(tauri_plugin_updater::Builder::new().build());
+
+    builder
         .plugin(tauri_plugin_dialog::init())
         .plugin(tauri_plugin_fs::init())
         .plugin(tauri_plugin_process::init())
-        .plugin(tauri_plugin_updater::Builder::new().build())
         .plugin(
             tauri_plugin_log::Builder::new()
                 .level(log::LevelFilter::Info)
@@ -196,17 +210,20 @@ pub fn run() {
             app.manage(DbState(Mutex::new(conn)));
             log::info!("ExpenShare v{} started successfully", app.package_info().version);
 
-            let handle = app.handle().clone();
-            tauri::async_runtime::spawn(async move {
-                if let Err(e) = check_for_updates(handle).await {
-                    log::error!("Failed to check for updates: {}", e);
-                }
-            });
+            // Auto-update check is desktop-only
+            #[cfg(not(target_os = "android"))]
+            {
+                let handle = app.handle().clone();
+                tauri::async_runtime::spawn(async move {
+                    if let Err(e) = check_for_updates(handle).await {
+                        log::error!("Failed to check for updates: {}", e);
+                    }
+                });
+            }
 
             Ok(())
         })
         .invoke_handler(tauri::generate_handler![
-            check_for_updates_now,
             commands::income::income_list_for_month,
             commands::income::income_create,
             commands::income::income_update,
@@ -232,7 +249,9 @@ pub fn run() {
             commands::reports::reports_export,
             commands::backup::backup_export,
             commands::backup::backup_restore,
+            #[cfg(not(target_os = "android"))]
+            check_for_updates_now,
         ])
         .run(tauri::generate_context!())
         .expect("error while running ExpenShare");
-}
+}

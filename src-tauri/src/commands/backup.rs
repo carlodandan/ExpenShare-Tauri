@@ -1,4 +1,5 @@
 use crate::db::{db_path, open_and_migrate, DbState};
+use crate::file_utils;
 use serde_json::{json, Value};
 use std::fs;
 use tauri::{AppHandle, State};
@@ -23,7 +24,6 @@ pub async fn backup_export(
     let Some(picked) = picked else {
         return Ok(json!({ "canceled": true }));
     };
-    let target = picked.into_path().map_err(|e| e.to_string())?;
 
     let source = db_path(&app);
 
@@ -34,8 +34,8 @@ pub async fn backup_export(
         // The connection is now held by state; we'll replace it later.
     }
 
-    // Safely export: checkpoint, close, copy, reopen.
-    {
+    // Safely export: checkpoint, close, read bytes, reopen.
+    let db_bytes = {
         let mut guard = state.0.lock().map_err(|e| e.to_string())?;
 
         // 1. Flush the WAL to the main database file.
@@ -49,15 +49,20 @@ pub async fn backup_export(
         let old = std::mem::replace(&mut *guard, placeholder);
         drop(old);
 
-        // 3. Copy the database file while it's not held open.
-        fs::copy(&source, &target).map_err(|e| e.to_string())?;
+        // 3. Read the database file contents while it's not held open.
+        let bytes = fs::read(&source).map_err(|e| e.to_string())?;
 
         // 4. Reopen the original database (migrations will run automatically).
         let reopened = open_and_migrate(&app);
         *guard = reopened;
-    }
 
-    Ok(json!({ "canceled": false, "filePath": target.display().to_string() }))
+        bytes
+    };
+
+    // 5. Write to the picked target (supports desktop paths and Android content:// URIs).
+    let file_path = file_utils::write_file_path(&app, &picked, &db_bytes)?;
+
+    Ok(json!({ "canceled": false, "filePath": file_path }))
 }
 
 #[tauri::command]
@@ -75,17 +80,23 @@ pub async fn backup_restore(
     let Some(picked) = picked else {
         return Ok(json!({ "canceled": true }));
     };
-    let source = picked.into_path().map_err(|e| e.to_string())?;
+
+    // Read the backup bytes (supports desktop paths and Android content:// URIs).
+    let backup_bytes = file_utils::read_file_path(&app, &picked)?;
+    if backup_bytes.is_empty() {
+        return Err("Selected backup file is empty or corrupted.".to_string());
+    }
+
     let target = db_path(&app);
 
-    // Release the connection, copy, then reopen.
+    // Release the connection, overwrite DB file, then reopen.
     {
         let mut guard = state.0.lock().map_err(|e| e.to_string())?;
         let placeholder = rusqlite::Connection::open_in_memory().map_err(|e| e.to_string())?;
         let old = std::mem::replace(&mut *guard, placeholder);
         drop(old);
 
-        fs::copy(&source, &target).map_err(|e| e.to_string())?;
+        fs::write(&target, &backup_bytes).map_err(|e| e.to_string())?;
 
         let reopened = open_and_migrate(&app);
         *guard = reopened;

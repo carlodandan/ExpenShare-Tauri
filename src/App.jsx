@@ -22,9 +22,9 @@ function Shell() {
   const Page = PAGES[page] ?? MonthlyDashboard;
 
   return (
-    <div className="flex h-screen w-screen overflow-hidden bg-paper text-ink">
+    <div className="flex h-screen w-screen flex-col overflow-hidden bg-paper text-ink md:flex-row">
       <Sidebar current={page} onNavigate={setPage} />
-      <main className="flex-1 overflow-y-auto">
+      <main className="flex-1 overflow-y-auto pb-20 md:pb-0">
         <Page />
       </main>
       {toast && <Toast toast={toast} />}

@@ -5,7 +5,6 @@ use crate::money::to_major_units;
 use printpdf::*;
 use rusqlite::Connection;
 use serde_json::{json, Value};
-use std::fs::File;
 use std::io::BufWriter;
 use std::path::Path;
 use tauri::{AppHandle, State};
@@ -229,12 +228,11 @@ const GRAY: (f64, f64, f64) = (0.4, 0.4, 0.4);
 const DARK_GRAY: (f64, f64, f64) = (0.2, 0.2, 0.2);
 const RED: (f64, f64, f64) = (0.725, 0.106, 0.145); // #b91c1c
 
-pub fn build_pdf(
+pub fn build_pdf_bytes(
     conn: &Connection,
     month: &str,
     symbol: &str,
-    output_path: &Path,
-) -> Result<(), String> {
+) -> Result<Vec<u8>, String> {
     let data = dashboard::get_monthly_impl(conn, month)?;
 
     let (doc, page1, layer1) = PdfDocument::new(
@@ -382,9 +380,20 @@ pub fn build_pdf(
         );
     }
 
-    let file = File::create(output_path).map_err(|e| e.to_string())?;
-    doc.save(&mut BufWriter::new(file))
+    let mut buf = Vec::new();
+    doc.save(&mut BufWriter::new(&mut buf))
         .map_err(|e| e.to_string())?;
+    Ok(buf)
+}
+
+pub fn build_pdf(
+    conn: &Connection,
+    month: &str,
+    symbol: &str,
+    output_path: &Path,
+) -> Result<(), String> {
+    let pdf_bytes = build_pdf_bytes(conn, month, symbol)?;
+    std::fs::write(output_path, pdf_bytes).map_err(|e| e.to_string())?;
     Ok(())
 }
 
@@ -413,7 +422,6 @@ pub async fn reports_export(
     let Some(picked) = picked else {
         return Ok(json!({ "canceled": true }));
     };
-    let target = picked.into_path().map_err(|e| e.to_string())?;
 
     let conn = state.0.lock().map_err(|e| e.to_string())?;
     let current_settings = settings::get_all_impl(&conn)?;
@@ -423,12 +431,14 @@ pub async fn reports_export(
         .unwrap_or("₱")
         .to_string();
 
-    if format == "pdf" {
-        build_pdf(&conn, &month, &symbol, &target)?;
+    let data_bytes = if format == "pdf" {
+        build_pdf_bytes(&conn, &month, &symbol)?
     } else {
         let csv = build_csv(&conn, &month, &symbol)?;
-        std::fs::write(&target, csv).map_err(|e| e.to_string())?;
-    }
+        csv.into_bytes()
+    };
 
-    Ok(json!({ "canceled": false, "filePath": target.display().to_string() }))
+    let file_path = crate::file_utils::write_file_path(&app, &picked, &data_bytes)?;
+
+    Ok(json!({ "canceled": false, "filePath": file_path }))
 }

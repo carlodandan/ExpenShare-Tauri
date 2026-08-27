@@ -26,24 +26,24 @@ export default function TotalDashboard() {
   const totalSavings = savingsCategory?.totalMinor || 0;
 
   return (
-    <div className="mx-auto px-2 py-6">
+    <div className="mx-auto max-w-7xl px-3 py-4 sm:px-6 sm:py-6">
       <h1 className="text-lg font-semibold">Total Dashboard</h1>
 
-      <div className="mt-5 grid grid-cols-4 gap-4">
+      <div className="mt-4 grid grid-cols-2 gap-3 sm:mt-5 sm:gap-4 lg:grid-cols-4">
         <SummaryCard label="Total Gross" minor={data.grossMinor} tone="neutral" />
         <SummaryCard label="Total Expenses" minor={data.expensesMinor} tone="negative" />
         <SummaryCard label="Total Net" minor={data.netMinor} tone="auto" />
         <SummaryCard label="Total Savings" minor={totalSavings} tone="positive" />
       </div>
 
-      <section className="mt-8 rounded-lg border border-line bg-surface px-5 py-4">
+      <section className="mt-6 rounded-lg border border-line bg-surface px-4 py-3.5 sm:mt-8 sm:px-5 sm:py-4">
         <h2 className="mb-3 font-mono text-[11px] uppercase tracking-[0.14em] text-ink-muted">
           Expense Breakdown
         </h2>
         <DonutChart data={data.breakdown} />
       </section>
 
-      <section className="mt-6 rounded-lg border border-line bg-surface px-5 py-4">
+      <section className="mt-6 rounded-lg border border-line bg-surface px-4 py-3.5 sm:px-5 sm:py-4">
         <div className="mb-2 flex items-center justify-between">
           <h2 className="font-mono text-[11px] uppercase tracking-[0.14em] text-ink-muted">
             Monthly Performance
@@ -51,7 +51,7 @@ export default function TotalDashboard() {
           <button
             type="button"
             onClick={() => setSortDesc((s) => !s)}
-            className="text-xs text-denim hover:underline"
+            className="text-xs text-denim hover:underline active:opacity-70"
           >
             {sortDesc ? 'Oldest first' : 'Newest first'}
           </button>
@@ -59,42 +59,44 @@ export default function TotalDashboard() {
         {rows.length === 0 ? (
           <p className="py-4 text-sm text-ink-muted">No monthly history yet.</p>
         ) : (
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="ledger-rule text-left text-xs uppercase tracking-wide text-ink-muted">
-                <th className="py-2 font-medium">Month</th>
-                <th className="py-2 text-right font-medium">Gross</th>
-                <th className="py-2 text-right font-medium">Expenses</th>
-                <th className="py-2 text-right font-medium">Net</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-line">
-              {rows.map((row) => (
-                <tr key={row.month}>
-                  <td className="py-2">{monthLabel(row.month)}</td>
-                  <td className="tabular py-2 text-right">{formatMoney(row.grossMinor, currencySymbol)}</td>
-                  <td className="tabular py-2 text-right text-rust">
-                    {formatMoney(row.expensesMinor, currencySymbol)}
-                  </td>
-                  <td
-                    className={`tabular py-2 text-right font-medium ${
-                      row.netMinor < 0 ? 'text-rust' : 'text-moss'
-                    }`}
-                  >
-                    {formatMoney(row.netMinor, currencySymbol)}
-                  </td>
+          <div className="overflow-x-auto">
+            <table className="w-full min-w-[320px] text-sm">
+              <thead>
+                <tr className="ledger-rule text-left text-xs uppercase tracking-wide text-ink-muted">
+                  <th className="py-2 font-medium">Month</th>
+                  <th className="py-2 text-right font-medium">Gross</th>
+                  <th className="py-2 text-right font-medium">Expenses</th>
+                  <th className="py-2 text-right font-medium">Net</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody className="divide-y divide-line">
+                {rows.map((row) => (
+                  <tr key={row.month}>
+                    <td className="py-2 whitespace-nowrap">{monthLabel(row.month)}</td>
+                    <td className="tabular py-2 text-right whitespace-nowrap">{formatMoney(row.grossMinor, currencySymbol)}</td>
+                    <td className="tabular py-2 text-right text-rust whitespace-nowrap">
+                      {formatMoney(row.expensesMinor, currencySymbol)}
+                    </td>
+                    <td
+                      className={`tabular py-2 text-right font-medium whitespace-nowrap ${
+                        row.netMinor < 0 ? 'text-rust' : 'text-moss'
+                      }`}
+                    >
+                      {formatMoney(row.netMinor, currencySymbol)}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         )}
       </section>
 
-      <section className="mt-6 rounded-lg border border-line bg-surface px-5 py-4">
+      <section className="mt-6 rounded-lg border border-line bg-surface px-4 py-3.5 sm:px-5 sm:py-4">
         <h2 className="mb-3 font-mono text-[11px] uppercase tracking-[0.14em] text-ink-muted">
           Simple Analysis
         </h2>
-        <dl className="grid grid-cols-2 gap-x-6 gap-y-3 text-sm">
+        <dl className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-x-6 sm:gap-y-3 text-sm">
           <AnalysisRow label="Average Monthly Income" value={formatMoney(data.analysis.avgGrossMinor, currencySymbol)} />
           <AnalysisRow
             label="Average Monthly Expenses"

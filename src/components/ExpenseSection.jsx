@@ -108,20 +108,20 @@ function RepeatableRow({ category, onEdit, onDelete, onAdd }) {
                     <p className="text-sm">{tx.description || category.name}</p>
                     <p className="text-xs text-ink-muted">{formatDate(tx.date)}</p>
                   </div>
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-2 sm:gap-3">
                     <span className="tabular text-sm">{formatMoney(tx.amountMinor, currencySymbol)}</span>
-                    <div className="flex gap-2 opacity-0 transition-opacity group-hover:opacity-100">
+                    <div className="flex gap-1.5 opacity-100 transition-opacity sm:gap-2 sm:opacity-0 sm:group-hover:opacity-100">
                       <button
                         type="button"
                         onClick={() => onEdit(tx, category)}
-                        className="text-xs text-denim hover:underline"
+                        className="px-1 py-0.5 text-xs text-denim hover:underline active:opacity-70"
                       >
                         Edit
                       </button>
                       <button
                         type="button"
                         onClick={() => onDelete(tx)}
-                        className="text-xs text-rust hover:underline"
+                        className="px-1 py-0.5 text-xs text-rust hover:underline active:opacity-70"
                       >
                         Delete
                       </button>

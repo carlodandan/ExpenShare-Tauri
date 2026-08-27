@@ -51,10 +51,10 @@ export default function UseExtraBudgetModal({ availableMinor, categories, onCanc
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-ink/30 px-4">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-ink/30 p-4">
       <form
         onSubmit={handleSubmit}
-        className="w-full max-w-sm rounded-lg border border-line bg-surface p-5 shadow-lg"
+        className="max-h-[90vh] w-full max-w-sm overflow-y-auto rounded-lg border border-line bg-surface p-5 shadow-lg"
       >
         <h2 className="text-sm font-semibold">Use Extra Budget</h2>
         <p className="mt-1 text-xs text-ink-muted">
@@ -117,18 +117,18 @@ export default function UseExtraBudgetModal({ availableMinor, categories, onCanc
 
         {error && <p className="mt-3 text-sm text-rust">{error}</p>}
 
-        <div className="mt-5 flex justify-end gap-2">
+        <div className="mt-5 flex justify-end gap-2.5">
           <button
             type="button"
             onClick={onCancel}
-            className="rounded-md border border-line px-3 py-1.5 text-sm hover:bg-paper"
+            className="flex-1 sm:flex-none rounded-md border border-line px-3.5 py-2 sm:py-1.5 text-sm hover:bg-paper active:opacity-70"
           >
             Cancel
           </button>
           <button
             type="submit"
             disabled={submitting}
-            className="rounded-md bg-denim px-3 py-1.5 text-sm font-medium text-white hover:opacity-90 disabled:opacity-60"
+            className="flex-1 sm:flex-none rounded-md bg-denim px-3.5 py-2 sm:py-1.5 text-sm font-medium text-white hover:opacity-90 active:opacity-75 disabled:opacity-60"
           >
             Confirm
           </button>

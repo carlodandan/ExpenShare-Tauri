@@ -43,7 +43,7 @@ export default function AddTransactionButton({ onAddIncome, onAddExpense }) {
         onClick={() => setOpen((o) => !o)}
         aria-haspopup="menu"
         aria-expanded={open}
-        className="flex h-8 w-8 items-center justify-center rounded-md bg-moss text-lg leading-none text-white hover:opacity-90"
+        className="flex h-11 w-11 items-center justify-center rounded-full bg-moss text-2xl leading-none text-white shadow-lg transition-transform active:scale-95 hover:opacity-90 sm:h-9 sm:w-9 sm:rounded-md sm:text-xl"
         title="Add transaction"
       >
         +
@@ -51,8 +51,8 @@ export default function AddTransactionButton({ onAddIncome, onAddExpense }) {
       {open && (
         <div
           role="menu"
-          className={`absolute right-0 z-20 w-40 overflow-hidden rounded-md border border-line bg-surface shadow-md ${
-            menuAbove ? 'bottom-full mb-1' : 'top-full mt-1'
+          className={`absolute right-0 z-50 w-44 overflow-hidden rounded-lg border border-line bg-surface shadow-xl ${
+            menuAbove ? 'bottom-full mb-2' : 'top-full mt-2'
           }`}
         >
           <button
@@ -62,9 +62,9 @@ export default function AddTransactionButton({ onAddIncome, onAddExpense }) {
               setOpen(false);
               onAddIncome();
             }}
-            className="block w-full px-3 py-2 text-left text-sm hover:bg-paper"
+            className="block w-full px-4 py-3 text-left text-sm font-medium hover:bg-paper active:bg-moss-soft sm:py-2"
           >
-            + Income
+            + Add Income
           </button>
           <button
             type="button"
@@ -73,9 +73,9 @@ export default function AddTransactionButton({ onAddIncome, onAddExpense }) {
               setOpen(false);
               onAddExpense();
             }}
-            className="block w-full px-3 py-2 text-left text-sm hover:bg-paper"
+            className="block w-full border-t border-line px-4 py-3 text-left text-sm font-medium hover:bg-paper active:bg-moss-soft sm:py-2"
           >
-            + Expense
+            + Add Expense
           </button>
         </div>
       )}

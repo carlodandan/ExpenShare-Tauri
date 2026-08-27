@@ -29,25 +29,25 @@ export default function ExportMenu({ month }) {
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
-        className="rounded-md border border-line px-3 py-1.5 text-sm hover:bg-surface"
+        className="rounded-md border border-line px-3 py-1.5 text-sm hover:bg-surface active:bg-paper"
       >
-        Export Report
+        Export
       </button>
       {open && (
-        <div className="absolute right-0 z-20 mt-1 w-32 overflow-hidden rounded-md border border-line bg-surface shadow-md">
+        <div className="absolute right-0 z-20 mt-1 w-36 overflow-hidden rounded-md border border-line bg-surface shadow-md">
           <button
             type="button"
             onClick={() => handleExport('pdf')}
-            className="block w-full px-3 py-2 text-left text-sm hover:bg-paper"
+            className="block w-full px-4 py-2.5 text-left text-sm hover:bg-paper active:bg-moss-soft sm:py-2"
           >
-            PDF
+            Export PDF
           </button>
           <button
             type="button"
             onClick={() => handleExport('csv')}
-            className="block w-full px-3 py-2 text-left text-sm hover:bg-paper"
+            className="block w-full border-t border-line px-4 py-2.5 text-left text-sm hover:bg-paper active:bg-moss-soft sm:py-2"
           >
-            CSV
+            Export CSV
           </button>
         </div>
       )}
