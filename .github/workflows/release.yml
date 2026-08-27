@@ -133,3 +133,11 @@ jobs:
           "$BUILD_TOOLS_DIR/apksigner" verify \
             --verbose \
             "$SIGNED_APK"
+
+      - name: Upload APK to GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.pkg.outputs.version }}
+          files: src-tauri/gen/android/app/build/outputs/apk/ExpenShare-*.apk
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
