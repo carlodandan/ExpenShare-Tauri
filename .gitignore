@@ -25,3 +25,7 @@ package-lock.json
 # Visual Studio
 .vscode
 .vs
+
+# KeyStore / JKS
+*.keystore
+*.jks

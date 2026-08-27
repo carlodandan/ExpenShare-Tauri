@@ -94,30 +94,42 @@ jobs:
         run: echo "version=$(node -p "require('./package.json').version")" >> $GITHUB_OUTPUT
 
       - name: Sign APK
-        run: |
-          # Generate a signing keystore
-          keytool -genkey -v -keystore release.keystore -alias expenshare -keyalg RSA -keysize 2048 -validity 10000 -storepass expenshare123 -keypass expenshare123 -dname "CN=ExpenShare, OU=App, O=ExpenShare, L=City, S=State, C=US"
-          
-          # Locate build tools containing zipalign and apksigner
-          BUILD_TOOLS_DIR=$(ls -d $ANDROID_HOME/build-tools/* | tail -n 1)
-          
-          # Find the unsigned release APK
-          UNSIGNED_APK=$(find src-tauri/gen/android/app/build/outputs/apk -name "*unsigned.apk" -o -name "*.apk" | head -n 1)
-          SIGNED_APK="src-tauri/gen/android/app/build/outputs/apk/ExpenShare-v${{ steps.pkg.outputs.version }}.apk"
-          
-          echo "Found unsigned APK: $UNSIGNED_APK"
-          
-          # Align and sign with v2/v3 signing schemes (required by Android 11, 12, 13, 14, 15)
-          $BUILD_TOOLS_DIR/zipalign -v -p 4 "$UNSIGNED_APK" aligned.apk
-          $BUILD_TOOLS_DIR/apksigner sign --ks release.keystore --ks-key-alias expenshare --ks-pass pass:expenshare123 --key-pass pass:expenshare123 --out "$SIGNED_APK" aligned.apk
-          
-          # Verify signature
-          $BUILD_TOOLS_DIR/apksigner verify --verbose "$SIGNED_APK"
-
-      - name: Upload APK to GitHub Release
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: v${{ steps.pkg.outputs.version }}
-          files: src-tauri/gen/android/app/build/outputs/apk/ExpenShare-*.apk
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ANDROID_KEY_BASE64: ${{ secrets.ANDROID_KEY_BASE64 }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+          ANDROID_STORE_PASSWORD: ${{ secrets.ANDROID_STORE_PASSWORD }}
+        run: |
+          # Recreate the signing keystore from GitHub Secret
+          echo "$ANDROID_KEY_BASE64" | base64 -d > "$RUNNER_TEMP/release.jks"
+
+          # Locate Android build tools
+          BUILD_TOOLS_DIR=$(ls -d "$ANDROID_HOME"/build-tools/* | tail -n 1)
+
+          # Find the unsigned release APK
+          UNSIGNED_APK=$(find src-tauri/gen/android/app/build/outputs/apk \
+            -name "*unsigned.apk" | head -n 1)
+
+          SIGNED_APK="src-tauri/gen/android/app/build/outputs/apk/ExpenShare-v${{ steps.pkg.outputs.version }}.apk"
+
+          echo "Found unsigned APK: $UNSIGNED_APK"
+
+          # Align APK
+          "$BUILD_TOOLS_DIR/zipalign" \
+            -v -p 4 \
+            "$UNSIGNED_APK" \
+            "$RUNNER_TEMP/aligned.apk"
+
+          # Sign APK
+          "$BUILD_TOOLS_DIR/apksigner" sign \
+            --ks "$RUNNER_TEMP/release.jks" \
+            --ks-key-alias "$ANDROID_KEY_ALIAS" \
+            --ks-pass "pass:$ANDROID_STORE_PASSWORD" \
+            --key-pass "pass:$ANDROID_KEY_PASSWORD" \
+            --out "$SIGNED_APK" \
+            "$RUNNER_TEMP/aligned.apk"
+
+          # Verify signature
+          "$BUILD_TOOLS_DIR/apksigner" verify \
+            --verbose \
+            "$SIGNED_APK"
