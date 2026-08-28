@@ -28,7 +28,7 @@ export default function Sidebar({ current, onNavigate }) {
 
   return (
     <>
-      <header className="flex h-12 w-full shrink-0 items-center justify-between border-b border-line bg-surface px-4 pt-[env(safe-area-inset-top,0px)] box-content md:hidden">
+      <header className="flex h-12 w-full shrink-0 items-center justify-between border-b border-line bg-surface/85 px-4 pt-[env(safe-area-inset-top,0px)] box-content md:hidden">
         <p className="font-mono text-sm font-semibold uppercase tracking-[0.18em] text-ink-muted">
           ExpenShare
         </p>
@@ -39,7 +39,7 @@ export default function Sidebar({ current, onNavigate }) {
 
       <aside
         className={`
-          hidden shrink-0 flex-col justify-between border-r border-line bg-surface transition-all duration-300 ease-in-out md:flex
+          hidden shrink-0 flex-col justify-between border-r border-line bg-surface/85 transition-all duration-300 ease-in-out md:flex
           ${isMinimized ? 'w-14' : 'w-56'}
         `}
       >
@@ -128,7 +128,7 @@ export default function Sidebar({ current, onNavigate }) {
 
       <nav
         aria-label="Mobile Navigation"
-        className="fixed bottom-0 left-0 right-0 z-40 flex h-16 items-center justify-around border-t border-line bg-surface pb-[env(safe-area-inset-bottom,0px)] md:hidden"
+        className="fixed bottom-0 left-0 right-0 z-40 flex h-16 items-center justify-around border-t border-line bg-surface/85 pb-[env(safe-area-inset-bottom,0px)] md:hidden"
       >
         {NAV_ITEMS.map(({ key, label, icon: Icon }) => {
           const active = current === key;

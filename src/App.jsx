@@ -22,7 +22,7 @@ function Shell() {
   const Page = PAGES[page] ?? MonthlyDashboard;
 
   return (
-    <div className="flex h-screen w-screen flex-col overflow-hidden bg-paper text-ink md:flex-row">
+    <div className="flex h-screen w-screen flex-col overflow-hidden bg-paper/85 text-ink md:flex-row">
       <Sidebar current={page} onNavigate={setPage} />
       <main className="flex-1 overflow-y-auto pb-20 md:pb-0">
         <Page />
