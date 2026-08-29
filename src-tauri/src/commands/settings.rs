@@ -42,6 +42,50 @@ pub fn rename_person_impl(conn: &Connection, id: i64, name: &str) -> Result<(), 
     Ok(())
 }
 
+pub fn add_person_impl(conn: &Connection, name: &str) -> Result<Person, String> {
+    let trimmed = name.trim();
+    if trimmed.is_empty() {
+        return Err("Name cannot be empty.".into());
+    }
+    let max_sort: i64 = conn
+        .query_row("SELECT COALESCE(MAX(sort_order), 0) FROM people", [], |r| r.get(0))
+        .map_err(|e| e.to_string())?;
+    let next_sort = max_sort + 1;
+    conn.execute(
+        "INSERT INTO people (name, sort_order) VALUES (?1, ?2)",
+        params![trimmed, next_sort],
+    )
+    .map_err(|e| e.to_string())?;
+    let id = conn.last_insert_rowid();
+    Ok(Person {
+        id,
+        name: trimmed.to_string(),
+        sort_order: next_sort,
+    })
+}
+
+pub fn delete_person_impl(conn: &Connection, id: i64) -> Result<(), String> {
+    let count: i64 = conn
+        .query_row("SELECT COUNT(*) FROM people", [], |r| r.get(0))
+        .map_err(|e| e.to_string())?;
+    if count <= 1 {
+        return Err("Cannot delete the only person.".into());
+    }
+    let income_count: i64 = conn
+        .query_row(
+            "SELECT COUNT(*) FROM income WHERE person_id = ?1",
+            params![id],
+            |r| r.get(0),
+        )
+        .map_err(|e| e.to_string())?;
+    if income_count > 0 {
+        return Err("Cannot delete person with existing income records. Delete or reassign their income first.".into());
+    }
+    conn.execute("DELETE FROM people WHERE id = ?1", params![id])
+        .map_err(|e| e.to_string())?;
+    Ok(())
+}
+
 /// Returns every row in `settings` as a flat object plus a `people` array,
 /// exactly matching database/settings.js `getAll` (which spreads key/value
 /// settings rows and appends `people`).
@@ -96,6 +140,20 @@ pub fn settings_rename_person(
 ) -> Result<Value, String> {
     let conn = state.0.lock().map_err(|e| e.to_string())?;
     rename_person_impl(&conn, id, &name)?;
+    get_all_impl(&conn)
+}
+
+#[tauri::command]
+pub fn settings_add_person(state: State<DbState>, name: String) -> Result<Value, String> {
+    let conn = state.0.lock().map_err(|e| e.to_string())?;
+    add_person_impl(&conn, &name)?;
+    get_all_impl(&conn)
+}
+
+#[tauri::command]
+pub fn settings_delete_person(state: State<DbState>, id: i64) -> Result<Value, String> {
+    let conn = state.0.lock().map_err(|e| e.to_string())?;
+    delete_person_impl(&conn, id)?;
     get_all_impl(&conn)
 }
 

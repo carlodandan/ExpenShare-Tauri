@@ -2,7 +2,7 @@
   "name": "expenshare",
   "productName": "ExpenShare",
   "version": "1.1.2",
-  "description": "Offline household budget tracker for two people.",
+  "description": "Offline shared household budget tracker.",
   "type": "module",
   "private": true,
   "scripts": {

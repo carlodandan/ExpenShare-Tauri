@@ -39,6 +39,8 @@ export const tauriAPI = {
     getAll: () => invoke('settings_get_all'),
     set: (key, value) => invoke('settings_set', { key, value: String(value) }),
     renamePerson: (id, name) => invoke('settings_rename_person', { id, name }),
+    addPerson: (name) => invoke('settings_add_person', { name }),
+    deletePerson: (id) => invoke('settings_delete_person', { id }),
     getVersion: () => invoke('settings_get_version'),
   },
   reports: {

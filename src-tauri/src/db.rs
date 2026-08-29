@@ -123,12 +123,7 @@ fn migration_1_initial_schema(conn: &Connection) {
 fn migration_2_seed_defaults(conn: &Connection) {
     conn.execute(
         "INSERT INTO people (name, sort_order) VALUES (?1, ?2)",
-        rusqlite::params!["P1", 1],
-    )
-    .unwrap();
-    conn.execute(
-        "INSERT INTO people (name, sort_order) VALUES (?1, ?2)",
-        rusqlite::params!["P2", 2],
+        rusqlite::params!["Me", 1],
     )
     .unwrap();
 

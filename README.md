@@ -1,6 +1,6 @@
 # ExpenShare
 
-An offline desktop (for Windows and Android) budget tracker for two people sharing a household budget. This is just a simple tracker that lets you supervise your gross, net, savings, expenses and your extra budget from current and previous months.
+An offline desktop (for Windows and Android) budget tracker for sharing a household budget. This is just a simple tracker that lets you supervise your gross, net, savings, expenses and your extra budget from current and previous months.
 
 ## Features
 - Monthly Dashboard: month navigation, Gross/Net cards, income by person,
@@ -18,7 +18,7 @@ expense in a repeatable category (Groceries, Miscellaneous, etc.)
 
 - Set Goals: it is designed for setting targets or goals for future usage or for something that you are saving up for like Cars, House and Lot or even your retirement.
 
-- Settings: Can rename, change currency, backup/restore the database file
+- Settings: Can rename, add up to maximum of 3 person, change currency, backup/restore the database file
 
 - Monthly report export to PDF and CSV
 

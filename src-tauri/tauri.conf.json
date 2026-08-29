@@ -34,8 +34,8 @@
     "publisher": "Carlo Dandan",
     "copyright": "Copyright © Carlo Dandan",
     "category": "Finance",
-    "shortDescription": "Offline household budget tracker for two people.",
-    "longDescription": "ExpenShare is an offline household budget tracker for two people.",
+    "shortDescription": "Offline shared household budget tracker.",
+    "longDescription": "ExpenShare is an offline shared household budget tracker.",
     "icon": [
       "icons/32x32.png",
       "icons/128x128.png",

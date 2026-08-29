@@ -13,8 +13,16 @@ export default function Settings() {
   const [names, setNames] = useState(() =>
     Object.fromEntries((people || []).map((p) => [p.id, p.name]))
   );
+  const [newPersonName, setNewPersonName] = useState('');
+  const [isAdding, setIsAdding] = useState(false);
   const [appVersion, setAppVersion] = useState('');
   const [checkingUpdate, setCheckingUpdate] = useState(false);
+
+  useEffect(() => {
+    if (people) {
+      setNames(Object.fromEntries(people.map((p) => [p.id, p.name])));
+    }
+  }, [people]);
 
   useEffect(() => {
     window.tauriAPI?.appInfo?.getVersion().then((v) => setAppVersion(v.app)).catch(() => {});
@@ -31,6 +39,37 @@ export default function Settings() {
     await refreshSettings();
     notifyDataChanged();
     showToast('Name updated.');
+  }
+
+  async function handleAddPerson(e) {
+    e?.preventDefault();
+    const name = newPersonName.trim();
+    if (!name) return;
+    try {
+      await window.tauriAPI.settings.addPerson(name);
+      setNewPersonName('');
+      setIsAdding(false);
+      await refreshSettings();
+      notifyDataChanged();
+      showToast(`Added ${name}.`);
+    } catch (err) {
+      showToast(typeof err === 'string' ? err : 'Failed to add person.');
+    }
+  }
+
+  async function handleDeletePerson(person) {
+    if ((people || []).length <= 1) {
+      showToast('Cannot remove the only person.');
+      return;
+    }
+    try {
+      await window.tauriAPI.settings.deletePerson(person.id);
+      await refreshSettings();
+      notifyDataChanged();
+      showToast(`Removed ${person.name}.`);
+    } catch (err) {
+      showToast(typeof err === 'string' ? err : 'Cannot remove person with existing income records.');
+    }
   }
 
   async function handleCurrencyChange(code) {
@@ -84,12 +123,23 @@ export default function Settings() {
 
       {/* People section */}
       <section className="mt-4 rounded-lg border border-line bg-paper/80 px-4 py-3.5 sm:mt-6 sm:px-5 sm:py-4">
-        <h2 className="mb-3 font-bodoni text-xs uppercase tracking-[0.12em] text-ink-muted">People</h2>
+        <div className="flex items-center justify-between mb-3">
+          <h2 className="font-bodoni text-xs uppercase tracking-[0.12em] text-ink-muted">Household Members</h2>
+          {!isAdding && (
+            <button
+              type="button"
+              onClick={() => setIsAdding(true)}
+              className="inline-flex items-center gap-1 text-xs font-medium text-moss hover:underline"
+            >
+              + Add Person
+            </button>
+          )}
+        </div>
         <div className="space-y-3">
-          {(people || []).map((person) => (
+          {(people || []).map((person, idx) => (
             <div key={person.id} className="flex flex-col gap-1 sm:flex-row sm:items-center sm:gap-3">
               <label className="text-xs sm:text-sm text-ink-muted sm:w-24 shrink-0" htmlFor={`name-${person.id}`}>
-                {person.sort_order === 1 ? 'Person 1' : 'Person 2'}
+                Person {idx + 1}
               </label>
               <input
                 id={`name-${person.id}`}
@@ -99,8 +149,53 @@ export default function Settings() {
                 onBlur={() => saveName(person.id)}
                 className="flex-1 rounded-md border border-line bg-paper px-3 py-1.5 text-sm"
               />
+              {(people || []).length > 1 && (
+                <button
+                  type="button"
+                  onClick={() => handleDeletePerson(person)}
+                  className="self-end sm:self-center px-2 py-1 text-xs text-rust hover:underline active:opacity-70 shrink-0"
+                  title="Remove person"
+                >
+                  Remove
+                </button>
+              )}
             </div>
           ))}
+
+          {isAdding && (
+            <form onSubmit={handleAddPerson} className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-3 pt-2 border-t border-line/60">
+              <label className="text-xs sm:text-sm text-ink-muted sm:w-24 shrink-0">
+                New Person
+              </label>
+              <input
+                type="text"
+                autoFocus
+                placeholder="e.g. Spouse, Roommate, Partner"
+                value={newPersonName}
+                onChange={(e) => setNewPersonName(e.target.value)}
+                className="flex-1 rounded-md border border-line bg-paper px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-moss"
+              />
+              <div className="flex items-center gap-2 self-end sm:self-center">
+                <button
+                  type="submit"
+                  disabled={!newPersonName.trim()}
+                  className="rounded-md bg-moss px-3 py-1.5 text-xs font-medium text-white hover:opacity-90 disabled:opacity-50"
+                >
+                  Save
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsAdding(false);
+                    setNewPersonName('');
+                  }}
+                  className="rounded-md border border-line bg-paper px-3 py-1.5 text-xs text-ink-muted hover:bg-paper"
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+          )}
         </div>
       </section>
 
@@ -191,7 +286,7 @@ export default function Settings() {
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <p className="text-sm font-medium">ExpenShare {appVersion ? `v${appVersion}` : ''}</p>
-            <p className="text-xs text-ink-muted">Offline household budget tracker for two people.</p>
+            <p className="text-xs text-ink-muted">Offline shared household budget tracker.</p>
           </div>
           <button
             type="button"

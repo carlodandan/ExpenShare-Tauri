@@ -40,18 +40,27 @@ export default function IncomeSection({ income, onAdd, onEdit, onDelete }) {
     );
   }
 
+  const isSingle = sortedPeople.length === 1;
+
   return (
     <div>
-      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6">
+      <div className={`grid grid-cols-1 gap-5 ${sortedPeople.length === 2 ? 'sm:grid-cols-2 sm:gap-6' : sortedPeople.length > 2 ? 'sm:grid-cols-2 lg:grid-cols-3 sm:gap-6' : ''}`}>
         {sortedPeople.map((person, index) => {
           const group = groups[person.id];
           const items = group ? group.items : [];
           const total = group ? group.total : 0;
 
+          const borderClass =
+            !isSingle && sortedPeople.length === 2 && index === 0
+              ? 'border-b border-line pb-4 sm:border-b-0 sm:border-r sm:pb-0 sm:pr-6'
+              : !isSingle && sortedPeople.length > 2 && index < sortedPeople.length - 1
+              ? 'border-b border-line pb-4 sm:border-b-0 sm:border-r sm:pb-0 sm:pr-6'
+              : '';
+
           return (
             <div
               key={person.id}
-              className={index === 0 ? 'border-b border-line pb-4 sm:border-b-0 sm:border-r sm:pb-0 sm:pr-6' : ''}
+              className={borderClass}
             >
               <div className="flex items-baseline justify-between border-b border-line pb-1">
                 <p className="text-sm font-semibold">{person.name}</p>

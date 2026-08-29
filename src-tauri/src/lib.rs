@@ -251,6 +251,8 @@ pub fn run() {
             commands::settings::settings_get_all,
             commands::settings::settings_set,
             commands::settings::settings_rename_person,
+            commands::settings::settings_add_person,
+            commands::settings::settings_delete_person,
             commands::settings::settings_get_version,
             commands::settings::get_app_info,
             commands::reports::reports_export,
