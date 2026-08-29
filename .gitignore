@@ -29,3 +29,6 @@ package-lock.json
 # KeyStore / JKS
 *.keystore
 *.jks
+
+# wrangler
+.wrangler
