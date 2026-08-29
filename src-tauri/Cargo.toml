@@ -1,6 +1,6 @@
 [package]
 name = "expenshare"
-version = "1.0.2"
+version = "1.1.0"
 description = "Offline household budget tracker for two people."
 authors = ["Carlo Dandan"]
 edition = "2021"
