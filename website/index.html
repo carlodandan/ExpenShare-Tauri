@@ -5,80 +5,130 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ExpenShare — Offline Household Budget Tracker</title>
   <meta name="description" content="An offline desktop and mobile budget tracker for two people sharing a household budget. 100% private, local SQLite database." />
-  
+
   <!-- Open Graph / Meta -->
   <meta property="og:type" content="website" />
   <meta property="og:title" content="ExpenShare — Offline Household Budget Tracker" />
   <meta property="og:description" content="Simple, offline, multi-platform household budgeting with zero cloud lock-in. Available for Windows & Android." />
   <meta property="og:image" content="./expenshare.png" />
   <meta name="theme-color" content="#2f6f4f" />
-  
+
   <link rel="icon" type="image/png" href="./expenshare.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700;9..144,900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
     :root {
-      --bg: rgba(241, 243, 240, 0.88);
-      --surface: rgba(255, 255, 255, 0.90);
-      --card-bg: rgba(255, 255, 255, 0.40);
-      --ink: #1e2a24;
-      --ink-muted: #5b6660;
-      --line: #dde1dc;
+      /* Ledger-pad palette */
+      --paper: #f2efe4;
+      --surface: rgba(251, 250, 244, 0.88);
+      --ink: #23291f;
+      --ink-muted: #66705f;
+      --line: #d8d2bd;
+      --rule: #c9cdd8;      /* pale ruled-paper blue, used for hairlines */
+      --margin: #b95c46;    /* used sparingly as an accent */
       --moss: #2f6f4f;
-      --moss-soft: #e6efe9;
+      --moss-soft: #e3ede5;
       --denim: #3b5ba5;
-      --denim-soft: #e7ecf6;
+      --denim-soft: #e6ebf5;
       --rust: #a6452b;
-      --font-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-      --font-mono: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
+      --rust-soft: #f3e6e1;
+
+      --font-display: 'Fraunces', ui-serif, Georgia, serif;
+      --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+      --radius: 14px;
     }
 
     @media (prefers-color-scheme: dark) {
       :root {
-        --bg: rgba(20, 24, 22, 0.88);
-        --surface: rgba(30, 37, 33, 0.90);
-        --card-bg: rgba(30, 37, 33, 0.80);
-        --ink: #e6ede8;
-        --ink-muted: #95a39c;
-        --line: #2e3833;
-        --moss: #5bbf89;
-        --moss-soft: #1c3328;
-        --denim: #7a9bdf;
-        --denim-soft: #233550;
+        --paper: #191d17;
+        --surface: rgba(33, 38, 32, 0.88);
+        --ink: #e9ecdf;
+        --ink-muted: #99a390;
+        --line: #35392e;
+        --rule: #303a4a;
+        --margin: #c96a52;
+        --moss: #6bc494;
+        --moss-soft: #1e332a;
+        --denim: #8aa6e6;
+        --denim-soft: #212c42;
+        --rust: #d97a5c;
+        --rust-soft: #362521;
       }
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { transition-duration: 0.001ms !important; animation-duration: 0.001ms !important; }
     }
 
     body {
       font-family: var(--font-sans);
-      background-color: var(--bg);
-      background-image: url('./background.webp');
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      background-attachment: fixed;
       color: var(--ink);
       line-height: 1.6;
       -webkit-font-smoothing: antialiased;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
+
+      /* Background photo with a soft dark scrim for contrast */
+      background-image:
+        linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.25)),
+        url('./background.webp');
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-attachment: fixed;
     }
 
     .container {
       width: 100%;
-      max-width: 960px;
+      max-width: 980px;
       margin: 0 auto;
-      padding: 0 1.5rem;
+      padding: 0 1.75rem;
     }
 
-    /* Header / Navbar */
+    .sr-only {
+      position: absolute;
+      width: 1px; height: 1px;
+      padding: 0; margin: -1px;
+      overflow: hidden;
+      clip: rect(0,0,0,0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    .skip-link {
+      position: absolute;
+      left: 1rem; top: -3rem;
+      background: var(--ink);
+      color: var(--surface);
+      padding: 0.6rem 1rem;
+      border-radius: 8px;
+      z-index: 100;
+      transition: top 0.15s ease;
+    }
+    .skip-link:focus { top: 1rem; }
+
+    a:focus-visible,
+    button:focus-visible,
+    .btn:focus-visible {
+      outline: 3px solid var(--denim);
+      outline-offset: 2px;
+      border-radius: 4px;
+    }
+
+    /* Header */
     header {
-      padding: 1.5rem 0;
+      padding: 1.1rem 0;
       border-bottom: 1px solid var(--line);
       background: var(--surface);
       backdrop-filter: blur(8px);
@@ -88,229 +138,196 @@
       z-index: 50;
     }
 
-    .nav-wrap {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
+    .nav-wrap { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
 
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      text-decoration: none;
-      color: var(--ink);
-    }
+    .brand { display: flex; align-items: center; gap: 0.7rem; text-decoration: none; color: var(--ink); }
 
-    .brand img {
-      width: 36px;
-      height: 36px;
-      border-radius: 8px;
-      object-fit: contain;
-    }
+    .brand img { width: 34px; height: 34px; border-radius: 8px; object-fit: contain; }
 
     .brand-name {
       font-family: var(--font-mono);
       font-weight: 700;
-      font-size: 1.1rem;
-      letter-spacing: 0.08em;
+      font-size: 1rem;
+      letter-spacing: 0.09em;
       text-transform: uppercase;
     }
 
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
+    .nav-links { display: flex; align-items: center; gap: 0.25rem; }
 
     .nav-link {
       color: var(--ink-muted);
       text-decoration: none;
-      font-size: 0.9rem;
-      font-weight: 500;
-      transition: color 0.2s ease;
+      font-size: 0.88rem;
+      font-weight: 600;
+      padding: 0.65rem 0.75rem;
+      border-radius: 8px;
+      transition: color 0.15s ease, background-color 0.15s ease;
     }
+    .nav-link:hover { color: var(--ink); background: var(--paper); }
 
-    .nav-link:hover {
-      color: var(--ink);
-    }
+    /* Hero */
+    .hero { padding: 4rem 0 2.5rem; text-align: center; }
 
-    /* Hero Section */
-    .hero {
-      padding: 4.5rem 0 3.5rem;
-      text-align: center;
+    .eyebrow {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--moss);
+      background: var(--moss-soft);
+      padding: 0.35rem 0.75rem;
+      border-radius: 999px;
+      margin-bottom: 1.5rem;
     }
 
     .hero h1 {
-      font-size: clamp(2.2rem, 5vw, 3.4rem);
-      font-weight: 800;
-      line-height: 1.15;
-      letter-spacing: -0.02em;
+      font-family: var(--font-display);
+      font-optical-sizing: auto;
+      font-size: clamp(2.3rem, 5.2vw, 3.6rem);
+      font-weight: 600;
+      line-height: 1.1;
+      letter-spacing: -0.01em;
       margin-bottom: 1.25rem;
       color: var(--ink);
     }
 
+    .hero .accent { color: var(--moss); font-style: italic; }
+
     .hero p {
-      font-size: clamp(1.05rem, 2vw, 1.25rem);
-      color: black;
-      max-width: 640px;
-      margin: 0 auto 2.5rem;
+      font-size: clamp(1.02rem, 1.6vw, 1.18rem);
+      color: var(--ink-muted);
+      max-width: 600px;
+      margin: 0 auto 2.25rem;
     }
 
-    .cta-group {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1rem;
-      justify-content: center;
-      align-items: center;
-    }
+    .cta-group { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; align-items: center; }
 
     .btn {
       display: inline-flex;
       align-items: center;
       justify-content: center;
       gap: 0.5rem;
-      padding: 0.8rem 1.6rem;
-      border-radius: 8px;
+      min-height: 44px;
+      padding: 0.75rem 1.5rem;
+      border-radius: 9px;
       font-size: 0.95rem;
       font-weight: 600;
       text-decoration: none;
-      transition: all 0.2s ease;
+      transition: transform 0.15s ease, opacity 0.15s ease, background-color 0.15s ease;
       cursor: pointer;
     }
 
-    .btn-primary {
-      background: var(--moss);
-      color: #ffffff;
-      box-shadow: 0 2px 8px rgba(47, 111, 79, 0.25);
+    .btn-primary { background: var(--moss); color: #ffffff; }
+    .btn-primary:hover { opacity: 0.92; transform: translateY(-1px); }
+
+    .btn-secondary { background: var(--surface); color: var(--ink); border: 1px solid var(--line); }
+    .btn-secondary:hover { border-color: var(--ink-muted); transform: translateY(-1px); }
+
+    .amt-neg { color: var(--rust); }
+    .amt-pos { color: var(--moss); }
+
+    .who {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      font-family: var(--font-mono);
+      font-weight: 700;
+      font-size: 0.78rem;
+    }
+    .who-j { background: var(--moss-soft); color: var(--moss); }
+    .who-m { background: var(--denim-soft); color: var(--denim); }
+
+    .ledger-foot {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem 1.5rem;
+      justify-content: space-between;
+      padding: 1rem 1.25rem 0.25rem;
+      font-size: 0.85rem;
+      color: var(--ink-muted);
     }
 
-    .btn-primary:hover {
-      opacity: 0.92;
-      transform: translateY(-1px);
-    }
+    .ledger-foot strong { color: var(--ink); font-weight: 600; }
 
-    .btn-secondary {
-      background: var(--surface);
-      color: var(--ink);
-      border: 1px solid var(--line);
-    }
+    /* Features */
+    .features { padding: 1rem 0 4rem; }
 
-    .btn-secondary:hover {
-      background: var(--bg);
-      border-color: var(--ink-muted);
-      transform: translateY(-1px);
-    }
-
-    /* Features Grid */
-    .features {
-      padding: 3rem 0 4.5rem;
-    }
-
-    .section-title {
-      text-align: center;
-      margin-bottom: 2.5rem;
-    }
+    .section-title { text-align: center; margin-bottom: 2.25rem; }
 
     .section-title h2 {
-      font-size: 1.75rem;
-      font-weight: 700;
-      margin-bottom: 0.5rem;
+      font-family: var(--font-display);
+      font-size: 1.85rem;
+      font-weight: 600;
+      margin-bottom: 0.4rem;
     }
 
-    .section-title p {
-      color: var(--ink-muted);
-      font-size: 0.95rem;
-    }
+    .section-title p { color: var(--ink-muted); font-size: 0.95rem; }
 
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 1.5rem;
-    }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.25rem; }
 
     .card {
-      background: var(--card-bg);
+      background: var(--surface);
       backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
       border: 1px solid var(--line);
-      border-radius: 12px;
+      border-left: 3px solid var(--moss);
+      border-radius: 10px;
       padding: 1.5rem;
-      transition: transform 0.2s ease, border-color 0.2s ease;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
     }
-
-    .card:hover {
-      transform: translateY(-2px);
-      border-color: var(--moss);
-    }
+    .card:hover { transform: translateY(-2px); box-shadow: 0 10px 24px -18px rgba(35,41,31,0.4); }
+    .card:nth-of-type(3n+2) { border-left-color: var(--denim); }
+    .card:nth-of-type(3n+3) { border-left-color: var(--rust); }
 
     .card-icon {
-      width: 42px;
-      height: 42px;
+      width: 38px; height: 38px;
       border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.25rem;
+      display: flex; align-items: center; justify-content: center;
       margin-bottom: 1rem;
       background: var(--moss-soft);
       color: var(--moss);
     }
+    .card:nth-of-type(3n+2) .card-icon { background: var(--denim-soft); color: var(--denim); }
+    .card:nth-of-type(3n+3) .card-icon { background: var(--rust-soft); color: var(--rust); }
 
-    .card h3 {
-      font-size: 1.1rem;
-      font-weight: 600;
-      margin-bottom: 0.5rem;
-    }
+    .card h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 0.4rem; }
+    .card p { color: var(--ink-muted); font-size: 0.9rem; line-height: 1.55; }
 
-    .card p {
-      color: var(--ink-muted);
-      font-size: 0.9rem;
-      line-height: 1.5;
-    }
-
-    /* Platforms Banner */
+    /* Platforms — stamped card */
     .platforms {
-      margin: 1rem 0 4rem;
-      background: var(--card-bg);
+      margin: 0.5rem 0 4rem;
+      background: var(--surface);
       backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
       border: 1px solid var(--line);
       border-radius: 16px;
-      padding: 2.5rem;
+      padding: 2.5rem 2rem;
       text-align: center;
     }
 
-    .platforms h3 {
-      font-size: 1.4rem;
-      font-weight: 700;
-      margin-bottom: 0.75rem;
-    }
+    .platforms h3 { font-family: var(--font-display); font-size: 1.45rem; font-weight: 600; margin-bottom: 0.6rem; }
 
-    .platforms p {
-      color: var(--ink-muted);
-      margin-bottom: 1.5rem;
-      max-width: 520px;
-      margin-left: auto;
-      margin-right: auto;
-    }
+    .platforms p { color: var(--ink-muted); margin-bottom: 1.75rem; max-width: 520px; margin-left: auto; margin-right: auto; }
 
-    .pill-group {
-      display: flex;
-      justify-content: center;
-      gap: 0.75rem;
-      flex-wrap: wrap;
-    }
+    .stamp-group { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
 
-    .pill {
+    .stamp {
       font-family: var(--font-mono);
-      font-size: 0.85rem;
-      padding: 0.4rem 0.9rem;
-      background: var(--bg);
-      border: 1px solid var(--line);
+      font-size: 0.82rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      padding: 0.55rem 1rem;
+      border: 1.5px dashed var(--ink-muted);
       border-radius: 6px;
-      font-weight: 500;
+      color: var(--ink-muted);
+      transform: rotate(-1.5deg);
     }
+    .stamp:nth-child(2) { transform: rotate(1deg); }
+    .stamp:nth-child(3) { transform: rotate(-0.5deg); }
 
     /* Footer */
     footer {
@@ -325,25 +342,24 @@
       color: var(--ink-muted);
     }
 
-    .footer-links {
-      display: flex;
-      justify-content: center;
-      gap: 1.5rem;
-      margin-bottom: 0.75rem;
-    }
+    .footer-links { display: flex; justify-content: center; gap: 1.25rem; flex-wrap: wrap; margin-bottom: 0.75rem; }
 
     .footer-links a {
       color: var(--ink-muted);
       text-decoration: none;
+      padding: 0.4rem 0.2rem;
     }
+    .footer-links a:hover { color: var(--ink); text-decoration: underline; }
 
-    .footer-links a:hover {
-      color: var(--ink);
-      text-decoration: underline;
+    @media (max-width: 560px) {
+      .hero { padding: 3rem 0 2rem; }
+      .nav-link { font-size: 0.82rem; padding: 0.6rem 0.5rem; }
     }
   </style>
 </head>
 <body>
+
+  <a href="#main" class="skip-link">Skip to content</a>
 
   <!-- Navigation Bar -->
   <header>
@@ -352,25 +368,26 @@
         <img src="./expenshare.png" alt="ExpenShare Logo" />
         <span class="brand-name">ExpenShare</span>
       </a>
-      <nav class="nav-links">
+      <nav class="nav-links" aria-label="Primary">
         <a href="https://github.com/carlodandan/ExpenShare-Tauri" class="nav-link" target="_blank" rel="noopener noreferrer">GitHub</a>
         <a href="https://github.com/carlodandan/ExpenShare-Tauri/releases" class="nav-link" target="_blank" rel="noopener noreferrer">Releases</a>
       </nav>
     </div>
   </header>
 
-  <!-- Hero Section -->
-  <main>
+  <main id="main">
+    <!-- Hero -->
     <section class="hero">
       <div class="container">
-        <h1>Household Budgeting,<br />Simplified &amp; Offline.</h1>
+        <span class="eyebrow">Open source · Offline first</span>
+        <h1>Every peso,<br /><span class="accent">accounted for.</span></h1>
         <p>
-          ExpenShare is a lightweight, offline budget tracker for two people sharing household finances. Track gross income, net balances, extra budget rollovers, and target goals without relying on third-party cloud servers.
+          ExpenShare is a lightweight budget tracker built for two people sharing one household. Log income, split expenses, and carry over savings — with every record kept on your device, never on someone else's server.
         </p>
 
         <div class="cta-group">
           <a href="https://github.com/carlodandan/ExpenShare-Tauri/releases" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
               <polyline points="7 10 12 15 17 10"></polyline>
               <line x1="12" y1="15" x2="12" y2="3"></line>
@@ -378,7 +395,7 @@
             Download Latest Release
           </a>
           <a href="https://github.com/carlodandan/ExpenShare-Tauri" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
             </svg>
             View Source Code
@@ -387,54 +404,72 @@
       </div>
     </section>
 
-    <!-- App Usage & Core Features -->
+    <!-- Features -->
     <section class="features">
       <div class="container">
         <div class="section-title">
-          <h2>How It Works &amp; Features</h2>
+          <h2>How it works</h2>
           <p>Everything you need for clean, transparent household accounting.</p>
         </div>
 
         <div class="grid">
           <div class="card">
-            <h3>Monthly Dashboard</h3>
-            <p>Supervise monthly gross income and net balance between two people. Log fixed utilities and repeatable expenses with instant calculations.</p>
+            <div class="card-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="9" rx="1"></rect><rect x="14" y="3" width="7" height="5" rx="1"></rect><rect x="14" y="12" width="7" height="9" rx="1"></rect><rect x="3" y="16" width="7" height="5" rx="1"></rect></svg>
+            </div>
+            <h3>Monthly dashboard</h3>
+            <p>Track gross income and net balance between two people. Log fixed utilities and repeatable expenses with instant calculations.</p>
           </div>
 
           <div class="card">
-            <h3>Total Dashboard</h3>
-            <p>Analyze lifetime cash flow, review expense breakdowns with visual donut charts, and inspect sortable monthly performance histories.</p>
+            <div class="card-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 3a9 9 0 0 1 9 9h-9z"></path><path d="M12 12 6.5 17.5"></path></svg>
+            </div>
+            <h3>Total dashboard</h3>
+            <p>Review lifetime cash flow, break down spending with donut charts, and inspect sortable monthly performance history.</p>
           </div>
 
           <div class="card">
-            <h3>Extra Budget</h3>
-            <p>Track accumulated surpluses across months. Seamlessly draw from Extra Budget for unexpected expenses while transparently logging any shortfall.</p>
+            <div class="card-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10h18"></path><rect x="3" y="6" width="18" height="14" rx="2"></rect><path d="M8 14h.01M12 14h4"></path></svg>
+            </div>
+            <h3>Extra budget</h3>
+            <p>Track accumulated surplus across months. Draw from it for unexpected costs while logging any shortfall transparently.</p>
           </div>
 
           <div class="card">
-            <h3>Set Goals</h3>
-            <p>Create long-term savings targets like a House &amp; Lot or Emergency Fund with live circular progress rings linked into your monthly ledger.</p>
+            <div class="card-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><circle cx="12" cy="12" r="5"></circle><circle cx="12" cy="12" r="1"></circle></svg>
+            </div>
+            <h3>Set goals</h3>
+            <p>Create long-term targets like a house down payment or emergency fund, with live progress rings linked to your ledger.</p>
           </div>
 
           <div class="card">
-            <h3>Offline &amp; Local SQLite</h3>
-            <p>Your financial records stay on your device. Easily export and restore encrypted SQLite database backups at any time.</p>
+            <div class="card-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg>
+            </div>
+            <h3>Offline &amp; local SQLite</h3>
+            <p>Your financial records stay on your device. Export and restore encrypted database backups any time you need to.</p>
           </div>
 
           <div class="card">
-            <h3>Reports &amp; Exporting</h3>
+            <div class="card-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3v5h5"></path><path d="M6 3h8l5 5v13a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"></path><path d="M9 13h6M9 17h6"></path></svg>
+            </div>
+            <h3>Reports &amp; exporting</h3>
             <p>Generate clean, printable PDF reports and raw CSV spreadsheets formatted for personal archiving and accounting.</p>
           </div>
         </div>
 
-        <!-- Platforms Banner -->
+        <!-- Platforms -->
         <div class="platforms">
-          <h3>Available for Desktop &amp; Mobile</h3>
-          <p>ExpenShare is built on Tauri 2.0 and Rust for high performance, tiny memory footprint, and native OS integration.</p>
-          <div class="pill-group">
-            <span class="pill">Windows (.exe / .msi)</span>
-            <span class="pill">Android (.apk)</span>
-            <span class="pill">SQLite Local Engine</span>
+          <h3>Available for desktop &amp; mobile</h3>
+          <p>Built on Tauri 2.0 and Rust for high performance, a tiny memory footprint, and native OS integration.</p>
+          <div class="stamp-group">
+            <span class="stamp">WINDOWS · .EXE / .MSI</span>
+            <span class="stamp">ANDROID · .APK</span>
+            <span class="stamp">SQLITE LOCAL ENGINE</span>
           </div>
         </div>
       </div>
