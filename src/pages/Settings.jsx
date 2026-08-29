@@ -79,7 +79,7 @@ export default function Settings() {
   };
 
   return (
-    <div className="mx-auto max-w-4xl px-3 py-4 sm:px-6 sm:py-6">
+    <div className="mx-auto max-w-7xl px-3 py-4 sm:px-6 sm:py-6">
       <h1 className="text-lg font-semibold">Settings</h1>
 
       {/* People section */}

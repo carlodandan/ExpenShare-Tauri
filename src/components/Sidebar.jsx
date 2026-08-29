@@ -30,12 +30,14 @@ export default function Sidebar({ current, onNavigate }) {
 
   return (
     <>
-      <header className="flex h-12 w-full shrink-0 items-center justify-between border-b border-line bg-paper/80 px-4 pt-[env(safe-area-inset-top,0px)] box-content md:hidden">
+      <header className="flex w-full shrink-0 items-center justify-between border-b border-line bg-paper/80 px-4 pt-[calc(0.75rem+env(safe-area-inset-top,0px))] pb-3 md:hidden">
         <p className="font-bodoni text-sm font-semibold uppercase tracking-[0.18em] text-ink-muted">
           ExpenShare
         </p>
         {version && (
-          <span className="text-xs text-ink-muted/70">v{version}</span>
+          <span className="shrink-0 font-mono text-xs text-ink-muted/70 tabular">
+            v{version}
+          </span>
         )}
       </header>
 

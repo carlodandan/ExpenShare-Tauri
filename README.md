@@ -52,6 +52,11 @@ CRUD, and month filtering
 </details>
 
 <details>
+<summary>Set Goals</summary>
+<img src="https://raw.githubusercontent.com/carlodandan/ExpenShare-Tauri/refs/heads/main/images/setgoals.png" alt="Set Goals" width="1200">
+</details>
+
+<details>
 <summary>Settings</summary>
 <img src="https://raw.githubusercontent.com/carlodandan/ExpenShare-Tauri/refs/heads/main/images/settings.png" alt="Settings" width="1200">
 </details>
