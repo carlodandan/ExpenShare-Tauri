@@ -56,7 +56,7 @@ export default function ExtraBudget() {
       <h1 className="text-lg font-semibold">Extra Budget</h1>
 
       <div className="mt-4 rounded-lg border border-line bg-paper/80 px-4 py-6 text-center sm:mt-6 sm:px-6 sm:py-8">
-        <p className="font-bodoni text-[11px] uppercase tracking-[0.14em] text-ink-muted">
+        <p className="font-bodoni text-xs uppercase tracking-[0.12em] text-ink-muted">
           Available Balance
         </p>
         <p className="tabular mt-2 text-3xl font-semibold text-denim sm:text-4xl">
@@ -73,7 +73,7 @@ export default function ExtraBudget() {
       </div>
 
       <section className="mt-4 rounded-lg border border-line bg-paper/80 px-4 py-3.5 sm:mt-6 sm:px-5 sm:py-4">
-        <h2 className="mb-2 font-bodoni text-[11px] uppercase tracking-[0.14em] text-ink-muted">
+        <h2 className="mb-2 font-bodoni text-xs uppercase tracking-[0.12em] text-ink-muted">
           Monthly Contributions
         </h2>
         {contributions.length === 0 ? (
@@ -100,7 +100,7 @@ export default function ExtraBudget() {
       </section>
 
       <section className="mt-4 rounded-lg border border-line bg-paper/80 px-4 py-3.5 sm:mt-6 sm:px-5 sm:py-4">
-        <h2 className="mb-2 font-bodoni text-[11px] uppercase tracking-[0.14em] text-ink-muted">
+        <h2 className="mb-2 font-bodoni text-xs uppercase tracking-[0.12em] text-ink-muted">
           Withdrawals
         </h2>
         {withdrawals.length === 0 ? (

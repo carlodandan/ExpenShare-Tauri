@@ -150,11 +150,11 @@ export default function GoalDetailModal({
                   {goal.progressPercent.toFixed(goal.progressPercent % 1 === 0 ? 0 : 1)}%
                 </span>
                 {isCompleted ? (
-                  <span className="flex items-center gap-1 text-[11px] font-medium text-moss">
+                  <span className="flex items-center gap-1 text-xs font-medium text-moss">
                     <CheckCircle2 size={12} /> Reached
                   </span>
                 ) : (
-                  <span className="text-[10px] uppercase tracking-wider text-ink-muted">Progress</span>
+                  <span className="text-xs uppercase tracking-wider text-ink-muted">Progress</span>
                 )}
               </div>
             </ProgressCircle>
@@ -260,7 +260,7 @@ export default function GoalDetailModal({
                   </div>
                 </div>
 
-                <p className="text-[11px] text-ink-muted">
+                <p className="text-xs text-ink-muted">
                   💡 This will create an expense under <span className="font-medium text-ink">Miscellaneous</span> for the selected date.
                 </p>
 
@@ -291,7 +291,7 @@ export default function GoalDetailModal({
 
           {/* Contribution History */}
           <div>
-            <h3 className="mb-3 font-bodoni text-[11px] uppercase tracking-[0.14em] text-ink-muted">
+            <h3 className="mb-3 font-bodoni text-xs uppercase tracking-[0.12em] text-ink-muted">
               Contribution History
             </h3>
 
@@ -307,7 +307,7 @@ export default function GoalDetailModal({
                   <div key={c.id} className="flex items-center justify-between px-3.5 py-2.5 text-sm hover:bg-paper/40 transition-colors">
                     <div>
                       <p className="font-medium text-xs sm:text-sm">{c.description || 'Added funds'}</p>
-                      <p className="tabular text-[11px] text-ink-muted flex items-center gap-1 mt-0.5">
+                      <p className="tabular text-xs text-ink-muted flex items-center gap-1 mt-0.5">
                         <Calendar size={11} /> {c.date}
                       </p>
                     </div>

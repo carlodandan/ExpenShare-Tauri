@@ -37,7 +37,7 @@ export default function TotalDashboard() {
       </div>
 
       <section className="mt-6 rounded-lg border border-line bg-paper/80 px-4 py-3.5 sm:mt-8 sm:px-5 sm:py-4">
-        <h2 className="mb-3 font-bodoni text-[11px] uppercase tracking-[0.14em] text-ink-muted">
+        <h2 className="mb-3 font-bodoni text-xs uppercase tracking-[0.12em] text-ink-muted">
           Expense Breakdown
         </h2>
         <DonutChart data={data.breakdown} />
@@ -45,7 +45,7 @@ export default function TotalDashboard() {
 
       <section className="mt-6 rounded-lg border border-line bg-paper/80 px-4 py-3.5 sm:px-5 sm:py-4">
         <div className="mb-2 flex items-center justify-between">
-          <h2 className="font-bodoni text-[11px] uppercase tracking-[0.14em] text-ink-muted">
+          <h2 className="font-bodoni text-xs uppercase tracking-[0.12em] text-ink-muted">
             Monthly Performance
           </h2>
           <button
@@ -93,7 +93,7 @@ export default function TotalDashboard() {
       </section>
 
       <section className="mt-6 rounded-lg border border-line bg-paper/80 px-4 py-3.5 sm:px-5 sm:py-4">
-        <h2 className="mb-3 font-bodoni text-[11px] uppercase tracking-[0.14em] text-ink-muted">
+        <h2 className="mb-3 font-bodoni text-xs uppercase tracking-[0.12em] text-ink-muted">
           Simple Analysis
         </h2>
         <dl className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-x-6 sm:gap-y-3 text-sm">

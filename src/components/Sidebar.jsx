@@ -147,7 +147,7 @@ export default function Sidebar({ current, onNavigate }) {
               }`}
             >
               <Icon size={20} strokeWidth={active ? 2.2 : 1.75} />
-              <span className="mt-1 text-[11px] leading-tight line-clamp-1">{label.replace(' Dashboard', '')}</span>
+              <span className="mt-1 text-xs leading-tight line-clamp-1 font-medium">{label.replace(' Dashboard', '')}</span>
             </button>
           );
         })}
@@ -160,7 +160,7 @@ export default function Sidebar({ current, onNavigate }) {
           }`}
         >
           <Settings size={20} strokeWidth={current === 'settings' ? 2.2 : 1.75} />
-          <span className="mt-1 text-[11px] leading-tight">Settings</span>
+          <span className="mt-1 text-xs leading-tight font-medium">Settings</span>
         </button>
       </nav>
     </>

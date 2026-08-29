@@ -84,7 +84,7 @@ export default function Settings() {
 
       {/* People section */}
       <section className="mt-4 rounded-lg border border-line bg-paper/80 px-4 py-3.5 sm:mt-6 sm:px-5 sm:py-4">
-        <h2 className="mb-3 font-bodoni text-[11px] uppercase tracking-[0.14em] text-ink-muted">People</h2>
+        <h2 className="mb-3 font-bodoni text-xs uppercase tracking-[0.12em] text-ink-muted">People</h2>
         <div className="space-y-3">
           {(people || []).map((person) => (
             <div key={person.id} className="flex flex-col gap-1 sm:flex-row sm:items-center sm:gap-3">
@@ -106,7 +106,7 @@ export default function Settings() {
 
       {/* Currency section */}
       <section className="mt-4 rounded-lg border border-line bg-paper/80 px-4 py-3.5 sm:mt-6 sm:px-5 sm:py-4">
-        <h2 className="mb-3 font-bodoni text-[11px] uppercase tracking-[0.14em] text-ink-muted">Currency</h2>
+        <h2 className="mb-3 font-bodoni text-xs uppercase tracking-[0.12em] text-ink-muted">Currency</h2>
         <select
           value={settings.currency || 'PHP'}
           onChange={(e) => handleCurrencyChange(e.target.value)}
@@ -122,7 +122,7 @@ export default function Settings() {
 
       {/* Theme section */}
       <section className="mt-4 rounded-lg border border-line bg-paper/80 px-4 py-3.5 sm:mt-6 sm:px-5 sm:py-4">
-        <h2 className="mb-3 font-bodoni text-[11px] uppercase tracking-[0.14em] text-ink-muted">Theme</h2>
+        <h2 className="mb-3 font-bodoni text-xs uppercase tracking-[0.12em] text-ink-muted">Theme</h2>
         <div className="flex flex-wrap gap-4">
           <label className="flex items-center gap-2 text-sm cursor-pointer">
             <input
@@ -159,7 +159,7 @@ export default function Settings() {
 
       {/* Backup section */}
       <section className="mt-4 rounded-lg border border-line bg-paper/80 px-4 py-3.5 sm:mt-6 sm:px-5 sm:py-4">
-        <h2 className="mb-3 font-bodoni text-[11px] uppercase tracking-[0.14em] text-ink-muted">
+        <h2 className="mb-3 font-bodoni text-xs uppercase tracking-[0.12em] text-ink-muted">
           Database Backup
         </h2>
         <p className="mb-3 text-sm text-ink-muted">
@@ -185,8 +185,8 @@ export default function Settings() {
 
       {/* About & Updates section */}
       <section className="mt-4 rounded-lg border border-line bg-paper/80 px-4 py-3.5 sm:mt-6 sm:px-5 sm:py-4">
-        <h2 className="mb-3 font-bodoni text-[11px] uppercase tracking-[0.14em] text-ink-muted">
-          About & Updates
+        <h2 className="mb-3 font-bodoni text-xs uppercase tracking-[0.12em] text-ink-muted">
+          About &amp; Updates
         </h2>
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div>

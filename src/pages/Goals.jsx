@@ -108,12 +108,16 @@ export default function Goals() {
       {/* Summary Cards */}
       {goals.length > 0 && (
         <div className="mt-4 grid grid-cols-2 gap-3 sm:mt-5 sm:gap-4 lg:grid-cols-4">
-          <SummaryCard label="Total Goals" minor={goals.length} tone="neutral" sublabel={`${completedGoalsCount} completed`} />
+          <div className="rounded-lg border border-line bg-paper/80 px-3.5 py-3 sm:px-5 sm:py-4">
+            <p className="font-bodoni text-xs uppercase tracking-[0.12em] text-ink-muted">Total Goals</p>
+            <p className="mt-1 text-xl font-semibold sm:text-2xl text-ink">{goals.length}</p>
+            <p className="mt-0.5 text-xs text-ink-muted">{completedGoalsCount} completed</p>
+          </div>
           <SummaryCard label="Total Target" minor={totalTargetMinor} tone="neutral" />
           <SummaryCard label="Total Saved" minor={totalSavedMinor} tone="positive" />
           <div className="rounded-lg border border-line bg-paper/80 px-3.5 py-3 sm:px-5 sm:py-4 flex items-center justify-between">
             <div>
-              <p className="font-bodoni text-[10px] uppercase tracking-[0.14em] text-ink-muted sm:text-[11px]">
+              <p className="font-bodoni text-xs uppercase tracking-[0.12em] text-ink-muted">
                 Overall Progress
               </p>
               <p className="tabular mt-1 text-xl font-semibold sm:text-2xl text-moss">
@@ -169,13 +173,13 @@ export default function Goals() {
                       <h3 className="truncate font-semibold text-sm sm:text-base group-hover:text-moss transition-colors">
                         {goal.name}
                       </h3>
-                      <p className="mt-0.5 text-[11px] text-ink-muted font-bodoni">
+                      <p className="mt-0.5 text-xs text-ink-muted font-bodoni">
                         Target: <span className="tabular font-medium text-ink">{formatMoney(goal.targetAmountMinor, currencySymbol)}</span>
                       </p>
                     </div>
 
                     {isCompleted ? (
-                      <span className="flex items-center gap-1 rounded-full bg-moss-soft px-2 py-0.5 text-[11px] font-medium text-moss">
+                      <span className="flex items-center gap-1 rounded-full bg-moss-soft px-2 py-0.5 text-xs font-medium text-moss">
                         <CheckCircle2 size={12} /> Done
                       </span>
                     ) : (
@@ -200,13 +204,13 @@ export default function Goals() {
 
                     <div className="flex-1 space-y-1 text-xs">
                       <div>
-                        <p className="text-[10px] uppercase font-bodoni tracking-wider text-ink-muted">Saved</p>
+                        <p className="text-xs uppercase font-bodoni tracking-wider text-ink-muted">Saved</p>
                         <p className="tabular font-bold text-sm text-moss">
                           {formatMoney(goal.currentAmountMinor, currencySymbol)}
                         </p>
                       </div>
                       <div>
-                        <p className="text-[10px] uppercase font-bodoni tracking-wider text-ink-muted">Remaining</p>
+                        <p className="text-xs uppercase font-bodoni tracking-wider text-ink-muted">Remaining</p>
                         <p className={`tabular font-medium ${isCompleted ? 'text-moss' : 'text-ink-muted'}`}>
                           {isCompleted ? 'Goal Achieved! 🎉' : formatMoney(goal.remainingAmountMinor, currencySymbol)}
                         </p>
