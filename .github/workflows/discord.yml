@@ -75,12 +75,12 @@ jobs:
                 fields: [
                   {
                     name: "📱 Android",
-                    value: ("• [📥 `" + $apk_name + "`](" + $apk_url + ")"),
+                    value: ("• [`" + $apk_name + "`](" + $apk_url + ")"),
                     inline: false
                   },
                   {
                     name: "💻 Windows",
-                    value: ("• [📥 `" + $exe_name + "`](" + $exe_url + ")\n• [📦 `" + $msi_name + "`](" + $msi_url + ")"),
+                    value: ("• [`" + $exe_name + "`](" + $exe_url + ")\n• [`" + $msi_name + "`](" + $msi_url + ")"),
                     inline: false
                   },
                   {
