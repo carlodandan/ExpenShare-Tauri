@@ -14,6 +14,13 @@
   --background-image: url('./assets/background-light.jpg');
 }
 
+/* Mobile: use dedicated PNG backgrounds */
+@media (max-width: 768px) {
+  :root {
+    --background-image: url('./assets/bg-mobile-light.jpg');
+  }
+}
+
 html.dark {
   --color-paper: rgba(26, 31, 28, 0.90);
   --color-surface: rgba(38, 44, 41, 0.93);
@@ -27,4 +34,11 @@ html.dark {
   --color-denim: #7a9bdf;
   --color-denim-soft: #233550;
   --background-image: url('./assets/background-dark.jpg');
+}
+
+/* Mobile dark: use dedicated dark PNG background */
+@media (max-width: 768px) {
+  html.dark {
+    --background-image: url('./assets/bg-mobile-dark.jpg');
+  }
 }
