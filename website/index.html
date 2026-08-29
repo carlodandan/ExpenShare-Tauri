@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ExpenShare — Offline Household Budget Tracker</title>
+  <meta name="description" content="An offline desktop and mobile budget tracker for two people sharing a household budget. 100% private, local SQLite database." />
+  
+  <!-- Open Graph / Meta -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="ExpenShare — Offline Household Budget Tracker" />
+  <meta property="og:description" content="Simple, offline, multi-platform household budgeting with zero cloud lock-in. Available for Windows & Android." />
+  <meta property="og:image" content="./expenshare.png" />
+  <meta name="theme-color" content="#2f6f4f" />
+  
+  <link rel="icon" type="image/png" href="./expenshare.png" />
+
+  <style>
+    :root {
+      --bg: rgba(241, 243, 240, 0.88);
+      --surface: rgba(255, 255, 255, 0.90);
+      --card-bg: rgba(255, 255, 255, 0.40);
+      --ink: #1e2a24;
+      --ink-muted: #5b6660;
+      --line: #dde1dc;
+      --moss: #2f6f4f;
+      --moss-soft: #e6efe9;
+      --denim: #3b5ba5;
+      --denim-soft: #e7ecf6;
+      --rust: #a6452b;
+      --font-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      --font-mono: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: rgba(20, 24, 22, 0.88);
+        --surface: rgba(30, 37, 33, 0.90);
+        --card-bg: rgba(30, 37, 33, 0.80);
+        --ink: #e6ede8;
+        --ink-muted: #95a39c;
+        --line: #2e3833;
+        --moss: #5bbf89;
+        --moss-soft: #1c3328;
+        --denim: #7a9bdf;
+        --denim-soft: #233550;
+      }
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background-color: var(--bg);
+      background-image: url('./background.webp');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      color: var(--ink);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    /* Header / Navbar */
+    header {
+      padding: 1.5rem 0;
+      border-bottom: 1px solid var(--line);
+      background: var(--surface);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .nav-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      color: var(--ink);
+    }
+
+    .brand img {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      object-fit: contain;
+    }
+
+    .brand-name {
+      font-family: var(--font-mono);
+      font-weight: 700;
+      font-size: 1.1rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .nav-link {
+      color: var(--ink-muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.2s ease;
+    }
+
+    .nav-link:hover {
+      color: var(--ink);
+    }
+
+    /* Hero Section */
+    .hero {
+      padding: 4.5rem 0 3.5rem;
+      text-align: center;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.2rem, 5vw, 3.4rem);
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.25rem;
+      color: var(--ink);
+    }
+
+    .hero p {
+      font-size: clamp(1.05rem, 2vw, 1.25rem);
+      color: black;
+      max-width: 640px;
+      margin: 0 auto 2.5rem;
+    }
+
+    .cta-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.8rem 1.6rem;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: var(--moss);
+      color: #ffffff;
+      box-shadow: 0 2px 8px rgba(47, 111, 79, 0.25);
+    }
+
+    .btn-primary:hover {
+      opacity: 0.92;
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background: var(--surface);
+      color: var(--ink);
+      border: 1px solid var(--line);
+    }
+
+    .btn-secondary:hover {
+      background: var(--bg);
+      border-color: var(--ink-muted);
+      transform: translateY(-1px);
+    }
+
+    /* Features Grid */
+    .features {
+      padding: 3rem 0 4.5rem;
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+
+    .section-title h2 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .section-title p {
+      color: var(--ink-muted);
+      font-size: 0.95rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .card {
+      background: var(--card-bg);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 1.5rem;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-2px);
+      border-color: var(--moss);
+    }
+
+    .card-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      margin-bottom: 1rem;
+      background: var(--moss-soft);
+      color: var(--moss);
+    }
+
+    .card h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .card p {
+      color: var(--ink-muted);
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    /* Platforms Banner */
+    .platforms {
+      margin: 1rem 0 4rem;
+      background: var(--card-bg);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 2.5rem;
+      text-align: center;
+    }
+
+    .platforms h3 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+    }
+
+    .platforms p {
+      color: var(--ink-muted);
+      margin-bottom: 1.5rem;
+      max-width: 520px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .pill-group {
+      display: flex;
+      justify-content: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .pill {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      padding: 0.4rem 0.9rem;
+      background: var(--bg);
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      font-weight: 500;
+    }
+
+    /* Footer */
+    footer {
+      margin-top: auto;
+      padding: 2rem 0;
+      border-top: 1px solid var(--line);
+      background: var(--surface);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--ink-muted);
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .footer-links a {
+      color: var(--ink-muted);
+      text-decoration: none;
+    }
+
+    .footer-links a:hover {
+      color: var(--ink);
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <header>
+    <div class="container nav-wrap">
+      <a href="#" class="brand">
+        <img src="./expenshare.png" alt="ExpenShare Logo" />
+        <span class="brand-name">ExpenShare</span>
+      </a>
+      <nav class="nav-links">
+        <a href="https://github.com/carlodandan/ExpenShare-Tauri" class="nav-link" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <a href="https://github.com/carlodandan/ExpenShare-Tauri/releases" class="nav-link" target="_blank" rel="noopener noreferrer">Releases</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <main>
+    <section class="hero">
+      <div class="container">
+        <h1>Household Budgeting,<br />Simplified &amp; Offline.</h1>
+        <p>
+          ExpenShare is a lightweight, offline budget tracker for two people sharing household finances. Track gross income, net balances, extra budget rollovers, and target goals without relying on third-party cloud servers.
+        </p>
+
+        <div class="cta-group">
+          <a href="https://github.com/carlodandan/ExpenShare-Tauri/releases" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="7 10 12 15 17 10"></polyline>
+              <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+            Download Latest Release
+          </a>
+          <a href="https://github.com/carlodandan/ExpenShare-Tauri" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+            </svg>
+            View Source Code
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- App Usage & Core Features -->
+    <section class="features">
+      <div class="container">
+        <div class="section-title">
+          <h2>How It Works &amp; Features</h2>
+          <p>Everything you need for clean, transparent household accounting.</p>
+        </div>
+
+        <div class="grid">
+          <div class="card">
+            <h3>Monthly Dashboard</h3>
+            <p>Supervise monthly gross income and net balance between two people. Log fixed utilities and repeatable expenses with instant calculations.</p>
+          </div>
+
+          <div class="card">
+            <h3>Total Dashboard</h3>
+            <p>Analyze lifetime cash flow, review expense breakdowns with visual donut charts, and inspect sortable monthly performance histories.</p>
+          </div>
+
+          <div class="card">
+            <h3>Extra Budget</h3>
+            <p>Track accumulated surpluses across months. Seamlessly draw from Extra Budget for unexpected expenses while transparently logging any shortfall.</p>
+          </div>
+
+          <div class="card">
+            <h3>Set Goals</h3>
+            <p>Create long-term savings targets like a House &amp; Lot or Emergency Fund with live circular progress rings linked into your monthly ledger.</p>
+          </div>
+
+          <div class="card">
+            <h3>Offline &amp; Local SQLite</h3>
+            <p>Your financial records stay on your device. Easily export and restore encrypted SQLite database backups at any time.</p>
+          </div>
+
+          <div class="card">
+            <h3>Reports &amp; Exporting</h3>
+            <p>Generate clean, printable PDF reports and raw CSV spreadsheets formatted for personal archiving and accounting.</p>
+          </div>
+        </div>
+
+        <!-- Platforms Banner -->
+        <div class="platforms">
+          <h3>Available for Desktop &amp; Mobile</h3>
+          <p>ExpenShare is built on Tauri 2.0 and Rust for high performance, tiny memory footprint, and native OS integration.</p>
+          <div class="pill-group">
+            <span class="pill">Windows (.exe / .msi)</span>
+            <span class="pill">Android (.apk)</span>
+            <span class="pill">SQLite Local Engine</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-links">
+        <a href="https://github.com/carlodandan/ExpenShare-Tauri" target="_blank" rel="noopener noreferrer">Source Code (GitHub)</a>
+        <a href="https://github.com/carlodandan/ExpenShare-Tauri/releases" target="_blank" rel="noopener noreferrer">Releases &amp; Downloads</a>
+        <a href="https://github.com/carlodandan/ExpenShare-Tauri/blob/main/PRIVACY.MD" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
+      </div>
+      <p>ExpenShare &copy; 2026 Carlo Dandan. Released under the MIT License.</p>
+    </div>
+  </footer>
+
+</body>
+</html>
