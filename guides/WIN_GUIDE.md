@@ -12,7 +12,7 @@ Follow these steps and you should be able to compile this from source.
 ### Windows
 Tauri uses the Microsoft C++ Build Tools for development as well as Microsoft Edge WebView2. These are both required for development and compiling on Windows.
 - Make sure to download and install <a href="https://visualstudio.microsoft.com/visual-cpp-build-tools">Microsoft C++ Build Tools</a>.
-<img src="https://raw.githubusercontent.com/carlodandan/ExpenShare-Tauri/refs/heads/main/guides/visual-studio-build-tools-installer.webp" alt="Settings" width="1200">
+<img src="https://raw.githubusercontent.com/carlodandan/ExpenShare-Tauri/refs/heads/main/guides/vsbuildtools.webp" alt="Settings" width="1200">
 - Next to install <a href="https://developer.microsoft.com/en-us/microsoft-edge/webview2/#download-section">WebView2</a>. Download the “Evergreen Bootstrapper” and install it.
 > *WebView 2 is already installed on Windows 10 (from version 1803 onward) and later versions of Windows. If you are developing on one of these versions then you can skip this step*
 
@@ -54,3 +54,13 @@ For Compiling/Building:
 ```
 pnpm tauri build
 ```
+
+---
+
+### CI/CD Github Action
+Now, if you feel like it will be hard for you to build it locally, you can use **GitHub Actions** to automatically build and compile the application in the cloud:
+
+1. **Fork** this repository to your own GitHub account.
+2. Go to the **Actions** tab in your forked repository and enable workflows.
+3. Select the **Build ExpenShare** workflow and click **Run workflow** (or push updates to trigger it).
+4. GitHub Actions will handle setting up all dependencies, compiling the Windows installer/binary (`.exe` / `.msi`), and publishing the build artifacts.
