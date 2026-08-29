@@ -26,6 +26,15 @@ export const tauriAPI = {
     deleteWithdrawal: (id) => invoke('extra_budget_delete_withdrawal', { id }),
     withdrawAndExpense: (payload) => invoke('extra_budget_withdraw_and_expense', { payload }),
   },
+  goals: {
+    list: () => invoke('goals_list'),
+    create: (payload) => invoke('goals_create', { payload }),
+    update: (id, payload) => invoke('goals_update', { id, payload }),
+    delete: (id) => invoke('goals_delete', { id }),
+    addFunds: (payload) => invoke('goals_add_funds', { payload }),
+    listContributions: (goalId) => invoke('goals_list_contributions', { goalId }),
+    deleteContribution: (id) => invoke('goals_delete_contribution', { id }),
+  },
   settings: {
     getAll: () => invoke('settings_get_all'),
     set: (key, value) => invoke('settings_set', { key, value: String(value) }),

@@ -1,6 +1,6 @@
 # ExpenShare
 
-An offline desktop (for Windows) budget tracker for two people sharing a household budget. This is just a simple tracker that lets you supervise your gross, net, savings, expenses and your extra budget from current and previous months.
+An offline desktop (for Windows and Android) budget tracker for two people sharing a household budget. This is just a simple tracker that lets you supervise your gross, net, savings, expenses and your extra budget from current and previous months.
 
 ## Features
 - Monthly Dashboard: month navigation, Gross/Net cards, income by person,
@@ -15,6 +15,8 @@ highest income/expense month, largest expense category)
 history with delete, deficit/shortfall handling that never hides a
 negative month, plus the ability to use Extra Budget directly as an
 expense in a repeatable category (Groceries, Miscellaneous, etc.)
+
+- Set Goals: it is designed for setting targets or goals for future usage or for something that you are saving up for like Cars, House and Lot or even your retirement.
 
 - Settings: Can rename, change currency, backup/restore the database file
 
@@ -56,7 +58,7 @@ CRUD, and month filtering
 
 ## How To's
 
-If you wanna compile it on your own please visit this <a href="https://github.com/carlodandan/ExpenShare-Tauri/blob/main/guides/GUIDE.md">guides</a> or visit Tauri's <a href="https://tauri.app/start">documentation</a> for more information.
+If you wanna compile it on your own please visit this <a href="https://github.com/carlodandan/ExpenShare-Tauri/blob/main/guides/WIN_GUIDE.md">guides</a> or visit Tauri's <a href="https://tauri.app/start">documentation</a> for more information.
 
 ### Notes
 
@@ -66,3 +68,9 @@ I published it under the <a href="https://github.com/carlodandan/ExpenShare-Taur
 
 I hope you guys like it, if you ever happen to stumble upon this repository.
 
+### Release
+
+To download the latest update, visit the "[release](https://github.com/carlodandan/ExpenShare-Tauri/releases)" page. In downloading the file, please try to ignore the warning regarding it being dangerous as it is just a false alarm, it is a known issue in Tauri community - even with EV/OV certificate.
+- For Android, download the .apk file.
+- For Windows, download either the .exe or .msi file.
+> *In Windows, sometimes it block by Windows Defender Smartscreen, you can just submit the file as safe, they will review it, then after few hours it will now let you download and install it. Or allow it in your virus protection system. Now, if you still doubt all of this, you can review the source code and build it yourself.*

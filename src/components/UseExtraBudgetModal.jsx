@@ -54,7 +54,7 @@ export default function UseExtraBudgetModal({ availableMinor, categories, onCanc
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-ink/30 p-4">
       <form
         onSubmit={handleSubmit}
-        className="max-h-[90vh] w-full max-w-sm overflow-y-auto rounded-lg border border-line bg-surface p-5 shadow-lg"
+        className="max-h-[90vh] w-full max-w-sm overflow-y-auto rounded-lg border border-line bg-paper/80 p-5 shadow-lg"
       >
         <h2 className="text-sm font-semibold">Use Extra Budget</h2>
         <p className="mt-1 text-xs text-ink-muted">

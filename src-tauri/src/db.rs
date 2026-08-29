@@ -47,6 +47,11 @@ const MIGRATIONS: &[Migration] = &[
         name: "seed_defaults",
         up: migration_2_seed_defaults,
     },
+    Migration {
+        version: 3,
+        name: "goals_schema",
+        up: migration_3_goals_schema,
+    },
 ];
 
 fn migration_1_initial_schema(conn: &Connection) {
@@ -153,6 +158,33 @@ fn migration_2_seed_defaults(conn: &Connection) {
         [],
     )
     .unwrap();
+}
+
+fn migration_3_goals_schema(conn: &Connection) {
+    conn.execute_batch(
+        r#"
+        CREATE TABLE IF NOT EXISTS goals (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          name TEXT NOT NULL,
+          target_amount_minor INTEGER NOT NULL CHECK (target_amount_minor > 0),
+          created_at TEXT NOT NULL DEFAULT (datetime('now')),
+          updated_at TEXT NOT NULL DEFAULT (datetime('now'))
+        );
+
+        CREATE TABLE IF NOT EXISTS goal_contributions (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          goal_id INTEGER NOT NULL REFERENCES goals(id) ON DELETE CASCADE,
+          expense_id INTEGER REFERENCES expenses(id) ON DELETE SET NULL,
+          amount_minor INTEGER NOT NULL CHECK (amount_minor > 0),
+          description TEXT NOT NULL DEFAULT '',
+          date TEXT NOT NULL,
+          created_at TEXT NOT NULL DEFAULT (datetime('now'))
+        );
+        CREATE INDEX IF NOT EXISTS idx_goal_contributions_goal_id ON goal_contributions(goal_id);
+        CREATE INDEX IF NOT EXISTS idx_goal_contributions_date ON goal_contributions(date);
+        "#,
+    )
+    .expect("migration 3 failed");
 }
 
 fn run_migrations(conn: &Connection) {

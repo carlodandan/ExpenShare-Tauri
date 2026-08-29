@@ -1,7 +1,7 @@
 /* ===== Dark mode overrides ===== */
 :root {
-  --color-paper: #f1f3f0;
-  --color-surface: #ffffff;
+  --color-paper: rgba(241, 243, 240, 0.90);
+  --color-surface: rgba(255, 255, 255, 0.93);
   --color-ink: #1e2a24;
   --color-ink-muted: #5b6660;
   --color-line: #dde1dc;
@@ -11,11 +11,12 @@
   --color-rust-soft: #f5e8e3;
   --color-denim: #3b5ba5;
   --color-denim-soft: #e7ecf6;
+  --background-image: url('./assets/background-light.webp');
 }
 
 html.dark {
-  --color-paper: #1a1f1c;
-  --color-surface: #262c29;
+  --color-paper: rgba(26, 31, 28, 0.90);
+  --color-surface: rgba(38, 44, 41, 0.93);
   --color-ink: #e6ede8;
   --color-ink-muted: #8f9b95;
   --color-line: #3a423d;
@@ -25,4 +26,5 @@ html.dark {
   --color-rust-soft: #3f2a22;
   --color-denim: #7a9bdf;
   --color-denim-soft: #233550;
+  --background-image: url('./assets/background-dark.webp');
 }

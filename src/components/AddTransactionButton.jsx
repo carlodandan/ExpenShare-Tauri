@@ -51,7 +51,7 @@ export default function AddTransactionButton({ onAddIncome, onAddExpense }) {
       {open && (
         <div
           role="menu"
-          className={`absolute right-0 z-50 w-44 overflow-hidden rounded-lg border border-line bg-surface shadow-xl ${
+          className={`absolute right-0 z-50 w-44 overflow-hidden rounded-lg border border-line bg-paper/80 shadow-xl ${
             menuAbove ? 'bottom-full mb-2' : 'top-full mt-2'
           }`}
         >

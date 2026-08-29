@@ -3,6 +3,7 @@ import {
   LayoutDashboard,
   Gauge,
   Wallet,
+  Target,
   Settings,
   ChevronsLeft,
   ChevronsRight,
@@ -12,6 +13,7 @@ const NAV_ITEMS = [
   { key: 'monthly', label: 'Monthly Dashboard', icon: LayoutDashboard },
   { key: 'total', label: 'Total Dashboard', icon: Gauge },
   { key: 'extra-budget', label: 'Extra Budget', icon: Wallet },
+  { key: 'goals', label: 'Set Goals', icon: Target },
 ];
 
 export default function Sidebar({ current, onNavigate }) {
@@ -28,8 +30,8 @@ export default function Sidebar({ current, onNavigate }) {
 
   return (
     <>
-      <header className="flex h-12 w-full shrink-0 items-center justify-between border-b border-line bg-surface/85 px-4 pt-[env(safe-area-inset-top,0px)] box-content md:hidden">
-        <p className="font-mono text-sm font-semibold uppercase tracking-[0.18em] text-ink-muted">
+      <header className="flex h-12 w-full shrink-0 items-center justify-between border-b border-line bg-paper/80 px-4 pt-[env(safe-area-inset-top,0px)] box-content md:hidden">
+        <p className="font-bodoni text-sm font-semibold uppercase tracking-[0.18em] text-ink-muted">
           ExpenShare
         </p>
         {version && (
@@ -39,14 +41,14 @@ export default function Sidebar({ current, onNavigate }) {
 
       <aside
         className={`
-          hidden shrink-0 flex-col justify-between border-r border-line bg-surface/85 transition-all duration-300 ease-in-out md:flex
+          hidden shrink-0 flex-col justify-between border-r border-line bg-paper/80 transition-all duration-300 ease-in-out md:flex
           ${isMinimized ? 'w-14' : 'w-56'}
         `}
       >
         <div>
           <div className="flex items-center px-3 pb-4 pt-6">
             {!isMinimized && (
-              <p className="flex-1 font-mono text-[15px] uppercase tracking-[0.18em] text-ink-muted">
+              <p className="flex-1 font-bodoni text-[15px] uppercase tracking-[0.18em] text-ink-muted">
                 ExpenShare
               </p>
             )}
@@ -128,7 +130,7 @@ export default function Sidebar({ current, onNavigate }) {
 
       <nav
         aria-label="Mobile Navigation"
-        className="fixed bottom-0 left-0 right-0 z-40 flex h-16 items-center justify-around border-t border-line bg-surface/85 pb-[env(safe-area-inset-bottom,0px)] md:hidden"
+        className="fixed bottom-0 left-0 right-0 z-40 flex h-16 items-center justify-around border-t border-line bg-paper/80 pb-[env(safe-area-inset-bottom,0px)] md:hidden"
       >
         {NAV_ITEMS.map(({ key, label, icon: Icon }) => {
           const active = current === key;

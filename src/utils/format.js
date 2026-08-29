@@ -18,6 +18,11 @@ export function toMinorUnits(majorAmountString) {
   return Math.round(n * 100);
 }
 
+export function toMajorUnits(minor) {
+  if (minor == null || Number.isNaN(Number(minor))) return 0;
+  return Number(minor) / 100;
+}
+
 export function currentMonthKey() {
   const now = new Date();
   return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;

@@ -8,7 +8,7 @@ export default function MonthSelector({ month, onChange }) {
         type="button"
         aria-label="Previous month"
         onClick={() => onChange(shift(month, -1))}
-        className="flex h-9 w-9 items-center justify-center rounded-md border border-line text-ink-muted hover:bg-surface active:bg-paper sm:h-8 sm:w-8"
+        className="flex h-9 w-9 items-center justify-center rounded-md border border-line text-ink-muted hover:bg-paper/80 active:bg-paper sm:h-8 sm:w-8"
       >
         ‹
       </button>
@@ -17,7 +17,7 @@ export default function MonthSelector({ month, onChange }) {
         type="button"
         aria-label="Next month"
         onClick={() => onChange(shift(month, 1))}
-        className="flex h-9 w-9 items-center justify-center rounded-md border border-line text-ink-muted hover:bg-surface active:bg-paper sm:h-8 sm:w-8"
+        className="flex h-9 w-9 items-center justify-center rounded-md border border-line text-ink-muted hover:bg-paper/80 active:bg-paper sm:h-8 sm:w-8"
       >
         ›
       </button>

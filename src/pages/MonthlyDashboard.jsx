@@ -158,8 +158,8 @@ export default function MonthlyDashboard() {
 
       {/* Expenses and Income grid */}
       <div className="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-5 lg:gap-6">
-        <section className="col-span-1 rounded-lg border border-line bg-surface px-4 py-3.5 sm:px-5 sm:py-4 lg:col-span-2">
-          <h2 className="mb-2 font-mono text-[11px] uppercase tracking-[0.14em] text-ink-muted">
+        <section className="col-span-1 rounded-lg border border-line bg-paper/80 px-4 py-3.5 sm:px-5 sm:py-4 lg:col-span-2">
+          <h2 className="mb-2 font-bodoni text-[11px] uppercase tracking-[0.14em] text-ink-muted">
             Expenses
           </h2>
           <ExpenseSection
@@ -171,8 +171,8 @@ export default function MonthlyDashboard() {
           />
         </section>
 
-        <section className="col-span-1 rounded-lg border border-line bg-surface px-4 py-3.5 sm:px-5 sm:py-4 lg:col-span-3">
-          <h2 className="mb-2 font-mono text-[11px] uppercase tracking-[0.14em] text-ink-muted">
+        <section className="col-span-1 rounded-lg border border-line bg-paper/80 px-4 py-3.5 sm:px-5 sm:py-4 lg:col-span-3">
+          <h2 className="mb-2 font-bodoni text-[11px] uppercase tracking-[0.14em] text-ink-muted">
             Income
           </h2>
           <IncomeSection

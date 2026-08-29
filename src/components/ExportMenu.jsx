@@ -29,12 +29,12 @@ export default function ExportMenu({ month }) {
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
-        className="rounded-md border border-line px-3 py-1.5 text-sm hover:bg-surface active:bg-paper"
+        className="rounded-md border border-line px-3 py-1.5 text-sm hover:bg-paper/80 active:bg-paper"
       >
         Export
       </button>
       {open && (
-        <div className="absolute right-0 z-20 mt-1 w-36 overflow-hidden rounded-md border border-line bg-surface shadow-md">
+        <div className="absolute right-0 z-20 mt-1 w-36 overflow-hidden rounded-md border border-line bg-paper/80 shadow-md">
           <button
             type="button"
             onClick={() => handleExport('pdf')}

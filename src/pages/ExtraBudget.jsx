@@ -55,8 +55,8 @@ export default function ExtraBudget() {
     <div className="mx-auto max-w-4xl px-3 py-4 sm:px-6 sm:py-6">
       <h1 className="text-lg font-semibold">Extra Budget</h1>
 
-      <div className="mt-4 rounded-lg border border-line bg-surface px-4 py-6 text-center sm:mt-6 sm:px-6 sm:py-8">
-        <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-ink-muted">
+      <div className="mt-4 rounded-lg border border-line bg-paper/80 px-4 py-6 text-center sm:mt-6 sm:px-6 sm:py-8">
+        <p className="font-bodoni text-[11px] uppercase tracking-[0.14em] text-ink-muted">
           Available Balance
         </p>
         <p className="tabular mt-2 text-3xl font-semibold text-denim sm:text-4xl">
@@ -72,8 +72,8 @@ export default function ExtraBudget() {
         </button>
       </div>
 
-      <section className="mt-4 rounded-lg border border-line bg-surface px-4 py-3.5 sm:mt-6 sm:px-5 sm:py-4">
-        <h2 className="mb-2 font-mono text-[11px] uppercase tracking-[0.14em] text-ink-muted">
+      <section className="mt-4 rounded-lg border border-line bg-paper/80 px-4 py-3.5 sm:mt-6 sm:px-5 sm:py-4">
+        <h2 className="mb-2 font-bodoni text-[11px] uppercase tracking-[0.14em] text-ink-muted">
           Monthly Contributions
         </h2>
         {contributions.length === 0 ? (
@@ -99,8 +99,8 @@ export default function ExtraBudget() {
         </div>
       </section>
 
-      <section className="mt-4 rounded-lg border border-line bg-surface px-4 py-3.5 sm:mt-6 sm:px-5 sm:py-4">
-        <h2 className="mb-2 font-mono text-[11px] uppercase tracking-[0.14em] text-ink-muted">
+      <section className="mt-4 rounded-lg border border-line bg-paper/80 px-4 py-3.5 sm:mt-6 sm:px-5 sm:py-4">
+        <h2 className="mb-2 font-bodoni text-[11px] uppercase tracking-[0.14em] text-ink-muted">
           Withdrawals
         </h2>
         {withdrawals.length === 0 ? (
