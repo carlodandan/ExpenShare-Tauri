@@ -45,6 +45,10 @@ export default function Settings() {
     e?.preventDefault();
     const name = newPersonName.trim();
     if (!name) return;
+    if ((people || []).length >= 3) {
+      showToast('Maximum of 3 people allowed.');
+      return;
+    }
     try {
       await window.tauriAPI.settings.addPerson(name);
       setNewPersonName('');
@@ -124,8 +128,8 @@ export default function Settings() {
       {/* People section */}
       <section className="mt-4 rounded-lg border border-line bg-paper/80 px-4 py-3.5 sm:mt-6 sm:px-5 sm:py-4">
         <div className="flex items-center justify-between mb-3">
-          <h2 className="font-bodoni text-xs uppercase tracking-[0.12em] text-ink-muted">Household Members</h2>
-          {!isAdding && (
+          <h2 className="font-bodoni text-xs uppercase tracking-[0.12em] text-ink-muted">Household Members (Max 3)</h2>
+          {!isAdding && (people || []).length < 3 && (
             <button
               type="button"
               onClick={() => setIsAdding(true)}

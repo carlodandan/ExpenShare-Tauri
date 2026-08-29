@@ -47,6 +47,12 @@ pub fn add_person_impl(conn: &Connection, name: &str) -> Result<Person, String> 
     if trimmed.is_empty() {
         return Err("Name cannot be empty.".into());
     }
+    let count: i64 = conn
+        .query_row("SELECT COUNT(*) FROM people", [], |r| r.get(0))
+        .map_err(|e| e.to_string())?;
+    if count >= 3 {
+        return Err("Maximum of 3 people allowed.".into());
+    }
     let max_sort: i64 = conn
         .query_row("SELECT COALESCE(MAX(sort_order), 0) FROM people", [], |r| r.get(0))
         .map_err(|e| e.to_string())?;
