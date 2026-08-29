@@ -1,0 +1,107 @@
+name: Discord Notification
+
+on:
+  workflow_dispatch:
+  release:
+    types: [published]
+
+jobs:
+  notify-discord:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Send Release to Discord
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        shell: bash
+        run: |
+          if [ -z "$DISCORD_WEBHOOK" ]; then
+            echo "DISCORD_WEBHOOK secret is not set. Skipping notification."
+            exit 0
+          fi
+
+          echo "Fetching latest release information..."
+          RELEASE=$(gh release view --repo carlodandan/ExpenShare-Tauri --json name,tagName,url,body,assets,publishedAt)
+
+          RELEASE_NAME=$(echo "$RELEASE" | jq -r '.name // .tagName // "Latest Release"')
+          RELEASE_TAG=$(echo "$RELEASE" | jq -r '.tagName // "latest"')
+          LATEST_RELEASE_URL="https://github.com/carlodandan/ExpenShare-Tauri/releases/latest"
+          RELEASE_BODY=$(echo "$RELEASE" | jq -r '.body // ""')
+          PUBLISHED_AT=$(echo "$RELEASE" | jq -r '.publishedAt // empty')
+
+          # Extract download assets (falling back to latest release URL if asset is not present)
+          APK_URL=$(echo "$RELEASE" | jq -r '([.assets[] | select(.name | endswith(".apk"))][0].url) // "'"$LATEST_RELEASE_URL"'"')
+          APK_NAME=$(echo "$RELEASE" | jq -r '([.assets[] | select(.name | endswith(".apk"))][0].name) // "ExpenShare.apk"')
+
+          EXE_URL=$(echo "$RELEASE" | jq -r '([.assets[] | select(.name | endswith(".exe"))][0].url) // "'"$LATEST_RELEASE_URL"'"')
+          EXE_NAME=$(echo "$RELEASE" | jq -r '([.assets[] | select(.name | endswith(".exe"))][0].name) // "ExpenShare_x64-setup.exe"')
+
+          MSI_URL=$(echo "$RELEASE" | jq -r '([.assets[] | select(.name | endswith(".msi"))][0].url) // "'"$LATEST_RELEASE_URL"'"')
+          MSI_NAME=$(echo "$RELEASE" | jq -r '([.assets[] | select(.name | endswith(".msi"))][0].name) // "ExpenShare_x64_en-US.msi"')
+
+          echo "Found Assets:"
+          echo "  APK: $APK_NAME -> $APK_URL"
+          echo "  EXE: $EXE_NAME -> $EXE_URL"
+          echo "  MSI: $MSI_NAME -> $MSI_URL"
+
+          echo "Building Discord webhook payload..."
+          jq -n \
+            --arg title "🚀 $RELEASE_NAME Released" \
+            --arg url "$LATEST_RELEASE_URL" \
+            --arg tag "$RELEASE_TAG" \
+            --arg body "$RELEASE_BODY" \
+            --arg apk_url "$APK_URL" \
+            --arg apk_name "$APK_NAME" \
+            --arg exe_url "$EXE_URL" \
+            --arg exe_name "$EXE_NAME" \
+            --arg msi_url "$MSI_URL" \
+            --arg msi_name "$MSI_NAME" \
+            --arg timestamp "$PUBLISHED_AT" \
+            '{
+              username: "ExpenShare",
+              avatar_url: "https://raw.githubusercontent.com/carlodandan/ExpenShare-Tauri/main/icons/expenshare.png",
+              embeds: [{
+                title: $title,
+                url: $url,
+                description: (if ($body | length) > 1500 then ($body[0:1500] + "\n\n*[...view full changelog on GitHub]*(" + $url + ")") else (if ($body | length) > 0 then $body else "A new release of ExpenShare is available!" end) end),
+                color: 3108687,
+                fields: [
+                  {
+                    name: "📱 Android",
+                    value: ("• [📥 `" + $apk_name + "`](" + $apk_url + ")"),
+                    inline: false
+                  },
+                  {
+                    name: "💻 Windows",
+                    value: ("• [📥 `" + $exe_name + "`](" + $exe_url + ")\n• [📦 `" + $msi_name + "`](" + $msi_url + ")"),
+                    inline: false
+                  },
+                  {
+                    name: "🏷️ Release Info",
+                    value: ("• Tag: `" + $tag + "`\n• [View Latest Release on GitHub](" + $url + ")"),
+                    inline: false
+                  }
+                ],
+                footer: {
+                  text: "ExpenShare • Offline Household Budget Tracker",
+                  icon_url: "https://raw.githubusercontent.com/carlodandan/ExpenShare-Tauri/main/icons/expenshare.png"
+                },
+                timestamp: (if $timestamp != "" then $timestamp else null end)
+              }]
+            }' > payload.json
+
+          echo "Payload generated:"
+          cat payload.json
+
+          curl \
+            -f \
+            -H "Content-Type: application/json" \
+            -d @payload.json \
+            "$DISCORD_WEBHOOK"
