@@ -11,13 +11,13 @@
   --color-rust-soft: #f5e8e3;
   --color-denim: #3b5ba5;
   --color-denim-soft: #e7ecf6;
-  --background-image: url('./assets/background-light.jpg');
+  --background-image: url('./assets/background-light.webp');
 }
 
 /* Mobile: use dedicated PNG backgrounds */
 @media (max-width: 768px) {
   :root {
-    --background-image: url('./assets/bg-mobile-light.jpg');
+    --background-image: url('./assets/bg-mobile-light.webp');
   }
 }
 
@@ -33,12 +33,12 @@ html.dark {
   --color-rust-soft: #3f2a22;
   --color-denim: #7a9bdf;
   --color-denim-soft: #233550;
-  --background-image: url('./assets/background-dark.jpg');
+  --background-image: url('./assets/background-dark.webp');
 }
 
 /* Mobile dark: use dedicated dark PNG background */
 @media (max-width: 768px) {
   html.dark {
-    --background-image: url('./assets/bg-mobile-dark.jpg');
+    --background-image: url('./assets/bg-mobile-dark.webp');
   }
 }
