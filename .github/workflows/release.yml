@@ -80,7 +80,7 @@ jobs:
           cache: true
 
       - name: Initialize Android project
-        run: pnpm tauri android init && pnpm tauri icon ./icons/expenshare.png 
+        run: pnpm tauri android init
         env:
           NDK_HOME: ${{ env.ANDROID_HOME }}/ndk/27.0.11902837
 
