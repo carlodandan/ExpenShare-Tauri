@@ -32,3 +32,6 @@ package-lock.json
 
 # wrangler
 .wrangler
+
+# src-tauri/icons
+src-tauri/icons
