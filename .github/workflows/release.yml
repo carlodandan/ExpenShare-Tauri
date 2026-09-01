@@ -28,8 +28,8 @@ jobs:
       - name: Setup Rust
         uses: dtolnay/rust-toolchain@stable
 
-      - name: Install frontend dependencies
-        run: pnpm install
+      - name: Run Tauri Icons for Windows
+        run: pnpm tauri icon logos/expenshare@Windows.png
 
       - name: Build and Publish
         uses: tauri-apps/tauri-action@v0
@@ -80,7 +80,7 @@ jobs:
           cache: true
 
       - name: Initialize Android project
-        run: pnpm tauri android init && pnpm tauri icon logos/expenshare2.png
+        run: pnpm tauri android init && pnpm tauri icon logos/expenshare@Android.png
         env:
           NDK_HOME: ${{ env.ANDROID_HOME }}/ndk/27.0.11902837
 
