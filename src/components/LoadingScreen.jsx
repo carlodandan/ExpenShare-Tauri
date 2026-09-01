@@ -1,5 +1,5 @@
 import React from 'react';
-import loadingGif from '../assets/nezukoby@jesspixelsingiphy.gif';
+import loadingGif from '../assets/expenshare@piggybank.gif';
 
 export default function LoadingScreen({ progress }) {
   return (
@@ -8,7 +8,7 @@ export default function LoadingScreen({ progress }) {
         <img
           src={loadingGif}
           alt="Loading…"
-          className="w-32 h-32 mx-auto mb-6 object-contain"
+          className="w-74 h-74 mx-auto mb-2 object-contain"
         />
         <h1 className="text-2xl font-medium tracking-tight text-ink">
           ExpenShare
