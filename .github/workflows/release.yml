@@ -28,6 +28,9 @@ jobs:
       - name: Setup Rust
         uses: dtolnay/rust-toolchain@stable
 
+      - name: Run Tauri Icon Command
+        run: pnpm tauri icon logos/expenshare@Windows.png
+
       - name: Build and Publish
         uses: tauri-apps/tauri-action@v0
         env:

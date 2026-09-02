@@ -4,8 +4,8 @@
   "version": "1.1.5",
   "identifier": "com.expenshare.app",
   "build": {
-    "beforeDevCommand": "pnpm tauri icon logos/expenshare@Windows.png && pnpm run dev",
-    "beforeBuildCommand": "pnpm tauri icon logos/expenshare@Windows.png && pnpm run build",
+    "beforeDevCommand": "pnpm run dev",
+    "beforeBuildCommand": "pnpm run build",
     "devUrl": "http://localhost:1420",
     "frontendDist": "../dist"
   },
