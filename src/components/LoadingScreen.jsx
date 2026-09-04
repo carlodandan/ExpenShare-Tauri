@@ -1,7 +1,19 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { getCurrentWindow } from '@tauri-apps/api/window';
 import loadingGif from '../assets/expenshare@piggybank.gif';
 
 export default function LoadingScreen({ progress }) {
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      try {
+        getCurrentWindow().show();
+      } catch (e) {
+        // Not in Tauri
+      }
+    }, 50);
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-paper">
       <div className="text-center max-w-sm px-6">

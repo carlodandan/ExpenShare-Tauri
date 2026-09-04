@@ -92,7 +92,7 @@ export function AppProvider({ children }) {
         loaded = true;
       } finally {
         const elapsed = Date.now() - start;
-        const remaining = Math.max(0, 3000 - elapsed);
+        const remaining = Math.max(0, 4000 - elapsed);
         setTimeout(() => {
           setProgress(100);
           setLoading(false);
