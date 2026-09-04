@@ -8,178 +8,9 @@ use std::sync::Mutex;
 use tauri::Manager;
 #[cfg(not(target_os = "android"))]
 use tauri_plugin_dialog::DialogExt;
-#[cfg(not(target_os = "android"))]
-use tauri_plugin_updater::UpdaterExt;
-#[cfg(not(target_os = "android"))]
-use std::sync::atomic::{AtomicBool, Ordering};
-#[cfg(not(target_os = "android"))]
-use tokio::time::{sleep, Duration};
 
-#[cfg(not(target_os = "android"))]
-static UPDATE_DECLINED: AtomicBool = AtomicBool::new(false);
 
-#[cfg(not(target_os = "android"))]
-async fn check_for_updates(app: tauri::AppHandle) -> Result<(), Box<dyn std::error::Error>> {
-    log::info!("Checking for app updates via GitHub releases...");
-    
-    if UPDATE_DECLINED.load(Ordering::SeqCst) {
-        log::info!("Update was previously declined in this session, skipping dialog");
-        return Ok(());
-    }
-    
-    if let Some(update) = app.updater()?.check().await? {
-        log::info!("Found update to version {}", update.version);
-        
-        // Show dialog to user
-        let app_clone = app.clone();
-        let update_clone = update.clone();
-        
-        tauri::async_runtime::spawn(async move {
-            // Wait 10 seconds before showing the dialog
-            log::info!("Waiting 10 seconds before showing update dialog...");
-            sleep(Duration::from_secs(10)).await;
-            log::info!("Showing update dialog now");
-            
-            let dialog_result = app_clone.dialog()
-                .message(format!("A new version ({}) is available! Do you want to update now?", update_clone.version))
-                .title("Update Available")
-                .kind(tauri_plugin_dialog::MessageDialogKind::Info)
-                .buttons(tauri_plugin_dialog::MessageDialogButtons::OkCancelCustom(
-                    "Update".to_string(), 
-                    "Cancel".to_string()
-                ))
-                .blocking_show();
-            
-            // For OkCancelCustom, true = Ok (Update), false = Cancel
-            if dialog_result {
-                log::info!("User chose to update to version {}", update_clone.version);
-                let mut downloaded = 0;
-                if let Err(e) = update_clone
-                    .download_and_install(
-                        move |chunk_length, content_length| {
-                            downloaded += chunk_length;
-                            log::info!("downloaded {} of {:?}", downloaded, content_length);
-                        },
-                        || {
-                            log::info!("download finished");
-                        },
-                    )
-                    .await
-                {
-                    log::error!("Failed to download and install update: {}", e);
-                    let _ = app_clone.dialog()
-                        .message(format!("Failed to update: {}", e))
-                        .title("Update Error")
-                        .kind(tauri_plugin_dialog::MessageDialogKind::Error)
-                        .blocking_show();
-                    return;
-                }
-                
-                log::info!("Update installed, restarting application...");
-                let _ = app_clone.dialog()
-                    .message("Update installed successfully! The app will now restart.")
-                    .title("Update Complete")
-                    .kind(tauri_plugin_dialog::MessageDialogKind::Info)
-                    .blocking_show();
-                
-                app_clone.restart();
-            } else {
-                log::info!("User declined the update");
-                UPDATE_DECLINED.store(true, Ordering::SeqCst);
-                
-                let _ = app_clone.dialog()
-                    .message("Update declined. You can check for updates manually later.")
-                    .title("Update Declined")
-                    .kind(tauri_plugin_dialog::MessageDialogKind::Info)
-                    .blocking_show();
-            }
-        });
-    } else {
-        log::info!("No update found, app is on latest version.");
-    }
-    Ok(())
-}
 
-#[cfg(not(target_os = "android"))]
-#[tauri::command]
-async fn check_for_updates_now(app: tauri::AppHandle) -> Result<bool, String> {
-    log::info!("Manual update check initiated from UI...");
-    
-    UPDATE_DECLINED.store(false, Ordering::SeqCst);
-    
-    let updater = app.updater().map_err(|e| e.to_string())?;
-    if let Some(update) = updater.check().await.map_err(|e| e.to_string())? {
-        log::info!("Found update to version {}", update.version);
-        
-        let app_clone = app.clone();
-        let update_clone = update.clone();
-        
-        tauri::async_runtime::spawn(async move {
-            // Wait 10 seconds before showing the dialog
-            log::info!("Waiting 10 seconds before showing update dialog...");
-            sleep(Duration::from_secs(10)).await;
-            log::info!("Showing update dialog now");
-            
-            let dialog_result = app_clone.dialog()
-                .message(format!("A new version ({}) is available! Do you want to update now?", update_clone.version))
-                .title("Update Available")
-                .kind(tauri_plugin_dialog::MessageDialogKind::Info)
-                .buttons(tauri_plugin_dialog::MessageDialogButtons::OkCancelCustom(
-                    "Update".to_string(), 
-                    "Cancel".to_string()
-                ))
-                .blocking_show();
-            
-            if dialog_result {
-                log::info!("User chose to update to version {}", update_clone.version);
-                let mut downloaded = 0;
-                if let Err(e) = update_clone
-                    .download_and_install(
-                        move |chunk_length, content_length| {
-                            downloaded += chunk_length;
-                            log::info!("downloaded {} of {:?}", downloaded, content_length);
-                        },
-                        || {
-                            log::info!("download finished");
-                        },
-                    )
-                    .await
-                {
-                    log::error!("Failed to download and install update: {}", e);
-                    let _ = app_clone.dialog()
-                        .message(format!("Failed to update: {}", e))
-                        .title("Update Error")
-                        .kind(tauri_plugin_dialog::MessageDialogKind::Error)
-                        .blocking_show();
-                    return;
-                }
-                
-                log::info!("Update installed, restarting application...");
-                let _ = app_clone.dialog()
-                    .message("Update installed successfully! The app will now restart.")
-                    .title("Update Complete")
-                    .kind(tauri_plugin_dialog::MessageDialogKind::Info)
-                    .blocking_show();
-                
-                app_clone.restart();
-            } else {
-                log::info!("User declined the update");
-                UPDATE_DECLINED.store(true, Ordering::SeqCst);
-                
-                let _ = app_clone.dialog()
-                    .message("Update declined. You can check for updates manually later.")
-                    .title("Update Declined")
-                    .kind(tauri_plugin_dialog::MessageDialogKind::Info)
-                    .blocking_show();
-            }
-        });
-        
-        Ok(true)
-    } else {
-        log::info!("No update found, app is on latest version.");
-        Ok(false)
-    }
-}
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
@@ -194,12 +25,12 @@ pub fn run() {
                 let _ = window.set_focus();
             }
         }))
-        .plugin(tauri_plugin_updater::Builder::new().build());
+        .plugin(tauri_plugin_updater::Builder::new().build())
+        .plugin(tauri_plugin_process::init());
 
     builder
         .plugin(tauri_plugin_dialog::init())
         .plugin(tauri_plugin_fs::init())
-        .plugin(tauri_plugin_process::init())
         .plugin(
             tauri_plugin_log::Builder::new()
                 .level(log::LevelFilter::Info)
@@ -210,16 +41,7 @@ pub fn run() {
             app.manage(DbState(Mutex::new(conn)));
             log::info!("ExpenShare v{} started successfully", app.package_info().version);
 
-            // Auto-update check is desktop-only
-            #[cfg(not(target_os = "android"))]
-            {
-                let handle = app.handle().clone();
-                tauri::async_runtime::spawn(async move {
-                    if let Err(e) = check_for_updates(handle).await {
-                        log::error!("Failed to check for updates: {}", e);
-                    }
-                });
-            }
+
 
             Ok(())
         })
@@ -258,8 +80,6 @@ pub fn run() {
             commands::reports::reports_export,
             commands::backup::backup_export,
             commands::backup::backup_restore,
-            #[cfg(not(target_os = "android"))]
-            check_for_updates_now,
         ])
         .run(tauri::generate_context!())
         .expect("error while running ExpenShare");

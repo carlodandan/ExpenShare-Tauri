@@ -131,6 +131,10 @@ export default function MonthlyDashboard() {
         </div>
       </div>
 
+     <p className="text-xs text-ink-muted mt-0.5">
+         Shows your budget and financial activity for the current month, including income, expenses, savings, and remaining budget.
+      </p>
+
       {/* Summary cards */}
       <div className="mt-4 grid grid-cols-2 gap-3 sm:mt-5 sm:gap-4">
         <SummaryCard label="Gross" minor={data.grossMinor} tone="neutral" />

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useAppContext } from '../contexts/AppContextCore.jsx';
+import { UpdateCheck } from '../components/UpdateCheck.jsx';
 
 const CURRENCIES = [
   { code: 'PHP', symbol: '₱' },
@@ -16,7 +17,6 @@ export default function Settings() {
   const [newPersonName, setNewPersonName] = useState('');
   const [isAdding, setIsAdding] = useState(false);
   const [appVersion, setAppVersion] = useState('');
-  const [checkingUpdate, setCheckingUpdate] = useState(false);
 
   useEffect(() => {
     if (people) {
@@ -99,22 +99,7 @@ export default function Settings() {
     }
   }
 
-  async function handleCheckForUpdates() {
-    setCheckingUpdate(true);
-    try {
-      const updated = await window.tauriAPI.updater.check();
-      if (updated) {
-        showToast('Update installed! Restarting app...');
-      } else {
-        showToast('You are using the latest version.');
-      }
-    } catch (err) {
-      console.error('Update check failed:', err);
-      showToast('Could not check for updates.');
-    } finally {
-      setCheckingUpdate(false);
-    }
-  }
+
 
   const handleThemeChange = (value) => {
     setTheme(value);
@@ -124,6 +109,10 @@ export default function Settings() {
   return (
     <div className="mx-auto max-w-7xl px-3 py-4 sm:px-6 sm:py-6">
       <h1 className="text-lg font-semibold">Settings</h1>
+
+      <p className="text-xs text-ink-muted mt-0.5">
+         Manage your app preferences, account details, and other settings to personalize your budgeting experience.
+      </p>
 
       {/* People section */}
       <section className="mt-4 rounded-lg border border-line bg-paper/80 px-4 py-3.5 sm:mt-6 sm:px-5 sm:py-4">
@@ -287,20 +276,7 @@ export default function Settings() {
         <h2 className="mb-3 font-bodoni text-xs uppercase tracking-[0.12em] text-ink-muted">
           About &amp; Updates
         </h2>
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <p className="text-sm font-medium">ExpenShare {appVersion ? `v${appVersion}` : ''}</p>
-            <p className="text-xs text-ink-muted">Offline shared household budget tracker.</p>
-          </div>
-          <button
-            type="button"
-            onClick={handleCheckForUpdates}
-            disabled={checkingUpdate}
-            className="self-start sm:self-auto rounded-md border border-line px-3.5 py-2 sm:py-1.5 text-sm hover:bg-paper active:opacity-70 disabled:opacity-50"
-          >
-            {checkingUpdate ? 'Checking…' : 'Check for Updates'}
-          </button>
-        </div>
+        <UpdateCheck appVersion={appVersion} />
       </section>
     </div>
   );

@@ -28,6 +28,9 @@ export default function TotalDashboard() {
   return (
     <div className="mx-auto max-w-7xl px-3 py-4 sm:px-6 sm:py-6">
       <h1 className="text-lg font-semibold">Total Dashboard</h1>
+      <p className="text-xs text-ink-muted mt-0.5">
+         Shows your accumulated budget and financial activity across all previous months, including the current month.
+      </p>
 
       <div className="mt-4 grid grid-cols-2 gap-3 sm:mt-5 sm:gap-4 lg:grid-cols-4">
         <SummaryCard label="Total Gross" minor={data.grossMinor} tone="neutral" />

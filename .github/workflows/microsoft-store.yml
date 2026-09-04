@@ -1,0 +1,47 @@
+name: Microsoft Store Build
+
+# This workflow builds the Microsoft Store-ready MSI package.
+# You can download the built .msi from GitHub Actions artifacts and upload it to Partner Center manually.
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-msi:
+    runs-on: windows-2025
+
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v6
+
+      - uses: pnpm/setup@v1
+        with:
+          version: 11
+          runtime: node@22
+          cache: true
+
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Generate Icons
+        run: pnpm tauri icon logos/expenshare@Windows.png
+
+      - name: Install Dependencies
+        run: pnpm install
+
+      - name: Build MSI (Microsoft Store config)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
+        run: pnpm tauri build --config src-tauri/tauri.microsoftstore.conf.json --bundles msi
+
+      - name: Upload MSI as Workflow Artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: expenshare-microsoft-store-msi
+          path: src-tauri/target/release/bundle/msi/*.msi
+          if-no-files-found: error

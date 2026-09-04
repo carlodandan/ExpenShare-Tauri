@@ -54,6 +54,9 @@ export default function ExtraBudget() {
   return (
     <div className="mx-auto max-w-7xl px-3 py-4 sm:px-6 sm:py-6">
       <h1 className="text-lg font-semibold">Extra Budget</h1>
+      <p className="text-xs text-ink-muted mt-0.5">
+         Remaining budget carried over from the current or previous month after all expenses, savings, and other allocations have been accounted for.
+      </p>
 
       <div className="mt-4 rounded-lg border border-line bg-paper/80 px-4 py-6 text-center sm:mt-6 sm:px-6 sm:py-8">
         <p className="font-bodoni text-xs uppercase tracking-[0.12em] text-ink-muted">

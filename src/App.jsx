@@ -9,6 +9,7 @@ import ExtraBudget from './pages/ExtraBudget.jsx';
 import Goals from './pages/Goals.jsx';
 import Settings from './pages/Settings.jsx';
 import LoadingScreen from './components/LoadingScreen.jsx';
+import { UpdateWatcher } from './components/UpdateWatcher.jsx';
 
 const PAGES = {
   monthly: MonthlyDashboard,
@@ -20,7 +21,7 @@ const PAGES = {
 
 function Shell() {
   const [page, setPage] = useState('monthly');
-  const { toast } = useAppContext();
+  const { toast, showToast } = useAppContext();
   const Page = PAGES[page] ?? MonthlyDashboard;
 
   return (
@@ -30,6 +31,7 @@ function Shell() {
         <Page />
       </main>
       {toast && <Toast toast={toast} />}
+      <UpdateWatcher onAvailable={(version) => showToast(`v${version} is available — install it from Settings.`)} />
     </div>
   );
 }
