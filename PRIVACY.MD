@@ -1,21 +1,24 @@
 # Privacy Policy for ExpenShare
 
-*Last updated: August 2026*
+*Last updated: September 2026*
 
 This privacy policy describes how **ExpenShare** handles your personal data.
 
-**ExpenShare is an offline desktop application.** It does not require an internet connection to function, and it never sends any data over the network. All information you enter—income, expenses, people, categories, settings, and any other records—remains **solely on your local device**.
+**ExpenShare is a local, offline-first desktop and mobile application.** It does not require an internet connection for its core functions, and it never sends any personal data over the network. All information you enter—income, expenses, people, categories, settings, and any other records—remains **solely on your local device**.
 
 ## Data collection and storage
 
-- **No data is collected, transmitted, or stored by us.**  
-  The application does not phone home, send analytics, or communicate with any external servers or services.
+- **No personal data is collected, transmitted, or stored by us.**  
+  The application does not send analytics, telemetry, or communicate with any external cloud databases.
 
-- **All data lives in a local rusqlite database file.**  
-  This file is stored in Rust’s standard sqlite database. It is only available in local machine.
+- **Auto-Update Checks (Desktop Only):**
+  The only network request ExpenShare makes is to GitHub's servers to check for and download application updates. This request does not contain any of your personal or financial data.
+
+- **All data lives in a local SQLite database file.**  
+  This file is stored securely within your operating system's standard application data directory (on Windows or Android).
 
 - **No cloud sync, no third-party APIs.**  
-  There are no integrations with cloud storage, authentication providers, or analytics platforms. The app does not embed any trackers, cookies, or telemetry.
+  There are no integrations with cloud storage, authentication providers, or analytics platforms. The app does not embed any trackers or cookies.
 
 ## Your control over the data
 

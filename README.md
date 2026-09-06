@@ -61,6 +61,14 @@ CRUD, and month filtering
 <img src="https://raw.githubusercontent.com/carlodandan/ExpenShare-Tauri/refs/heads/main/images/settings.png" alt="Settings" width="1200">
 </details>
 
+## Documentation
+
+For a deeper dive into how ExpenShare works under the hood, please refer to our dedicated documentation:
+- [Product & Features](docs/PRODUCT.md) - Detailed breakdown of what the app does.
+- [Architecture](docs/ARCHITECTURE.md) - System design, tech stack, and data flow.
+- [Database](docs/DATABASE.md) - SQLite schema and migrations.
+- [Security](docs/SECURITY.md) - Offline-first design, CSP, and updater security.
+
 ## How To's
 
 If you wanna compile it on your own please check out the build guides for <a href="https://github.com/carlodandan/ExpenShare-Tauri/blob/main/guides/WIN_GUIDE.md">Windows</a> and <a href="https://github.com/carlodandan/ExpenShare-Tauri/blob/main/guides/APK_GUIDE.md">Android</a>, or visit Tauri's <a href="https://tauri.app/start">documentation</a> for more information.
