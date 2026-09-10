@@ -386,7 +386,7 @@
         </p>
 
         <div class="cta-group">
-          <a href="https://github.com/carlodandan/ExpenShare-Tauri/releases" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+          <a href="https://github.com/carlodandan/ExpenShare-Tauri/releases/latest" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
               <polyline points="7 10 12 15 17 10"></polyline>
@@ -466,10 +466,36 @@
         <div class="platforms">
           <h3>Available for desktop &amp; mobile</h3>
           <p>Built on Tauri 2.0 and Rust for high performance, a tiny memory footprint, and native OS integration.</p>
+          
+          <div style="margin-bottom: 2rem;">
+            <a href="https://apps.microsoft.com/detail/9PJQSCR57PCX" target="_self" style="display: inline-block; transition: transform 0.15s ease;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
+              <img src="https://get.microsoft.com/images/en-us%20dark.svg" alt="Get it from Microsoft" width="200"/>
+            </a>
+          </div>
+
           <div class="stamp-group">
             <span class="stamp">WINDOWS · .EXE / .MSI</span>
             <span class="stamp">ANDROID · .APK</span>
             <span class="stamp">SQLITE LOCAL ENGINE</span>
+          </div>
+
+          <div style="margin-top: 2.5rem; text-align: left; max-width: 520px; margin-left: auto; margin-right: auto; background: var(--paper); padding: 1.5rem; border-radius: 12px; border: 1px solid var(--line);">
+            <h4 style="font-family: var(--font-display); font-size: 1.15rem; margin-bottom: 0.8rem; color: var(--ink);">Mirror Downloads</h4>
+            <p style="font-size: 0.9rem; color: var(--ink-muted); margin-bottom: 1rem; margin-top: 0;">Direct downloads powered by Cloudflare Workers.</p>
+            <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.75rem;">
+              <li style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--line); padding-bottom: 0.5rem;">
+                <span style="font-weight: 500;">For Android (.apk)</span>
+                <a href="https://expenshare-apk.webbase.workers.dev/" style="color: var(--moss); text-decoration: none; font-weight: 600;">Download APK</a>
+              </li>
+              <li style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--line); padding-bottom: 0.5rem;">
+                <span style="font-weight: 500;">For Windows (.exe)</span>
+                <a href="https://expenshare-exe.webbase.workers.dev/" style="color: var(--moss); text-decoration: none; font-weight: 600;">Download EXE</a>
+              </li>
+              <li style="display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-weight: 500;">For Windows (.msi)</span>
+                <a href="https://expenshare-msi.webbase.workers.dev/" style="color: var(--moss); text-decoration: none; font-weight: 600;">Download MSI</a>
+              </li>
+            </ul>
           </div>
         </div>
       </div>
@@ -481,7 +507,7 @@
     <div class="container">
       <div class="footer-links">
         <a href="https://github.com/carlodandan/ExpenShare-Tauri" target="_blank" rel="noopener noreferrer">Source Code (GitHub)</a>
-        <a href="https://github.com/carlodandan/ExpenShare-Tauri/releases" target="_blank" rel="noopener noreferrer">Releases &amp; Downloads</a>
+        <a href="https://github.com/carlodandan/ExpenShare-Tauri/releases/latest" target="_blank" rel="noopener noreferrer">Releases &amp; Downloads</a>
         <a href="https://github.com/carlodandan/ExpenShare-Tauri/blob/main/PRIVACY.MD" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
       </div>
       <p>ExpenShare &copy; 2026 Carlo Dandan. Released under the MIT License.</p>

@@ -83,7 +83,7 @@ I hope you guys like it, if you ever happen to stumble upon this repository.
 
 ### Release
 
-To download the latest update, visit the "[release](https://github.com/carlodandan/ExpenShare-Tauri/releases)" page. In downloading the file, please try to ignore the warning regarding it being dangerous as it is just a false alarm, it is a known issue in Tauri community - even with EV/OV certificate.
+To download the latest update, visit the "[release](https://github.com/carlodandan/ExpenShare-Tauri/releases/latest)" page. In downloading the file, please try to ignore the warning regarding it being dangerous as it is just a false alarm, it is a known issue in Tauri community - even with EV/OV certificate.
 - For Android, download the .apk file.
 - For Windows, download either the .exe or .msi file.
 > *In Windows, sometimes it block by Windows Defender Smartscreen, you can just submit the file as safe, they will review it, then after few hours it will now let you download and install it. Or allow it in your virus protection system. Now, if you still doubt all of this, you can review the source code and build it yourself.*
