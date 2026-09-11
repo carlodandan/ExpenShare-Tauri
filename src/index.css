@@ -23,6 +23,13 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: 'Bodoni MT';
+  src: url('./assets/fonts/bodoni-mt/bodoni-mt-italic.ttf') format('truetype');
+  font-style: italic;
+  font-display: swap;
+}
+
 @theme {
   --color-paper: rgba(241, 243, 240, 0.90);
   --color-surface: rgba(255, 255, 255, 0.93);
@@ -39,6 +46,7 @@
   --font-sans: 'IBM Plex Sans', 'Segoe UI', ui-sans-serif, system-ui, sans-serif;
   --font-mono: 'IBM Plex Mono', ui-monospace, 'SF Mono', 'Cascadia Mono', Consolas, monospace;
 
+  --font-bodoni: 'Bodoni MT', serif;
   --font-sunflower: 'MADE Sunflower', serif;
 }
 
