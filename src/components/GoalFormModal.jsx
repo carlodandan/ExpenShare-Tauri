@@ -54,7 +54,7 @@ export default function GoalFormModal({ mode = 'create', initial, onClose, onSub
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-moss-soft text-moss">
               <Target size={18} strokeWidth={2} />
             </div>
-            <h2 className="text-base font-semibold">
+            <h2 className="text-base font-regular">
               {mode === 'edit' ? 'Edit Goal' : 'Create New Goal'}
             </h2>
           </div>

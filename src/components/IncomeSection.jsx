@@ -63,8 +63,8 @@ export default function IncomeSection({ income, onAdd, onEdit, onDelete }) {
               className={borderClass}
             >
               <div className="flex items-baseline justify-between border-b border-line pb-1">
-                <p className="text-sm font-semibold">{person.name}</p>
-                <p className="tabular text-sm font-semibold">
+                <p className="text-sm font-regular">{person.name}</p>
+                <p className="tabular text-sm font-regular">
                   {formatMoney(total, currencySymbol)}
                 </p>
               </div>
@@ -86,7 +86,7 @@ export default function IncomeSection({ income, onAdd, onEdit, onDelete }) {
                             <span className="text-xs text-ink-muted">
                               {isExpanded ? '▼' : '▶'}
                             </span>
-                            <span className="tabular text-sm font-semibold">
+                            <span className="tabular text-sm font-regular">
                               {formatMoney(tx.amountMinor, currencySymbol)}
                             </span>
                           </div>

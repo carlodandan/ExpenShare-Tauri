@@ -87,7 +87,7 @@ export default function Goals() {
       {/* Header */}
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-lg font-semibold flex items-center gap-2">
+          <h1 className="text-lg font-regular flex items-center gap-2">
             <Target className="text-moss" size={22} />
             Set Goals
           </h1>
@@ -109,18 +109,18 @@ export default function Goals() {
       {goals.length > 0 && (
         <div className="mt-4 grid grid-cols-2 gap-3 sm:mt-5 sm:gap-4 lg:grid-cols-4">
           <div className="rounded-lg border border-line bg-paper/80 px-3.5 py-3 sm:px-5 sm:py-4">
-            <p className="font-bodoni text-xs uppercase tracking-[0.12em] text-ink-muted">Total Goals</p>
-            <p className="mt-1 text-xl font-semibold sm:text-2xl text-ink">{goals.length}</p>
+            <p className="font-sunflower text-xs uppercase tracking-[0.12em] text-ink-muted">Total Goals</p>
+            <p className="mt-1 text-xl font-regular sm:text-2xl text-ink">{goals.length}</p>
             <p className="mt-0.5 text-xs text-ink-muted">{completedGoalsCount} completed</p>
           </div>
           <SummaryCard label="Total Target" minor={totalTargetMinor} tone="neutral" />
           <SummaryCard label="Total Saved" minor={totalSavedMinor} tone="positive" />
           <div className="rounded-lg border border-line bg-paper/80 px-3.5 py-3 sm:px-5 sm:py-4 flex items-center justify-between">
             <div>
-              <p className="font-bodoni text-xs uppercase tracking-[0.12em] text-ink-muted">
+              <p className="font-sunflower text-xs uppercase tracking-[0.12em] text-ink-muted">
                 Overall Progress
               </p>
-              <p className="tabular mt-1 text-xl font-semibold sm:text-2xl text-moss">
+              <p className="tabular mt-1 text-xl font-regular sm:text-2xl text-moss">
                 {overallProgress.toFixed(overallProgress % 1 === 0 ? 0 : 1)}%
               </p>
               <p className="mt-0.5 text-xs text-ink-muted">Across all targets</p>
@@ -143,7 +143,7 @@ export default function Goals() {
           <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-moss-soft text-moss">
             <Target size={28} strokeWidth={2} />
           </div>
-          <h3 className="mt-4 text-base font-semibold">No Goals Set Yet</h3>
+          <h3 className="mt-4 text-base font-regular">No Goals Set Yet</h3>
           <p className="mx-auto mt-1.5 max-w-sm text-xs text-ink-muted sm:text-sm">
             Create goals like "House and Lot", "Car", or "Emergency Fund". Adding funds will record an expense in Miscellaneous for that month.
           </p>
@@ -170,10 +170,10 @@ export default function Goals() {
                   {/* Card Header */}
                   <div className="flex items-start justify-between gap-2">
                     <div className="min-w-0 flex-1">
-                      <h3 className="truncate font-semibold text-sm sm:text-base group-hover:text-moss transition-colors">
+                      <h3 className="truncate font-regular text-sm sm:text-base group-hover:text-moss transition-colors">
                         {goal.name}
                       </h3>
-                      <p className="mt-0.5 text-xs text-ink-muted font-bodoni">
+                      <p className="mt-0.5 text-xs text-ink-muted font-sunflower">
                         Target: <span className="tabular font-medium text-ink">{formatMoney(goal.targetAmountMinor, currencySymbol)}</span>
                       </p>
                     </div>
@@ -183,7 +183,7 @@ export default function Goals() {
                         <CheckCircle2 size={12} /> Done
                       </span>
                     ) : (
-                      <span className="tabular rounded-md bg-paper px-2 py-0.5 text-xs font-semibold text-ink-muted">
+                      <span className="tabular rounded-md bg-paper px-2 py-0.5 text-xs font-regular text-ink-muted">
                         {goal.progressPercent.toFixed(goal.progressPercent % 1 === 0 ? 0 : 1)}%
                       </span>
                     )}
@@ -204,13 +204,13 @@ export default function Goals() {
 
                     <div className="flex-1 space-y-1 text-xs">
                       <div>
-                        <p className="text-xs uppercase font-bodoni tracking-wider text-ink-muted">Saved</p>
+                        <p className="text-xs uppercase font-sunflower tracking-wider text-ink-muted">Saved</p>
                         <p className="tabular font-bold text-sm text-moss">
                           {formatMoney(goal.currentAmountMinor, currencySymbol)}
                         </p>
                       </div>
                       <div>
-                        <p className="text-xs uppercase font-bodoni tracking-wider text-ink-muted">Remaining</p>
+                        <p className="text-xs uppercase font-sunflower tracking-wider text-ink-muted">Remaining</p>
                         <p className={`tabular font-medium ${isCompleted ? 'text-moss' : 'text-ink-muted'}`}>
                           {isCompleted ? 'Goal Achieved! 🎉' : formatMoney(goal.remainingAmountMinor, currencySymbol)}
                         </p>

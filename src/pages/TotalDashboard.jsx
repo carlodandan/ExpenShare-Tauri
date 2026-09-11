@@ -27,7 +27,7 @@ export default function TotalDashboard() {
 
   return (
     <div className="mx-auto max-w-7xl px-3 py-4 sm:px-6 sm:py-6">
-      <h1 className="text-lg font-semibold">Total Dashboard</h1>
+      <h1 className="text-lg font-regular">Total Dashboard</h1>
       <p className="text-xs text-ink-muted mt-0.5">
          Shows your accumulated budget and financial activity across all previous months, including the current month.
       </p>
@@ -40,7 +40,7 @@ export default function TotalDashboard() {
       </div>
 
       <section className="mt-6 rounded-lg border border-line bg-paper/80 px-4 py-3.5 sm:mt-8 sm:px-5 sm:py-4">
-        <h2 className="mb-3 font-bodoni text-xs uppercase tracking-[0.12em] text-ink-muted">
+        <h2 className="mb-3 font-sunflower text-xs uppercase tracking-[0.12em] text-ink-muted">
           Expense Breakdown
         </h2>
         <DonutChart data={data.breakdown} />
@@ -48,7 +48,7 @@ export default function TotalDashboard() {
 
       <section className="mt-6 rounded-lg border border-line bg-paper/80 px-4 py-3.5 sm:px-5 sm:py-4">
         <div className="mb-2 flex items-center justify-between">
-          <h2 className="font-bodoni text-xs uppercase tracking-[0.12em] text-ink-muted">
+          <h2 className="font-sunflower text-xs uppercase tracking-[0.12em] text-ink-muted">
             Monthly Performance
           </h2>
           <button
@@ -96,7 +96,7 @@ export default function TotalDashboard() {
       </section>
 
       <section className="mt-6 rounded-lg border border-line bg-paper/80 px-4 py-3.5 sm:px-5 sm:py-4">
-        <h2 className="mb-3 font-bodoni text-xs uppercase tracking-[0.12em] text-ink-muted">
+        <h2 className="mb-3 font-sunflower text-xs uppercase tracking-[0.12em] text-ink-muted">
           Simple Analysis
         </h2>
         <dl className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-x-6 sm:gap-y-3 text-sm">

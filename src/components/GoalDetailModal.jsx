@@ -103,7 +103,7 @@ export default function GoalDetailModal({
               <Target size={20} strokeWidth={2} />
             </div>
             <div>
-              <h2 className="text-base font-semibold leading-tight">{goal.name}</h2>
+              <h2 className="text-base font-regular leading-tight">{goal.name}</h2>
               <p className="text-xs text-ink-muted">Savings Goal</p>
             </div>
           </div>
@@ -161,20 +161,20 @@ export default function GoalDetailModal({
 
             <div className="w-full flex-1 space-y-2.5 text-sm">
               <div className="flex items-center justify-between border-b border-line pb-1.5">
-                <span className="text-xs text-ink-muted uppercase tracking-wider font-bodoni">Saved</span>
-                <span className="tabular font-semibold text-moss">
+                <span className="text-xs text-ink-muted uppercase tracking-wider font-sunflower">Saved</span>
+                <span className="tabular font-regular text-moss">
                   {formatMoney(goal.currentAmountMinor, currencySymbol)}
                 </span>
               </div>
               <div className="flex items-center justify-between border-b border-line pb-1.5">
-                <span className="text-xs text-ink-muted uppercase tracking-wider font-bodoni">Target</span>
-                <span className="tabular font-semibold">
+                <span className="text-xs text-ink-muted uppercase tracking-wider font-sunflower">Target</span>
+                <span className="tabular font-regular">
                   {formatMoney(goal.targetAmountMinor, currencySymbol)}
                 </span>
               </div>
               <div className="flex items-center justify-between pt-0.5">
-                <span className="text-xs text-ink-muted uppercase tracking-wider font-bodoni">Remaining</span>
-                <span className={`tabular font-semibold ${isCompleted ? 'text-moss' : 'text-rust'}`}>
+                <span className="text-xs text-ink-muted uppercase tracking-wider font-sunflower">Remaining</span>
+                <span className={`tabular font-regular ${isCompleted ? 'text-moss' : 'text-rust'}`}>
                   {isCompleted ? 'Goal Complete! 🎉' : formatMoney(goal.remainingAmountMinor, currencySymbol)}
                 </span>
               </div>
@@ -198,7 +198,7 @@ export default function GoalDetailModal({
                 className="rounded-lg border border-moss/30 bg-moss-soft/40 p-4 space-y-3"
               >
                 <div className="flex items-center justify-between">
-                  <h3 className="text-xs font-semibold uppercase tracking-wider text-moss font-bodoni">
+                  <h3 className="text-xs font-regular uppercase tracking-wider text-moss font-sunflower">
                     Add Funds (Records in Miscellaneous)
                   </h3>
                   <button
@@ -291,7 +291,7 @@ export default function GoalDetailModal({
 
           {/* Contribution History */}
           <div>
-            <h3 className="mb-3 font-bodoni text-xs uppercase tracking-[0.12em] text-ink-muted">
+            <h3 className="mb-3 font-sunflower text-xs uppercase tracking-[0.12em] text-ink-muted">
               Contribution History
             </h3>
 
@@ -312,7 +312,7 @@ export default function GoalDetailModal({
                       </p>
                     </div>
                     <div className="flex items-center gap-3">
-                      <span className="tabular font-semibold text-moss text-sm">
+                      <span className="tabular font-regular text-moss text-sm">
                         +{formatMoney(c.amountMinor, currencySymbol)}
                       </span>
                       <button

@@ -53,16 +53,16 @@ export default function ExtraBudget() {
 
   return (
     <div className="mx-auto max-w-7xl px-3 py-4 sm:px-6 sm:py-6">
-      <h1 className="text-lg font-semibold">Extra Budget</h1>
+      <h1 className="text-lg font-regular">Extra Budget</h1>
       <p className="text-xs text-ink-muted mt-0.5">
          Remaining budget carried over from the current or previous month after all expenses, savings, and other allocations have been accounted for.
       </p>
 
       <div className="mt-4 rounded-lg border border-line bg-paper/80 px-4 py-6 text-center sm:mt-6 sm:px-6 sm:py-8">
-        <p className="font-bodoni text-xs uppercase tracking-[0.12em] text-ink-muted">
+        <p className="font-sunflower text-xs uppercase tracking-[0.12em] text-ink-muted">
           Available Balance
         </p>
-        <p className="tabular mt-2 text-3xl font-semibold text-denim sm:text-4xl">
+        <p className="tabular mt-2 text-3xl font-regular text-denim sm:text-4xl">
           {formatMoney(history.balanceMinor, currencySymbol)}
         </p>
         <button
@@ -76,7 +76,7 @@ export default function ExtraBudget() {
       </div>
 
       <section className="mt-4 rounded-lg border border-line bg-paper/80 px-4 py-3.5 sm:mt-6 sm:px-5 sm:py-4">
-        <h2 className="mb-2 font-bodoni text-xs uppercase tracking-[0.12em] text-ink-muted">
+        <h2 className="mb-2 font-sunflower text-xs uppercase tracking-[0.12em] text-ink-muted">
           Monthly Contributions
         </h2>
         {contributions.length === 0 ? (
@@ -96,14 +96,14 @@ export default function ExtraBudget() {
             ))}
           </ul>
         )}
-        <div className="ledger-total-rule mt-2 flex items-center justify-between pt-2 text-sm font-semibold">
+        <div className="ledger-total-rule mt-2 flex items-center justify-between pt-2 text-sm font-regular">
           <span>Total</span>
           <span className="tabular">{formatMoney(history.balanceMinor, currencySymbol)}</span>
         </div>
       </section>
 
       <section className="mt-4 rounded-lg border border-line bg-paper/80 px-4 py-3.5 sm:mt-6 sm:px-5 sm:py-4">
-        <h2 className="mb-2 font-bodoni text-xs uppercase tracking-[0.12em] text-ink-muted">
+        <h2 className="mb-2 font-sunflower text-xs uppercase tracking-[0.12em] text-ink-muted">
           Withdrawals
         </h2>
         {withdrawals.length === 0 ? (

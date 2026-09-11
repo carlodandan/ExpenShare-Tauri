@@ -4,7 +4,7 @@ export default function ConfirmDialog({ title, description, confirmLabel = 'Dele
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-ink/30 p-4">
       <div className="w-full max-w-sm rounded-lg border border-line bg-paper/80 p-5 shadow-lg">
-        <h2 className="text-sm font-semibold">{title}</h2>
+        <h2 className="text-sm font-regular">{title}</h2>
         {description && <p className="mt-2 text-sm text-ink-muted">{description}</p>}
         <div className="mt-5 flex justify-end gap-2.5">
           <button

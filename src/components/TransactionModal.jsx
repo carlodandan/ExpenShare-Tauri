@@ -55,7 +55,7 @@ export default function TransactionModal({ kind, mode = 'create', initial, optio
         onSubmit={handleSubmit}
         className="max-h-[90vh] w-full max-w-sm overflow-y-auto rounded-lg border border-line bg-paper/80 p-5 shadow-lg"
       >
-        <h2 className="text-sm font-semibold">{title}</h2>
+        <h2 className="text-sm font-regular">{title}</h2>
 
         <label className="mt-4 block text-xs font-medium text-ink-muted" htmlFor="tx-option">
           {optionLabel}

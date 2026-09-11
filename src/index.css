@@ -18,10 +18,8 @@
 */
 
 @font-face {
-  font-family: 'Bodoni MT';
-  src: url('./assets/fonts/bodoni-mt/bodoni-mt-italic.ttf') format('truetype');
-  font-style: italic;
-  font-weight: 400;
+  font-family: 'MADE Sunflower';
+  src: url('./assets/fonts/made_sunflower/made_sunflower.otf') format('opentype');
   font-display: swap;
 }
 
@@ -41,7 +39,7 @@
   --font-sans: 'IBM Plex Sans', 'Segoe UI', ui-sans-serif, system-ui, sans-serif;
   --font-mono: 'IBM Plex Mono', ui-monospace, 'SF Mono', 'Cascadia Mono', Consolas, monospace;
 
-  --font-bodoni: 'Bodoni MT', serif;
+  --font-sunflower: 'MADE Sunflower', serif;
 }
 
 html,
@@ -50,6 +48,7 @@ body,
   height: 100%;
   margin: 0;
   padding: 0;
+  letter-spacing: 1.1px;
 }
 
 html {
@@ -70,15 +69,15 @@ body {
   background-repeat: no-repeat;
   background-attachment: fixed;
   color: var(--color-ink);
-  font-family: var(--font-bodoni);
+  font-family: var(--font-sunflower);
   -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: transparent;
 }
 
 .tabular {
-  font-family: var(--font-bodoni);
+  font-family: var(--font-sunflower);
   font-variant-numeric: tabular-nums;
-  letter-spacing: -0.01em;
+  letter-spacing: 0.15rem;
 }
 
 .ledger-rule {

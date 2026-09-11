@@ -55,7 +55,7 @@ export default function ProgressCircle({
       {/* Centered Content */}
       <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
         {children || (
-          <span className="tabular font-semibold text-lg">
+          <span className="tabular font-regular text-lg">
             {clampedPercent.toFixed(clampedPercent % 1 === 0 ? 0 : 1)}%
           </span>
         )}

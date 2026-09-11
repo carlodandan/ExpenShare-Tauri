@@ -31,7 +31,7 @@ export default function Sidebar({ current, onNavigate }) {
   return (
     <>
       <header className="flex w-full shrink-0 items-center justify-between border-b border-line bg-paper/80 px-4 pt-[calc(0.75rem+env(safe-area-inset-top,0px))] pb-3 md:hidden">
-        <p className="font-bodoni text-sm font-semibold uppercase tracking-[0.18em] text-ink-muted">
+        <p className="font-sunflower text-sm font-regular uppercase tracking-[0.18em] text-ink-muted">
           ExpenShare
         </p>
         {version && (
@@ -50,7 +50,7 @@ export default function Sidebar({ current, onNavigate }) {
         <div>
           <div className="flex items-center px-3 pb-4 pt-6">
             {!isMinimized && (
-              <p className="flex-1 font-bodoni text-[15px] uppercase tracking-[0.18em] text-ink-muted">
+              <p className="flex-1 font-sunflower text-[15px] uppercase tracking-[0.18em] text-ink-muted">
                 ExpenShare
               </p>
             )}
@@ -143,7 +143,7 @@ export default function Sidebar({ current, onNavigate }) {
               onClick={() => onNavigate(key)}
               aria-current={active ? 'page' : undefined}
               className={`flex flex-1 flex-col items-center justify-center py-1.5 text-xs transition-colors ${
-                active ? 'text-moss font-semibold' : 'text-ink-muted hover:text-ink'
+                active ? 'text-moss font-regular' : 'text-ink-muted hover:text-ink'
               }`}
             >
               <Icon size={20} strokeWidth={active ? 2.2 : 1.75} />
@@ -156,7 +156,7 @@ export default function Sidebar({ current, onNavigate }) {
           onClick={() => onNavigate('settings')}
           aria-current={current === 'settings' ? 'page' : undefined}
           className={`flex flex-1 flex-col items-center justify-center py-1.5 text-xs transition-colors ${
-            current === 'settings' ? 'text-moss font-semibold' : 'text-ink-muted hover:text-ink'
+            current === 'settings' ? 'text-moss font-regular' : 'text-ink-muted hover:text-ink'
           }`}
         >
           <Settings size={20} strokeWidth={current === 'settings' ? 2.2 : 1.75} />

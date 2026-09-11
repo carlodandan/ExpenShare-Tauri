@@ -57,7 +57,7 @@ export function UpdateCheck({ appVersion }) {
       {confirming && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-ink/20 p-4 backdrop-blur-sm">
           <div className="w-full max-w-sm rounded-xl border border-line bg-paper p-5 shadow-xl">
-            <h3 className="mb-2 font-semibold">Install v{state.version}?</h3>
+            <h3 className="mb-2 font-regular">Install v{state.version}?</h3>
             <p className="mb-4 text-sm text-ink-muted">
               The app will close and reopen automatically.
               Finish any unsaved work first.

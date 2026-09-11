@@ -24,8 +24,8 @@ export default function ExpenseSection({ categories, onSetFixed, onEditTransacti
         )}
       </div>
       <div className="ledger-total-rule mt-2 flex items-center justify-between pt-2">
-        <p className="text-sm font-semibold uppercase tracking-wide">Total</p>
-        <p className="tabular text-sm font-semibold">{formatMoney(total, currencySymbol)}</p>
+        <p className="text-sm font-regular uppercase tracking-wide">Total</p>
+        <p className="tabular text-sm font-regular">{formatMoney(total, currencySymbol)}</p>
       </div>
     </div>
   );

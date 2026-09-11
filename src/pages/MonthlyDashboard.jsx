@@ -124,7 +124,7 @@ export default function MonthlyDashboard() {
     <div className="mx-auto max-w-7xl px-3 py-4 sm:px-6 sm:py-6">
       {/* Header */}
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <h1 className="text-lg font-semibold">Monthly Dashboard</h1>
+        <h1 className="text-lg font-regular">Monthly Dashboard</h1>
         <div className="flex flex-wrap items-center gap-2.5 sm:gap-3">
           <MonthSelector month={month} onChange={setMonth} />
           <ExportMenu month={month} />
@@ -145,7 +145,7 @@ export default function MonthlyDashboard() {
       {data.extraBudget.shortfallMinor > 0 && (
         <div className="mt-4 rounded-md border border-rust bg-rust-soft px-4 py-3 text-sm text-rust">
           Extra Budget could not cover this month's shortfall of{' '}
-          <span className="tabular font-semibold">
+          <span className="tabular font-regular">
             {formatMoney(data.extraBudget.shortfallMinor, currencySymbol)}
           </span>
           . Extra Budget is at ₱0.
@@ -154,7 +154,7 @@ export default function MonthlyDashboard() {
       {data.extraBudget.usedMinor > 0 && (
         <div className="mt-4 rounded-md border border-denim bg-denim-soft px-4 py-3 text-sm text-denim">
           Extra Budget used this month:{' '}
-          <span className="tabular font-semibold">
+          <span className="tabular font-regular">
             {formatMoney(data.extraBudget.usedMinor, currencySymbol)}
           </span>
         </div>
@@ -163,7 +163,7 @@ export default function MonthlyDashboard() {
       {/* Expenses and Income grid */}
       <div className="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-5 lg:gap-6">
         <section className="col-span-1 rounded-lg border border-line bg-paper/80 px-4 py-3.5 sm:px-5 sm:py-4 lg:col-span-2">
-          <h2 className="mb-2 font-bodoni text-xs uppercase tracking-[0.12em] text-ink-muted">
+          <h2 className="mb-2 font-sunflower text-xs uppercase tracking-[0.12em] text-ink-muted">
             Expenses
           </h2>
           <ExpenseSection
@@ -176,7 +176,7 @@ export default function MonthlyDashboard() {
         </section>
 
         <section className="col-span-1 rounded-lg border border-line bg-paper/80 px-4 py-3.5 sm:px-5 sm:py-4 lg:col-span-3">
-          <h2 className="mb-2 font-bodoni text-xs uppercase tracking-[0.12em] text-ink-muted">
+          <h2 className="mb-2 font-sunflower text-xs uppercase tracking-[0.12em] text-ink-muted">
             Income
           </h2>
           <IncomeSection
