@@ -24,5 +24,12 @@ export default defineConfig({
 
   rules: {
     "@eslint-react/no-missing-key": "warn",
+    "@eslint-react/no-unused-class-component-members": "warn",
+    "@eslint-react/no-unused-state": "warn",
+    "@eslint-react/no-use-context": "warn",
+    "@eslint-react/naming-convention-id-name": "warn",
+    "@eslint-react/static-components": "warn",
+    "no-unused-vars": "warn",
+    "no-undef": "warn",
   },
 });
