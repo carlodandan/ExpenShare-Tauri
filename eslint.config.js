@@ -4,7 +4,7 @@ import eslintReact from "@eslint-react/eslint-plugin";
 import { defineConfig } from "eslint/config";
 
 export default defineConfig({
-  files: ["src/renderer/**/*.{js,jsx}"],
+  files: ["**/*.{js,jsx}"],
 
   extends: [
     eslintJs.configs.recommended,
