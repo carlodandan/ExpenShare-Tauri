@@ -9,7 +9,7 @@ importers:
   .:
     dependencies:
       '@tauri-apps/api':
-        specifier: ^2.5.0
+        specifier: ^2.11.1
         version: 2.11.1
       '@tauri-apps/plugin-dialog':
         specifier: ^2.7.2
@@ -55,7 +55,7 @@ importers:
         specifier: ^4.1.18
         version: 4.3.3(vite@6.4.3(jiti@2.7.0)(lightningcss@1.32.0))
       '@tauri-apps/cli':
-        specifier: ^2.5.0
+        specifier: ^2.11.4
         version: 2.11.4
       '@vitejs/plugin-react':
         specifier: ^5.1.2
