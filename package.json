@@ -40,7 +40,7 @@
     "@eslint/js": "^10.0.1",
     "@tailwindcss/vite": "^4.1.18",
     "@tauri-apps/cli": "^2.11.4",
-    "@vitejs/plugin-react": "^5.1.2",
+    "@vitejs/plugin-react": "^6.1.1",
     "babel-plugin-react-compiler": "^1.0.0",
     "eslint": "^10.10.0",
     "globals": "^17.12.0",
