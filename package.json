@@ -10,7 +10,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "tauri": "tauri",
-    "lint": "eslint src/**/*.{js,jsx,ts,tsx} --quiet --fix"
+    "lint": "eslint src/**/*.{js,jsx,ts,tsx}"
   },
   "author": {
     "name": "Carlo Dandan",
@@ -29,8 +29,6 @@
     "@tauri-apps/plugin-process": "^2.2.0",
     "@tauri-apps/plugin-updater": "^2.5.0",
     "@tauri-apps/plugin-window-state": "~2.4.1",
-    "eslint-plugin-react": "^7.37.5",
-    "globals": "^17.11.0",
     "lucide-react": "^1.33.0",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
@@ -38,12 +36,14 @@
     "react-router-dom": "^7.10.1"
   },
   "devDependencies": {
+    "@eslint-react/eslint-plugin": "^5.19.0",
+    "@eslint/js": "^10.0.1",
     "@tailwindcss/vite": "^4.1.18",
     "@tauri-apps/cli": "^2.11.4",
     "@vitejs/plugin-react": "^5.1.2",
     "babel-plugin-react-compiler": "^1.0.0",
     "eslint": "^10.9.1",
-    "eslint-plugin-security": "^4.0.1",
+    "globals": "^17.11.0",
     "tailwindcss": "^4.1.18",
     "vite": "^6.4.3"
   }
